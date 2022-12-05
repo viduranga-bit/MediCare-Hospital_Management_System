@@ -1,14 +1,14 @@
 import React from 'react';
-import { AiOutlineCalendar, AiOutlineShoppingCart, AiOutlineAreaChart, AiOutlineBarChart, AiOutlineStock } from 'react-icons/ai';
-import { FiShoppingBag, FiEdit, FiPieChart, FiBarChart, FiCreditCard, FiStar, FiShoppingCart } from 'react-icons/fi';
+import { AiFillBank, AiFillDashboard, AiOutlineAreaChart, AiOutlineBarChart, AiOutlineStock } from 'react-icons/ai';
+import { FiShoppingBag, FiBarChart, FiCreditCard, FiStar, FiShoppingCart } from 'react-icons/fi';
 import { BsKanban, BsBarChart, BsBoxSeam, BsCurrencyDollar, BsShield, BsChatLeft } from 'react-icons/bs';
-import { BiColorFill } from 'react-icons/bi';
+import { ImLab } from 'react-icons/im';
 import { IoMdContacts } from 'react-icons/io';
-import { RiContactsLine, RiStockLine } from 'react-icons/ri';
-import { MdOutlineSupervisorAccount } from 'react-icons/md';
+import { FaHospitalUser, FaUserNurse } from 'react-icons/fa';
+import { MdOutlineSupervisorAccount,MdLocalPharmacy,MdManageAccounts} from 'react-icons/md';
 import { HiOutlineRefresh } from 'react-icons/hi';
 import { TiTick } from 'react-icons/ti';
-import { GiLouvrePyramid } from 'react-icons/gi';
+import { GiDoctorFace } from 'react-icons/gi';
 import { GrLocation } from 'react-icons/gr';
 import avatar from './avatar.jpg';
 import avatar2 from './avatar2.jpg';
@@ -464,35 +464,35 @@ export const links = [
     links: [
       {
         name: 'Dashboard',
-        icon: <FiShoppingBag />,
+        icon: <AiFillDashboard />,
       },
       {
         name: 'Departments',
-        icon: <IoMdContacts />,
+        icon: < AiFillBank />,
       },
       {
         name: 'Doctor',
-        icon: <IoMdContacts />,
+        icon: <GiDoctorFace />,
       },
       {
         name: 'Patients',
-        icon: <IoMdContacts />,
+        icon: <FaHospitalUser />,
       },
       {
         name: 'Nurse',
-        icon: <IoMdContacts />,
+        icon: <FaUserNurse />,
       },
       {
         name: 'Pharmacist',
-        icon: <IoMdContacts />,
+        icon: <MdLocalPharmacy />,
       },
       {
         name: 'Laboratorist',
-        icon: <IoMdContacts />,
+        icon: <ImLab />,
       },
       {
         name: 'Accountant',
-        icon: <IoMdContacts />,
+        icon: <MdManageAccounts />,
       },
 
       {
@@ -503,27 +503,7 @@ export const links = [
   },
 
   
-  {
-    title: 'Apps',
-    links: [
-      {
-        name: 'calendar',
-        icon: <AiOutlineCalendar />,
-      },
-      {
-        name: 'kanban',
-        icon: <BsKanban />,
-      },
-      {
-        name: 'editor',
-        icon: <FiEdit />,
-      },
-      {
-        name: 'color-picker',
-        icon: <BiColorFill />,
-      },
-    ],
-  },
+
 
 ];
 
