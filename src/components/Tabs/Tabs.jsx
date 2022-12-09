@@ -26,7 +26,7 @@ export default function Tabs() {
           </TabList>
         </Box>
         <TabPanel value="1">  <DepartmentTable/>  </TabPanel>
-        <TabPanel value="2"><DepartmentForm /></TabPanel>
+        <TabPanel value="2"><DepartmentForm changeTabTo={setValue} /></TabPanel>
         
       </TabContext>
     </Box>

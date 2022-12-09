@@ -4,7 +4,7 @@ import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import axios from 'axios';
 import {useState } from  "react";
-import { useNavigate } from 'react-router-dom';
+
 
 export default function DepartmentForm(props) {
   const {changeTabTo} = props;
@@ -54,7 +54,6 @@ const {deptName,description} = department;
         name ="description"
         value={description}
         onChange={(e)=>onInputChange(e)}
-        required
       />
 
 <div>
