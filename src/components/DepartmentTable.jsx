@@ -2,9 +2,6 @@ import {GridComponent, CommandColumn,ColumnsDirective, ColumnDirective, Page, In
 import React from 'react'
 import { useState ,useEffect} from 'react';
 import axios from 'axios';
-import DataManager from '@syncfusion/ej2-data';
-import { employeesData, DepartmentsGrid } from '../data/dummy';
-
 
 export default function DepartmentTable() {
   
