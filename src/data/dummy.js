@@ -472,39 +472,49 @@ export const links = [
       {
         name: 'Dashboard',
         icon: <AiFillDashboard />,
+        accessLev: [0,1,2,3,4,5,6,7,8]
       },
       {
         name: 'Departments',
         icon: < AiFillBank />,
+        accessLev: [0,1,2]
       },
       {
         name: 'Doctor',
         icon: <GiDoctorFace />,
+        accessLev: [0,1,2]
       },
       {
         name: 'Patients',
         icon: <FaHospitalUser />,
+        accessLev: [0,1,2]
+
       },
       {
         name: 'Nurse',
         icon: <FaUserNurse />,
+        accessLev: [0,1,2]
       },
       {
         name: 'Pharmacist',
         icon: <MdLocalPharmacy />,
+        accessLev: [0,1,2]
       },
       {
         name: 'Laboratorist',
         icon: <ImLab />,
+        accessLev: [0,1,2]
       },
       {
         name: 'Accountant',
         icon: <MdManageAccounts />,
+        accessLev: [0,1,2]
       },
 
       {
         name: 'Monitor Hospital',
         icon: <IoMdContacts />,
+        accessLev: [0,1,2]
       },
     ],
   },
@@ -571,56 +581,31 @@ export const chatData = [
 
 export const earningData = [
   {
-    icon: <MdOutlineSupervisorAccount />,
-    amount: '39,354',
-    percentage: '-4%',
-    title: 'Customers',
+    icon: <AiFillBank />,
+    amount: '39,34',
+    title: 'Departments',
     iconColor: '#03C9D7',
     iconBg: '#E5FAFB',
     pcColor: 'red-600',
   },
+  
+ 
   {
     icon: <MdOutlineSupervisorAccount />,
     amount: '39,354',
     percentage: '-4%',
-    title: 'Customers',
-    iconColor: '#03C9D7',
-    iconBg: '#E5FAFB',
-    pcColor: 'red-600',
-  },
-  {
-    icon: <MdOutlineSupervisorAccount />,
-    amount: '39,354',
-    percentage: '-4%',
-    title: 'Customers',
-    iconColor: '#03C9D7',
-    iconBg: '#E5FAFB',
-    pcColor: 'red-600',
-  },
-  {
-    icon: <MdOutlineSupervisorAccount />,
-    amount: '39,354',
-    percentage: '-4%',
-    title: 'Customers',
-    iconColor: '#03C9D7',
-    iconBg: '#E5FAFB',
-    pcColor: 'red-600',
-  },
-  {
-    icon: <MdOutlineSupervisorAccount />,
-    amount: '39,354',
-    percentage: '-4%',
-    title: 'Customers',
+    title: 'Doctors',
     iconColor: '#03C9D7',
     iconBg: '#E5FAFB',
     pcColor: 'red-600',
   },
  
+ 
   {
     icon: <FiBarChart />,
     amount: '423,39',
     percentage: '+38%',
-    title: 'Sales',
+    title: 'Patients',
     iconColor: 'rgb(228, 106, 118)',
     iconBg: 'rgb(255, 244, 229)',
 
@@ -630,7 +615,34 @@ export const earningData = [
     icon: <HiOutlineRefresh />,
     amount: '39,354',
     percentage: '-12%',
-    title: 'Refunds',
+    title: 'Nurse',
+    iconColor: 'rgb(0, 194, 146)',
+    iconBg: 'rgb(235, 250, 242)',
+    pcColor: 'red-600',
+  },
+  {
+    icon: <HiOutlineRefresh />,
+    amount: '39,354',
+    percentage: '-12%',
+    title: 'Pharmacist',
+    iconColor: 'rgb(0, 194, 146)',
+    iconBg: 'rgb(235, 250, 242)',
+    pcColor: 'red-600',
+  },
+  {
+    icon: <HiOutlineRefresh />,
+    amount: '39,354',
+    percentage: '-12%',
+    title: 'Laboratorist',
+    iconColor: 'rgb(0, 194, 146)',
+    iconBg: 'rgb(235, 250, 242)',
+    pcColor: 'red-600',
+  },
+  {
+    icon: <HiOutlineRefresh />,
+    amount: '39,354',
+    percentage: '-12%',
+    title: 'Laboratorist',
     iconColor: 'rgb(0, 194, 146)',
     iconBg: 'rgb(235, 250, 242)',
     pcColor: 'red-600',

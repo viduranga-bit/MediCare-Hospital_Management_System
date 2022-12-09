@@ -5,6 +5,7 @@ import TabContext from '@mui/lab/TabContext';
 import TabList from '@mui/lab/TabList';
 import TabPanel from '@mui/lab/TabPanel';
 import DoctorTable from '../DoctorTable';
+import DepartmentForm from '../Forms/DepartmentForm';
 
 
 export default function DoctorTabs() {
@@ -25,7 +26,7 @@ export default function DoctorTabs() {
           </TabList>
         </Box>
         <TabPanel value="1">  <DoctorTable/>  </TabPanel>
-        <TabPanel value="2"></TabPanel>
+        <TabPanel value="2"> <DepartmentForm  /> </TabPanel>
         
       </TabContext>
     </Box>

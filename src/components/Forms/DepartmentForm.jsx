@@ -2,14 +2,13 @@ import * as React from 'react';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
-import axiso from "axios";
 import axios from 'axios';
 import {useState } from  "react";
 import { useNavigate } from 'react-router-dom';
 
-export default function DepartmentForm() {
-
-  let navigate=useNavigate();
+export default function DepartmentForm(props) {
+  const {changeTabTo} = props;
+  
 
 const[department,setDepartment]=useState({
 
@@ -24,10 +23,10 @@ const {deptName,description} = department;
     setDepartment({...department,[e.target.name]:e.target.value});
 };
   const onSubmit = async(e)=>{
-
+  
     e.preventDefault();
     await axios.post("http://localhost:8080/api/v1/departments",department)
-    navigate("/Departments/");   
+    changeTabTo("1")
   }
   return (
 
@@ -46,6 +45,7 @@ const {deptName,description} = department;
         name ="deptName"
         value={deptName}
         onChange={(e)=>onInputChange(e)}
+        required
       />
       <TextField
         helperText="Please enter Department Description "
@@ -54,6 +54,7 @@ const {deptName,description} = department;
         name ="description"
         value={description}
         onChange={(e)=>onInputChange(e)}
+        required
       />
 
 <div>

@@ -1,9 +1,9 @@
 import React from 'react';
-import { BsCurrencyDollar } from 'react-icons/bs';
+import axios from 'axios';
 import { GoPrimitiveDot } from 'react-icons/go';
 import { IoIosMore } from 'react-icons/io';
 import { DropDownListComponent } from '@syncfusion/ej2-react-dropdowns';
-
+import {useState,useEffect } from  "react";
 import { Stacked, Pie, Button, LineChart, SparkLine } from '../components';
 import { earningData, medicalproBranding, recentTransactions, weeklyStats, dropdownData, SparklineAreaData, ecomPieChartData } from '../data/dummy';
 import { useStateContext } from '../contexts/ContextProvider';
@@ -17,27 +17,39 @@ const DropDown = ({ currentMode }) => (
 );
 
 const Ecommerce = () => {
-  const { currentColor, currentMode } = useStateContext();
 
-  return (
-    <div className="mt-15">
+  const { currentColor, currentMode } = useStateContext();
+  const [DepartmentsList,setDepartments] = useState([]);
+
+  useEffect( () => {
+    loadDepartments();
+  },[]);
+
+  const loadDepartments = async () => {
+    const result =await axios.get("http://localhost:8080/api/v1/departments")
+    .then((res)=>{
+      console.log(res.data)
+      setDepartments(res.data);
+    })
+  }
+
+  return (  
+    <div className="mt-13">
       <div className="flex flex-wrap lg:flex-nowrap justify-center ">
         
-        <div className="flex m-3 flex-wrap justify-center gap-1 items-center">
+        <div className="flex m-3 flex-wrap justify-center gap-2 items-center">
           {earningData.map((item) => (
-            <div key={item.title} className="bg-white h-40 dark:text-gray-200 dark:bg-secondary-dark-bg md:w-50  p-6 pt-8 rounded-2xl ">
+            <div key={item.title} className="bg-white h-25 dark:text-gray-200 dark:bg-secondary-dark-bg md:w-40  p-4 pt-4 rounded-2xl ">
               <button
                 type="button"
                 style={{ color: item.iconColor, backgroundColor: item.iconBg }}
-                className="text-2xl opacity-0.9 rounded-full  p-4 hover:drop-shadow-xl"
+                className="text-2xl opacity-0.7 rounded-full  p-4 hover:drop-shadow-xl"
               >
                 {item.icon}
               </button>
-              <p className="mt-4">
-                <span className="text-lg font-semibold">{item.amount}</span>
-                <span className={`text-sm text-${item.pcColor} ml-2`}>
-                  {item.percentage}
-                </span>
+              <p className="mt-3">
+                <span className="text-lg font-semibold"></span>
+                
               </p>
               <p className="text-sm text-gray-400  mt-1">{item.title}</p>
             </div>
