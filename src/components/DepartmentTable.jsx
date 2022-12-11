@@ -1,56 +1,126 @@
-import {GridComponent, CommandColumn,ColumnsDirective, ColumnDirective, Page, Inject, Edit, Toolbar, Sort, Filter } from '@syncfusion/ej2-react-grids'
-import React from 'react'
-import { useState ,useEffect} from 'react';
-import axios from 'axios';
+import * as React from "react";
+import Paper from "@mui/material/Paper";
+import Table from "@mui/material/Table";
+import TableBody from "@mui/material/TableBody";
+import TableCell from "@mui/material/TableCell";
+import TableContainer from "@mui/material/TableContainer";
+import TableHead from "@mui/material/TableHead";
+import TablePagination from "@mui/material/TablePagination";
+import TableRow from "@mui/material/TableRow";
+import axios from "axios";
+import { useState, useEffect } from "react";
+import DeleteIcon from "@mui/icons-material/Delete";
+import EditIcon from "@mui/icons-material/Edit";
+
+const columns = [
+  { id: "deptId", label: "Department Id",align: "center", maxWidth: 20 },
+
+  {
+    id: "deptName",
+    label: "Department Name",
+    align: "center",
+    minWidth:20
+    
+  },
+  {
+    id: "description",
+    label: "Description",
+    maxWidth:20,
+    align: "center",
+    format: (value) => value.toLocaleString("en-US"),
+  },
+];
 
 export default function DepartmentTable() {
-  
-  const commands = [{ type: 'Edit', buttonOption: { iconCss: ' e-icons e-edit', cssClass: 'e-flat' } },
-        { type: 'Delete', buttonOption: { iconCss: 'e-icons e-delete', cssClass: 'e-flat' } },
-        { type: 'Save', buttonOption: { iconCss: 'e-icons e-update', cssClass: 'e-flat' } },
-        { type: 'Cancel', buttonOption: { iconCss: 'e-icons e-cancel-icon', cssClass: 'e-flat' } }];
+  const [DepartmentsList, setDepartments] = useState([]);
 
-  const [DepartmentsList,setDepartments] = useState([]);
-
-  useEffect( () => {
+  useEffect(() => {
     loadDepartments();
-  },[]);
+  }, []);
 
   const loadDepartments = async () => {
-    const result =await axios.get("http://localhost:8080/api/v1/departments")
-    .then((res)=>{
-      console.log(res.data)
-      setDepartments(res.data);
-    })
+    const result = await axios
+      .get("http://localhost:8080/api/v1/departments")
+      .then((res) => {
+        console.log(res.data);
+        setDepartments(res.data);
+      });
+  };
+
+  async function deleteDepartment(did) {
+    const result = await axios
+      .delete(`http://localhost:8080/api/v1/departments/${did}`)
+      .then((res) => {
+        console.log(res.data);
+        loadDepartments();
+      });
   }
 
+  const [page, setPage] = React.useState(0);
+  const [rowsPerPage, setRowsPerPage] = React.useState(10);
 
-  const editing = { allowDeleting: true, allowEditing: true };
-  
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+  };
+
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(+event.target.value);
+    setPage(0);
+  };
 
   return (
+    <Paper sx={{ width: "100%", overflow: "hidden" }}>
+      <TableContainer sx={{ maxHeight: 440 }}>
+        <Table stickyHeader aria-label="sticky table">
+          <TableHead>
+            <TableRow>
+              {columns.map((column) => (
+                <TableCell
+                  key={column.id}
+                  align={column.align}
+                  style={{ minWidth: column.minWidth }}
+                >
+                  {column.label}
+                </TableCell>
+              ))}
+              <TableCell>Options</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {DepartmentsList.map((row) => {
+              return (
+                <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
+                  {columns.map((column) => {
+                    const value = row[column.id];
+                    return (
+                      <TableCell key={column.id} align={column.align}>
+                        {column.format && typeof value === "number"
+                          ? column.format(value)
+                          : value}
+                      </TableCell>
+                    );
+                  })}
+                  <TableCell>
+                    <EditIcon />
+                    <DeleteIcon onClick={()=>deleteDepartment(row.deptId)}/>
+                  </TableCell>
+                </TableRow>
+              );
+            })}
+          </TableBody>
+        </Table>
+      </TableContainer>
+      <TablePagination
+        rowsPerPageOptions={[10, 25, 100]}
+        component="div"
+        count={DepartmentsList.length}
+        rowsPerPage={rowsPerPage}
+        page={page}
+        onPageChange={handleChangePage}
+        onRowsPerPageChange={handleChangeRowsPerPage}
+      />
+      <editDialog/>
+    </Paper>
     
-   
-    <GridComponent
-    id='gridcomp'
-    dataSource={DepartmentsList}
-    enableHover={false}
-    allowPaging
-    allowSorting
-    pageSettings={{ pageCount: 5 }}
-  
-  
-  >
-    <ColumnsDirective>
-      {/* eslint-disable-next-line react/jsx-props-no-spreading */}
-      <ColumnDirective field='deptId' headerText='Deprtment ID' width='30'  textAlign='Center'></ColumnDirective>
-      <ColumnDirective field='deptName' headerText='Deprtment Name' width='60'  textAlign='Center'></ColumnDirective>
-      <ColumnDirective field='description' headerText='Description' width='100'  textAlign='Center'></ColumnDirective>
-      <ColumnDirective  headerText='Options' commands={commands}  width='30'  textAlign='Center'></ColumnDirective>
-    </ColumnsDirective>
-    <Inject services={[Page, CommandColumn, Toolbar, Edit, Sort, Filter]} />
-
-  </GridComponent>
-
-  )
+  );
 }
