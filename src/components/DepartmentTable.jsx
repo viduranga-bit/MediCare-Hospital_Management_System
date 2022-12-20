@@ -12,6 +12,7 @@ import { useState, useEffect } from "react";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 
+
 const columns = [
   { id: "deptId", label: "Department Id",align: "center", maxWidth: 20 },
 
@@ -119,7 +120,7 @@ export default function DepartmentTable() {
         onPageChange={handleChangePage}
         onRowsPerPageChange={handleChangeRowsPerPage}
       />
-      <editDialog/>
+      
     </Paper>
     
   );
