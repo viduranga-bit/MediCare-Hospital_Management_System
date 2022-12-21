@@ -4,6 +4,7 @@ import { FiSettings } from "react-icons/fi";
 import { TooltipComponent } from "@syncfusion/ej2-react-popups";
 import { Navbar, Footer, Sidebar, ThemeSettings } from "./components";
 import { useStateContext } from "./contexts/ContextProvider";
+import axios from "axios";
 
 const Main = () => {
   const [user, setUser] = useState();
@@ -32,11 +33,26 @@ const Main = () => {
     if ("token" in localStorage) {
       const token = localStorage.getItem("token");
       //token validation
-      if (token == "logged") {
-        setUser(token);
-      } else navigate("/login");
+      console.log(token);
+      validate(token);
     } else navigate("/login");
   }, [navigate]);
+
+  const validate = async (token) => {
+    await axios
+      .get(`http://localhost:8080/validate/${token}`)
+      .then((res) => {
+        if (res.status == 200) {
+          //decode token
+          console.log(res.status);
+          setUser(token);
+        } else navigate("/login");
+      })
+      .catch((err) => {
+        console.log(err);
+        navigate("/login");
+      });
+  };
 
   return (
     <div className="flex relative dark:bg-main-dark-bg">

@@ -1,88 +1,184 @@
-import React from 'react'
-import "./login.css";
+import * as React from "react";
+import Avatar from "@mui/material/Avatar";
+import Button from "@mui/material/Button";
+import CssBaseline from "@mui/material/CssBaseline";
+import TextField from "@mui/material/TextField";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import Checkbox from "@mui/material/Checkbox";
+import Link from "@mui/material/Link";
+import Paper from "@mui/material/Paper";
+import Box from "@mui/material/Box";
+import Grid from "@mui/material/Grid";
+import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
+import Typography from "@mui/material/Typography";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
+import Autocomplete from "@mui/material/Autocomplete";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
-function Login() {
+function Copyright(props) {
   return (
-    <div>
-   
-    
-    <div className='container py-5 h-100'>
-  
-    
-    <div class="row d-flex justify-content-center align-items-center h-100 background">
-    <div class="col-xl-10">
-    <div class="card rounded-3 text-black"> 
-    <div class="row g-0">
-
-    <div class="col-lg-5 d-flex align-items-center">
-    <div class="text-white px-1 py-1 p-md-1 mx-md-1">
-        <img src="https://i.ibb.co/0J4QxFY/20945529.jpg" class="card-img  imagenew" alt="..."/>
-    </div>  
-    </div> 
-    
-   
-
-    <div class="col-lg-7 ">
-    <div class="card-body p-md-5 mx-md-3">  
-      <div className="title">
-        
-       <h1 >LOGIN PANEL</h1> 
-       </div>
-
-       <form>
-   
-       <div class="btn-group">
-  <button
-    class="btn btn-primary btn-lg dropdown-toggle"
-    type="button"
-    data-mdb-toggle="dropdown"
-    aria-expanded="false"
-  >
-     Select Account Type
-  </button>
-  <ul class="dropdown-menu">
-    <li><a class="dropdown-item" href="#">Action</a></li>
-    <li><a class="dropdown-item" href="#">Another action</a></li>
-    <li><a class="dropdown-item" href="#">Something else here</a></li>
-   
-  </ul>
-</div>
-                    <div>
-                    <label class="form-label" for="form2Example11">Username</label>
-                      <input type="email" id="form2Example11" class="form-control"
-                        placeholder="Phone number or email address" />
-                      
-                    </div>
-  
-                    <div>
-                    <label class="form-label" for="form2Example22">Password</label>
-                      <input type="password" id="form2Example22" class="form-control"  placeholder="Enter Password Here "  />
-                    </div>
-  
-                    <div class="text-center pt-4 mb-6 pb-1">
-                      <button class="btn btn-primary btn-block fa-lg gradient-custom-2 mb-2" type="button">Log
-                        in</button>
-                      <a class="text-muted" href="#!">Forgot password?</a>
-                    </div>
-  
-                  
-  
-                  </form>
-                  </div>
-      </div>
-  
-     </div>
-    </div> 
-   </div> 
-   </div> 
- 
-   </div>
-
-        </div>
-
-    
-
-  )
+    <Typography
+      variant="body2"
+      color="text.secondary"
+      align="center"
+      {...props}
+    >
+      {"Copyright © "}
+      <Link color="inherit" href="https://mui.com/">
+        Your Website
+      </Link>{" "}
+      {new Date().getFullYear()}
+      {"."}
+    </Typography>
+  );
 }
 
-export default Login
+const theme = createTheme();
+
+export default function SignInSide() {
+  const navigate = useNavigate();
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    const data = new FormData(event.currentTarget);
+    const reqest = {
+      username: data.get("username"),
+      password: data.get("password"),
+    };
+
+    const result = await axios
+      .post("http://localhost:8080/authenticate", reqest)
+      .then((res) => {
+        localStorage.setItem("token",res.data.token);
+        navigate("/");
+      })
+      .catch((err)=>{
+        console.log(err)
+      });
+  };
+
+  return (
+    <ThemeProvider theme={theme}>
+      <Grid container component="main" sx={{ height: "100vh" }}>
+        <CssBaseline />
+        <Grid
+          item
+          xs={false}
+          sm={4}
+          md={7}
+          sx={{
+            backgroundImage: "url(https://i.ibb.co/0J4QxFY/20945529.jpg)",
+            backgroundRepeat: "no-repeat",
+            backgroundColor: (t) =>
+              t.palette.mode === "light"
+                ? t.palette.grey[50]
+                : t.palette.grey[900],
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+          }}
+        />
+        <Grid item xs={12} sm={8} md={5} elevation={6} square>
+          <Box
+            sx={{
+              my: 8,
+              mx: 12,
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+            }}
+          >
+            <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
+              <LockOutlinedIcon />
+            </Avatar>
+            <Typography component="h1" variant="h4">
+              Welcome
+            </Typography>
+            <Typography component="h1" variant="h6">
+              Medicare Hospital Management System
+            </Typography>
+            <Box
+              component="form"
+              noValidate
+              onSubmit={handleSubmit}
+              sx={{ mt: 1 }}
+            >
+              <Autocomplete
+                id="combo-box-demo"
+                options={userRole}
+                renderInput={(params) => (
+                  <TextField
+                    {...params}
+                    label="User Mode"
+                    margin="normal"
+                    required
+                    fullWidth
+                    id="email"
+                    name="email"
+                    autoComplete="User Mode"
+                    autoFocuslabel="User Mode"
+                  />
+                )}
+              />
+              <TextField
+                margin="normal"
+                required
+                fullWidth
+                id="username"
+                label="User Name"
+                name="username"
+                autoComplete="username"
+                autoFocus
+              />
+              <TextField
+                margin="normal"
+                required
+                fullWidth
+                name="password"
+                label="Password"
+                type="password"
+                id="password"
+                autoComplete="current-password"
+              />
+              <FormControlLabel
+                control={<Checkbox value="remember" color="primary" />}
+                label="Remember me"
+              />
+              <Button
+                type="submit"
+                fullWidth
+                variant="contained"
+                sx={{ mt: 3, mb: 2 }}
+              >
+                Log In
+              </Button>
+              <Grid container>
+                <Grid item xs>
+                  <Link href="#" variant="body2">
+                    Forgot password?
+                  </Link>
+                </Grid>
+                <Grid item>
+                  <Link href="#" variant="body2">
+                    {"Don't have an account? Sign Up"}
+                  </Link>
+                </Grid>
+              </Grid>
+              <Copyright sx={{ mt: 5 }} />
+            </Box>
+          </Box>
+        </Grid>
+      </Grid>
+    </ThemeProvider>
+  );
+}
+
+const userRole = [
+  { label: "Admin" },
+  { label: "Doctor" },
+  { label: "Patient" },
+  { label: "Nurse" },
+  { label: "Labrorarist" },
+  { label: "Accountant" },
+  { label: "Pharmacist" },
+];
