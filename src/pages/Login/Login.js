@@ -68,7 +68,7 @@ export default function SignInSide() {
           sm={4}
           md={7}
           sx={{
-            backgroundImage: "url(https://i.ibb.co/0J4QxFY/20945529.jpg)",
+            backgroundImage: "url(https://img.freepik.com/premium-photo/medicine-doctor-team-meeting-analysis_34200-351.jpg?w=996)",
             backgroundRepeat: "no-repeat",
             backgroundColor: (t) =>
               t.palette.mode === "light"
@@ -103,23 +103,7 @@ export default function SignInSide() {
               onSubmit={handleSubmit}
               sx={{ mt: 1 }}
             >
-              <Autocomplete
-                id="combo-box-demo"
-                options={userRole}
-                renderInput={(params) => (
-                  <TextField
-                    {...params}
-                    label="User Mode"
-                    margin="normal"
-                    required
-                    fullWidth
-                    id="email"
-                    name="email"
-                    autoComplete="User Mode"
-                    autoFocuslabel="User Mode"
-                  />
-                )}
-              />
+             
               <TextField
                 margin="normal"
                 required
