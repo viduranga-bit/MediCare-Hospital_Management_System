@@ -1,4 +1,4 @@
-import React from "react";
+import React,{useEffect} from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import {
   Ecommerce,
@@ -31,6 +31,15 @@ const App = () => {
     currentMode
   } = useStateContext();
 
+  useEffect(() => {
+    console.log("Check loggin******************");
+    if ("token" in localStorage) {
+      const token = localStorage.getItem("token");
+      //token validation
+     
+    }
+  }, []);
+
   return (
     <div className={currentMode === "Dark" ? "dark" : ""}>
       <BrowserRouter>
@@ -39,13 +48,13 @@ const App = () => {
           <Route path="/login" element={<Login />} />
           <Route element={<Main />}>
             <Route path="/" element={<Ecommerce />} />
-            <Route path="/Doctor" element={<Doctor />} />
-            <Route path="/Departments" element={<Departments />} />
-            <Route path="/Patients" element={<Patient />} />
-            <Route path="/Nurse" element={<Nurse />} />
-            <Route path="/Pharmacist" element={<Pharmacist />} />
-            <Route path="/Laboratorist" element={<Laborotaries />} />
-            <Route path="/Accountant" element={<Accountant />} />
+            <Route path="/doctor" element={<Doctor />} />
+            <Route path="/department" element={<Departments />} />
+            <Route path="/patient" element={<Patient />} />
+            <Route path="/nurse" element={<Nurse />} />
+            <Route path="/pharmacist" element={<Pharmacist />} />
+            <Route path="/laboratorist" element={<Laborotaries />} />
+            <Route path="/accountant" element={<Accountant />} />
             <Route path="/editor" element={<Editor />} />
             <Route path="/calendar" element={<Calendar />} />
 

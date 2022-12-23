@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { Outlet, useNavigate } from "react-router-dom";
+import { Outlet, useNavigate, useLocation } from "react-router-dom";
 import { FiSettings } from "react-icons/fi";
 import { TooltipComponent } from "@syncfusion/ej2-react-popups";
 import { Navbar, Footer, Sidebar, ThemeSettings } from "./components";
 import { useStateContext } from "./contexts/ContextProvider";
 import axios from "axios";
+import jwt_decode from "jwt-decode";
+import { RoleManager } from "./RoleManager";
 
 const Main = () => {
   const [user, setUser] = useState();
@@ -28,13 +30,22 @@ const Main = () => {
     }
   }, []);
 
+  const location = useLocation();
+
   useEffect(() => {
     console.log("Check loggin******************");
     if ("token" in localStorage) {
       const token = localStorage.getItem("token");
+      const user = jwt_decode(token);
       //token validation
-      console.log(token);
       validate(token);
+      //check whether this route allowed for current access level
+      if (
+        !RoleManager[user?.role?.authority].includes(
+          location.pathname.split("/")[1]
+        )
+      )
+        navigate("/");
     } else navigate("/login");
   }, [navigate]);
 
@@ -44,7 +55,6 @@ const Main = () => {
       .then((res) => {
         if (res.status == 200) {
           //decode token
-          console.log(res.status);
           setUser(token);
         } else navigate("/login");
       })

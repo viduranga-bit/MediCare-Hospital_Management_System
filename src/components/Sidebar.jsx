@@ -1,11 +1,12 @@
-import React from 'react';
+import React,{useEffect,useState} from 'react';
 import { Link, NavLink } from 'react-router-dom';
 import { SiShopware } from 'react-icons/si';
 import { MdOutlineCancel } from 'react-icons/md';
 import { TooltipComponent } from '@syncfusion/ej2-react-popups';
 import { links } from '../data/dummy';
 import { useStateContext } from '../contexts/ContextProvider';
-
+import { RoleManager } from '../RoleManager';
+import jwt_decode from 'jwt-decode';
 
 
 
@@ -18,6 +19,25 @@ const Sidebar = () => {
       setActiveMenu(false);
     }
   };
+  
+  const [decoded, setdecoded] = useState();
+  //decode jwt token
+  useEffect(() => {
+    console.log(isVisibleOption("nurse"))
+    
+  },[]);
+
+  const isVisibleOption = (name) => {
+    if ("token" in localStorage) {
+      const token = localStorage.getItem("token");
+      const user =jwt_decode(token);
+      if(RoleManager[user?.role?.authority].includes(name))
+        return true;
+      return false;
+    }
+    return false;
+  };
+
 
   const activeLink = 'flex items-center gap-5 pl-4 pt-3 pb-2.5 rounded-lg  text-white  text-md m-2';
   const normalLink = 'flex items-center gap-5 pl-4 pt-3 pb-2.5 rounded-lg text-md text-gray-700 dark:text-gray-200 dark:hover:text-black hover:bg-light-gray m-2';  
@@ -46,11 +66,13 @@ const Sidebar = () => {
                 
                 {item.links.map((link) => (
                   <NavLink
-                    to={`/${link.name}`}
+                    to={`/${link.path}`}
                     key={link.name}
                     onClick={handleCloseSideBar}
                     style={({ isActive }) => ({
                       backgroundColor: isActive ? currentColor : '',
+                      display:isVisibleOption(link.name)?"flex":"none",
+                      minWidth: '200px'
                     })}
                     className={({ isActive }) => (isActive ? activeLink : normalLink)}
                   >

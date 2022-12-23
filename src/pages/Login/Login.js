@@ -26,7 +26,7 @@ function Copyright(props) {
     >
       {"Copyright © "}
       <Link color="inherit" href="https://mui.com/">
-        Your Website
+        Amith Viduranga
       </Link>{" "}
       {new Date().getFullYear()}
       {"."}
@@ -39,6 +39,25 @@ const theme = createTheme();
 export default function SignInSide() {
   const navigate = useNavigate();
 
+  const setUserDetails = async (username) => {
+    
+    const result = await axios
+      .get(`http://localhost:8080/api/v1/users/${username}`)
+      .then((res) => {
+        console.log(res.data);
+        const user ={
+          role:res.data.role,
+          name:res.data.name,
+          email:res.data.email
+
+
+
+        }
+        localStorage.setItem("user", JSON.stringify(user));
+        
+      });
+  };
+
   const handleSubmit = async (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -50,12 +69,17 @@ export default function SignInSide() {
     const result = await axios
       .post("http://localhost:8080/authenticate", reqest)
       .then((res) => {
-        localStorage.setItem("token",res.data.token);
+        localStorage.setItem("token", res.data.token);
+        
         navigate("/");
+        setUserDetails(reqest.username);
       })
-      .catch((err)=>{
-        console.log(err)
+      .catch((err) => {
+        console.log(err);
       });
+
+
+    
   };
 
   return (
@@ -68,7 +92,8 @@ export default function SignInSide() {
           sm={4}
           md={7}
           sx={{
-            backgroundImage: "url(https://img.freepik.com/premium-photo/medicine-doctor-team-meeting-analysis_34200-351.jpg?w=996)",
+            backgroundImage:
+              "url(https://img.freepik.com/premium-photo/medicine-doctor-team-meeting-analysis_34200-351.jpg?w=996)",
             backgroundRepeat: "no-repeat",
             backgroundColor: (t) =>
               t.palette.mode === "light"
@@ -103,7 +128,6 @@ export default function SignInSide() {
               onSubmit={handleSubmit}
               sx={{ mt: 1 }}
             >
-             
               <TextField
                 margin="normal"
                 required
