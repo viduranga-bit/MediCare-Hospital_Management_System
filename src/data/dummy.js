@@ -498,6 +498,12 @@ export const links = [
     title: "Admin Dashboard",
     links: [
       {
+        name: "login",
+        path: "",
+        icon: <AiFillDashboard />,
+        accessLev: [0, 1, 2, 3, 4, 5, 6, 7, 8],
+      },
+      {
         name: "dashboard",
         path: "",
         icon: <AiFillDashboard />,

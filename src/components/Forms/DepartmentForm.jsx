@@ -54,6 +54,7 @@ const {deptName,description} = department;
         name ="description"
         value={description}
         onChange={(e)=>onInputChange(e)}
+        required
       />
 
 <div>

@@ -26,7 +26,7 @@ export default function DoctorTabs() {
           </TabList>
         </Box>
         <TabPanel value="1">  <DoctorTable/>  </TabPanel>
-        <TabPanel value="2"> <DoctorForm  /> </TabPanel>
+        <TabPanel value="2"> <DoctorForm changeTabTo={setValue} /> </TabPanel>
         
       </TabContext>
     </Box>
