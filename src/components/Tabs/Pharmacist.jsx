@@ -5,6 +5,7 @@ import TabContext from '@mui/lab/TabContext';
 import TabList from '@mui/lab/TabList';
 import TabPanel from '@mui/lab/TabPanel';
     import PharmacistTable from '../PharmacistTable';
+import PharmacistForm from '../Forms/PharmacistForm';
 
 
 export default function PharmacistTabs() {
@@ -25,7 +26,7 @@ export default function PharmacistTabs() {
           </TabList>
         </Box>
         <TabPanel value="1">  <PharmacistTable/>  </TabPanel>
-        <TabPanel value="2"></TabPanel>
+        <TabPanel value="2"><PharmacistForm changeTabTo={setValue}/></TabPanel>
         
       </TabContext>
     </Box>

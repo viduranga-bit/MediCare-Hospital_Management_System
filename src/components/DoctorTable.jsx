@@ -13,7 +13,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 
 const columns = [
-  { id: "docId", label: "Docctor Id",align: "center", maxWidth: 20 },
+  { id: "id", label: "User Id",align: "center", maxWidth: 20 },
 
   {
     id: "name",
@@ -42,32 +42,46 @@ const columns = [
     maxWidth:20,
     align: "center",
     
+  },
+  {
+    id: "username",
+    label: "User Name",
+    maxWidth:20,
+    align: "center",
+    
+  },
+  {
+    id: "passwrd",
+    label: "Password",
+    maxWidth:20,
+    align: "center",
+    
   }
 ];
 
 export default function DoctorTable() {
 
-  const [DepartmentsList, setDepartments] = useState([]);
+  const [DoctorList, setDoctors] = useState([]);
 
   useEffect(() => {
-    loadDepartments();
+    loadDoctors();
   }, []);
 
-  const loadDepartments = async () => {
+  const loadDoctors = async () => {
     const result = await axios
-      .get("http://localhost:8080/api/v1/departments")
+      .get("http://localhost:8080/api/v1/users/role/DOCTOR")
       .then((res) => {
         console.log(res.data);
-        setDepartments(res.data);
+        setDoctors(res.data);
       });
   };
 
-  async function deleteDepartment(did) {
+  async function deleteDoctor(did) {
     const result = await axios
-      .delete(`http://localhost:8080/api/v1/departments/${did}`)
+      .delete(`http://localhost:8080/api/v1/users/delete/${did}`)
       .then((res) => {
-        console.log(res.data);
-        loadDepartments();
+        //console.log(res.data);
+        loadDoctors();
       });
   }
 
@@ -102,7 +116,7 @@ export default function DoctorTable() {
             </TableRow>
           </TableHead>
           <TableBody>
-            {DepartmentsList.map((row) => {
+            {DoctorList.map((row) => {
               return (
                 <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
                   {columns.map((column) => {
@@ -117,7 +131,7 @@ export default function DoctorTable() {
                   })}
                   <TableCell>
                     <EditIcon />
-                    <DeleteIcon onClick={()=>deleteDepartment(row.deptId)}/>
+                    <DeleteIcon onClick={()=>deleteDoctor(row.id)}/>
                   </TableCell>
                 </TableRow>
               );
@@ -128,7 +142,7 @@ export default function DoctorTable() {
       <TablePagination
         rowsPerPageOptions={[10, 25, 100]}
         component="div"
-        count={DepartmentsList.length}
+        count={DoctorList.length}
         rowsPerPage={rowsPerPage}
         page={page}
         onPageChange={handleChangePage}

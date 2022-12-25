@@ -5,6 +5,7 @@ import TabContext from '@mui/lab/TabContext';
 import TabList from '@mui/lab/TabList';
 import TabPanel from '@mui/lab/TabPanel';
 import AccountantTables from '../AccountantTables';
+import AccountantForm from '../Forms/AccountantForm';
 
 
 
@@ -26,7 +27,7 @@ export default function AccountantTabs() {
           </TabList>
         </Box>
         <TabPanel value="1">  <AccountantTables/>  </TabPanel>
-        <TabPanel value="2"></TabPanel>
+        <TabPanel value="2"><AccountantForm changeTabTo={setValue}/></TabPanel>
         
       </TabContext>
     </Box>

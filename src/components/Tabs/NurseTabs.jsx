@@ -5,6 +5,7 @@ import TabContext from '@mui/lab/TabContext';
 import TabList from '@mui/lab/TabList';
 import TabPanel from '@mui/lab/TabPanel';
 import NurseTable from '../NurseTable';
+import NurseForm from '../Forms/NurseForm';
 
 
 export default function NurseTabs() {
@@ -25,7 +26,7 @@ export default function NurseTabs() {
           </TabList>
         </Box>
         <TabPanel value="1">  <NurseTable/>  </TabPanel>
-        <TabPanel value="2"></TabPanel>
+        <TabPanel value="2"><NurseForm changeTabTo={setValue}/></TabPanel>
         
       </TabContext>
     </Box>
