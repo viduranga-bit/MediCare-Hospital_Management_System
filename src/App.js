@@ -1,7 +1,7 @@
 import React,{useEffect} from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import {
-  Ecommerce,
+ 
   Doctor,
   Calendar,
   Departments,
@@ -15,6 +15,7 @@ import {
   Financial,
   ColorMapping,
   Editor,
+
 } from "./pages";
 import "./App.css";
 import { useStateContext } from "./contexts/ContextProvider";
@@ -22,9 +23,12 @@ import Patient from "./pages/Patient";
 import Nurse from "./pages/Nurse";
 import Pharmacist from "./pages/Pharmacist";
 import Laborotaries from "./pages/Laborotaries";
+import Recieptionist from "./pages/Recieptionist";
 import Accountant from "./pages/Accountant";
 import Login from "./pages/Login/Login";
 import Main from "./Main";
+import Dashboard  from "./pages/Dashboard";
+import RegisterPatientSection from "./components/DashboardComponents/Recieptionist/RegisterPatientSection";
 
 const App = () => {
   const {
@@ -46,8 +50,8 @@ const App = () => {
         <Routes>
           {/* dashboard  */}
           <Route path="/login" element={<Login />} />
-          <Route element={<Main />}>
-            <Route path="/" element={<Ecommerce />} />
+            <Route      element={<Main/>}>
+            <Route path="/" element={<Dashboard />} />
             <Route path="/doctor" element={<Doctor />} />
             <Route path="/department" element={<Departments />} />
             <Route path="/patient" element={<Patient />} />
@@ -55,8 +59,12 @@ const App = () => {
             <Route path="/pharmacist" element={<Pharmacist />} />
             <Route path="/laboratorist" element={<Laborotaries />} />
             <Route path="/accountant" element={<Accountant />} />
+            <Route path="/recieptionist" element={<Recieptionist />} />
             <Route path="/editor" element={<Editor />} />
             <Route path="/calendar" element={<Calendar />} />
+
+            {/*Recieptionist routs*/}
+            <Route path="/registerPatient" element={<RegisterPatientSection />} />
 
             {/* charts  */}
             <Route path="/line" element={<Line />} />

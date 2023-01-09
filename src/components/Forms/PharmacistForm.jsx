@@ -30,7 +30,7 @@ export default function PharmacistForm(props) {
     address: "",
     password: "",
     username: "",
-    roleId: "3",
+    roleId: "4",
     role: "PHARMACIST",
   });
   const { name, phone, email, address, password, username } = Pharmacist;
@@ -112,35 +112,30 @@ export default function PharmacistForm(props) {
             defaultValue=""
           />
 
-          <FormControl
-            sx={{ m: 1, width: "40ch" }}
-            variant="outlined"
-            required
-            name="password"
-            value={password}
-            onChange={(e) => onInputChange(e)}
-          >
-            <InputLabel htmlFor="outlined-adornment-password">
-              Password
-            </InputLabel>
-            <OutlinedInput
-              id="outlined-adornment-password"
-              type={showPassword ? "text" : "password"}
-              endAdornment={
-                <InputAdornment position="end">
-                  <IconButton
-                    aria-label="toggle password visibility"
-                    onClick={handleClickShowPassword}
-                    onMouseDown={handleMouseDownPassword}
-                    edge="end"
-                  >
-                    {showPassword ? <VisibilityOff /> : <Visibility />}
-                  </IconButton>
-                </InputAdornment>
-              }
-              label="Password"
-            />
-          </FormControl>
+<TextField
+  required
+  label="Password"
+  name="password"
+  value={password}
+  onChange={(e) => onInputChange(e)}
+  id="outlined-disabled"
+  sx={{ m: 1, width: "40ch" }}
+  type={showPassword ? "text" : "password"}
+  InputProps={{
+   endAdornment: (
+    
+      <InputAdornment position="end">
+        <IconButton
+          aria-label="toggle password visibility"
+          onClick={handleClickShowPassword}
+          onMouseDown={handleMouseDownPassword}
+        >
+          {showPassword ? <Visibility /> : <VisibilityOff />}
+        </IconButton>
+      </InputAdornment>
+    )
+  }}
+ />
         </div>
 
         <TextField

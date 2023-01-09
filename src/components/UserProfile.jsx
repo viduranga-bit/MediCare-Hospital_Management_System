@@ -4,11 +4,12 @@ import { Button } from '.';
 import ButtonMUI from '@mui/material/Button';
 import { userProfileData } from '../data/dummy';
 import { useStateContext } from '../contexts/ContextProvider';
-import { useNavigate} from "react-router-dom";
+import { useNavigate,useLocation} from "react-router-dom";
 import avatar from '../data/avatar.jpg';
 
 const UserProfile = () => {
   const { currentColor } = useStateContext();
+  const location = useLocation();
 
   const navigate = useNavigate();
 
@@ -16,7 +17,6 @@ const UserProfile = () => {
 
 const logout =    () => {
  localStorage.removeItem("token");
-  console.log("csdcc")
   navigate("/login");
 };
 
@@ -28,7 +28,7 @@ const logout =    () => {
       setuserName(JSON.parse(localStorage.getItem("user")));
     
     } 
-  },[]);
+  },[location]);
 
   return (
     <div className="nav-item absolute right-1 top-16 bg-white dark:bg-[#42464D] p-8 rounded-lg w-96">

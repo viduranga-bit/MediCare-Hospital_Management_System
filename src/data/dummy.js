@@ -5,6 +5,7 @@ import {
   AiOutlineAreaChart,
   AiOutlineBarChart,
   AiOutlineStock,
+  AiFillSave
 } from "react-icons/ai";
 import {
   FiShoppingBag,
@@ -12,7 +13,9 @@ import {
   FiCreditCard,
   FiStar,
   FiShoppingCart,
+ 
 } from "react-icons/fi";
+
 import {
   BsKanban,
   BsBarChart,
@@ -512,8 +515,12 @@ export const links = [
       {
         path: "department",
         name: "department",
-        icon: <AiFillBank />,
-        accessLev: [0, 1, 2],
+      
+      },
+      {
+        path: "registerPatient",
+        name: "registerPatient",
+        icon: <AiFillSave  />
       },
       {
         path: "doctor",
@@ -551,7 +558,12 @@ export const links = [
         icon: <MdManageAccounts />,
         accessLev: [0, 1, 2],
       },
-
+      {
+        path: "recieptionist",
+        name: "recieptionist",
+        icon: <IoMdContacts />,
+        accessLev: [0, 1, 2],
+      },
       {
         path: "monitorHospital",
         name: "monitorHospital",

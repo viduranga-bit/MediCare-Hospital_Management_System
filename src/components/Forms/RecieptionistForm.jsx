@@ -12,32 +12,35 @@ import FormControl from "@mui/material/FormControl";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 
-
-export default function DoctorForm(props) {
+export default function RecieptionistForm(props) {
   const { changeTabTo } = props;
 
-  const [showPassword, setShowPassword] = useState(false);
-  const handleClickShowPassword = () => setShowPassword(!showPassword);
-  const handleMouseDownPassword = () => setShowPassword(!showPassword);
+  const [showPassword, setShowPassword] = React.useState(false);
 
-  const [doctor, setDoctor] = useState({
+  const handleClickShowPassword = () => setShowPassword((show) => !show);
+
+  const handleMouseDownPassword = (event) => {
+    event.preventDefault();
+  };
+
+  const [Recieptionist, setRecieptionist] = useState({
     name: "",
     phone: "",
     email: "",
     address: "",
     password: "",
     username: "",
-    roleId: "1",
-    role: "DOCTOR",
+    roleId: "6",
+    role: "RECIEPTIONIST",
   });
-  const { name, phone, email, address, password, username } = doctor;
+  const { name, phone, email, address, password, username } = Recieptionist;
   const onInputChange = (e) => {
-    setDoctor({ ...doctor, [e.target.name]: e.target.value });
+    setRecieptionist({ ...Recieptionist, [e.target.name]: e.target.value });
   };
   
   const onSubmit = async (e) => {
     e.preventDefault();
-    await axios.post("http://localhost:8080/register", doctor);
+    await axios.post("http://localhost:8080/register", Recieptionist);
     changeTabTo("1");
   };
  
@@ -64,18 +67,19 @@ export default function DoctorForm(props) {
             required
 
           />
+
+          
           <TextField
             required
             sx={{ m: 1, width: "40ch" }}
             type="phone"
             id="outlined-disabled"
-            name="phone"  
+            name="phone"
             value={phone}
             onChange={(e) => onInputChange(e)}
             label="phone"
             defaultValue=""
           />
-
           <TextField
             required
             sx={{ m: 1, width: "40ch" }}
@@ -132,18 +136,16 @@ export default function DoctorForm(props) {
     )
   }}
  />
-
-
-   </div>
+        </div>
 
         <TextField
           name="role"
-          value="DOCTOR"
+          value="RECIEPTIONIST"
           onChange={(e) => onInputChange(e)}
           disabled
           id="outlined-read-only-input"
           label="User Mode"
-          defaultValue="DOCTOR"
+          defaultValue="RECIEPTIONIST"
           InputProps={{
             readOnly: true,
           }}
@@ -155,7 +157,7 @@ export default function DoctorForm(props) {
         size="medium"
         type="submit"
       >
-        Registor Doctor
+        Register Pharmacist
       </Button>
     </form>
   );
