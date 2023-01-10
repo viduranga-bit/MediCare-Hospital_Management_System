@@ -546,6 +546,7 @@ export const links = [
         icon: <MdLocalPharmacy />,
         accessLev: [0, 1, 2],
       },
+    
       {
         path: "laboratorist",
         name: "laboratorist",

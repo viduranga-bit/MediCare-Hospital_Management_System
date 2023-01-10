@@ -12,10 +12,12 @@ import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 
+import 'react-toastify/dist/ReactToastify.css';
+import toast, { Toaster } from 'react-hot-toast';
+
 
 export default function RegisterPatient() {
   
-
   const [patient, setPatient] = useState({
     patientName: "",
     phone: "",
@@ -42,14 +44,23 @@ export default function RegisterPatient() {
     patientType,
     specialNote,
   } = patient;
-  console.log("amith");
+
   const onInputChange = (e) => {
     setPatient({ ...patient, [e.target.name]: e.target.value });
-  };
+ 
+   
+       
+    }
+
 
   const onSubmit = async (e) => {
     e.preventDefault();
     await axios.post("http://localhost:8080/api/v1/patients", patient);
+    toast.success('Successfully Registered Patient!',{
+
+        position : "top-right"
+    })
+
   };
 
   return (
@@ -198,6 +209,9 @@ export default function RegisterPatient() {
       >
         Register Patient
       </Button>
+      <Toaster />
+  
     </form>
   );
-}
+
+    }

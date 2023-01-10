@@ -29,6 +29,7 @@ import Login from "./pages/Login/Login";
 import Main from "./Main";
 import Dashboard  from "./pages/Dashboard";
 import RegisterPatientSection from "./components/DashboardComponents/Recieptionist/RegisterPatientSection";
+import PrintAdmissionCard from "./components/DashboardComponents/Recieptionist/PrintAdmissionCard";
 
 const App = () => {
   const {
@@ -62,10 +63,10 @@ const App = () => {
             <Route path="/recieptionist" element={<Recieptionist />} />
             <Route path="/editor" element={<Editor />} />
             <Route path="/calendar" element={<Calendar />} />
-
+            
             {/*Recieptionist routs*/}
             <Route path="/registerPatient" element={<RegisterPatientSection />} />
-
+        
             {/* charts  */}
             <Route path="/line" element={<Line />} />
             <Route path="/area" element={<Area />} />
