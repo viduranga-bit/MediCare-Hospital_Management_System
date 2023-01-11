@@ -6,8 +6,8 @@ import RegisterPatient from './RegisterPatient';
 const RegisterPatientSection = () => {
   
   return (
-    <div className="m-3 md:m-8 mt-24 p-2 md:p-10 bg-white rounded-3xl">
-      <Header  title="Patients Registration"/>
+    <div className="md:m-12 md:mt-4 md:p-10 bg-white rounded-3xl">
+      <Header title="Register New Patient"/>
        <RegisterPatient/>
     </div>
   );

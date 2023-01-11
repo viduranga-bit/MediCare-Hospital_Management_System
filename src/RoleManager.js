@@ -5,5 +5,5 @@ export const RoleManager = {
     LABORARIST:["dashboard","patient","nurse","department"],
     PHARMACIST:["dashboard","patient","nurse","department"],
     ACCOUNTANT:["dashboard","patient","nurse","department"],
-    RECIEPTIONIST:["dashboard","registerPatient"]
+    RECIEPTIONIST:["dashboard","registerPatient","printPatientDetails"]
 }
