@@ -22,13 +22,13 @@ export default function RegisterPatient() {
     let navigate = useNavigate();
   const [patient, setPatient] = useState({
     patientName: "",
-    phone: "",
+    mobileNo: "",
     dob: "",
     email: "",
     address: "",
     specialNote: "",
     city: "",
-    admitDate: "",
+    admitdate: "",
     nic: "",
     bloodGroup: "",
     patientType:"",
@@ -36,12 +36,12 @@ export default function RegisterPatient() {
   });       
   const {
     patientName,
-    phone,
+    mobileNo,
     email,
     address,
     dob,
     city,
-    admitDate,
+    admitdate,
     nic,
     bloodGroup,
     patientType,
@@ -160,19 +160,19 @@ export default function RegisterPatient() {
             </Select>
           </FormControl>
 
-          <LocalizationProvider dateAdapter={AdapterDayjs}>
+       
             <TextField
               label="Admission Date"
               required
               sx={{ m: 1, width: "55ch" }}
               type="date"
-              id="outlined-disabled"
-              name="admitDate"
-              value={admitDate}
+              id="outlined-uncontrolled"
+              name="admitdate"
+              value={admitdate}
               onChange={(e) => onInputChange(e)}
               focused
             />
-          </LocalizationProvider>
+       
 
 
           <FormControl sx={{ m: 1, width: "55ch" }}>
@@ -203,10 +203,9 @@ export default function RegisterPatient() {
 
           <TextField
             sx={{ m: 1, width: "55ch" }}
-            type="phone"
             id="outlined-disabled"
-            name="phone"
-            value={phone}
+            name="mobileNo"
+            value={mobileNo}
             onChange={(e) => onInputChange(e)}
             label="Contact Number"
             defaultValue=""
@@ -233,16 +232,6 @@ export default function RegisterPatient() {
             label="Home City"
             defaultValue=""
           />
-
-          
-           
-
-
-          
-
-
-         
-        
           <TextField
             sx={{ m: 1, width: "55ch" }}
             id="outlined-disabled"
@@ -252,8 +241,6 @@ export default function RegisterPatient() {
             label="Email Address"
             defaultValue=""
           />
-
-         
         </div>
       </Box>
       <Button
