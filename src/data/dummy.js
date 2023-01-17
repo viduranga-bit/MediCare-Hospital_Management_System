@@ -515,6 +515,7 @@ export const links = [
       {
         path: "department",
         name: "department",
+        icon: <AiFillSave  />
       
       },
       {
