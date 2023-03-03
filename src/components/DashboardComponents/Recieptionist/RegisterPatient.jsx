@@ -196,6 +196,7 @@ export default function RegisterPatient() {
               <MenuItem value={"AB-"}>AB-</MenuItem>
             </Select>
           </FormControl>
+          
    
           <Typography variant="h6" gutterBottom>
           Contact Details 
