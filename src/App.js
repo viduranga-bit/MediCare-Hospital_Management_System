@@ -30,6 +30,7 @@ import Main from "./Main";
 import Dashboard  from "./pages/Dashboard";
 import RegisterPatientSection from "./components/DashboardComponents/Recieptionist/RegisterPatientSection";
 import PrintAdmissionCard from "./components/DashboardComponents/Recieptionist/PrintAdmissionCard";
+import Appointment from "./components/DashboardComponents/Doctor/Appointment";
 
 const App = () => {
   const {
@@ -67,6 +68,10 @@ const App = () => {
             {/*Recieptionist routs*/}
             <Route path="/registerPatient" element={<RegisterPatientSection />} />
             <Route path="/printPatientDetails" element={<PrintAdmissionCard/>}/>
+
+            {/*Doctor routs*/}
+            <Route path="/appointments" element={<Appointment/>} />  
+
             {/* charts  */}
             <Route path="/line" element={<Line />} />
             <Route path="/area" element={<Area />} />

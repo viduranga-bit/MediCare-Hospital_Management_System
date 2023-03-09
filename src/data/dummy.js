@@ -572,6 +572,14 @@ export const links = [
         icon: <IoMdContacts />,
         accessLev: [0, 1, 2],
       },
+
+      //doctor Routes
+      {
+        path: "appointments",
+        name: "appointments",
+        icon: <IoMdContacts />,
+        accessLev: [0, 1, 2],
+      },
     ],
   },
 ];

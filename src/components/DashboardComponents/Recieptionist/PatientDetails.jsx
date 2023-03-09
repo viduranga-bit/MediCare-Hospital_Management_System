@@ -68,7 +68,7 @@ export default function PatientDetails() {
                 ></Avatar>
               </div>
               <Typography variant="body1" gutterBottom>
-                Patient ID : {patientData?.patientId}
+                Patient ID : {patientData?.name}
               </Typography>
               {patientData?.patientType == "INPATIENT" ? (
                 <Chip label="In Patient" color="success" />

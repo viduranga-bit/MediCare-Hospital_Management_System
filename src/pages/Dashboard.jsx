@@ -16,6 +16,7 @@ import WeeklyStat from "../components/DashboardComponents/WeeklyStat";
 import Branding from "../components/DashboardComponents/Branding";
 import LastComponent from "../components/DashboardComponents/LastComponent";
 import RegisterPatient from "../components/DashboardComponents/Recieptionist/RegisterPatient";
+import Appointment from "../components/DashboardComponents/Doctor/Appointment";
 
 const Dashboard = () => {
   const { currentColor, currentMode } = useStateContext();
@@ -58,7 +59,7 @@ const Dashboard = () => {
       <UsersCounts />
       <div className="flex gap-10 flex-wrap justify-center">
         
-        {roleName?.role=="ADMIN" ? <div className="bg-white dark:text-gray-200 dark:bg-secondary-dark-bg m-3 p-4 rounded-2xl md:w-780  "> <Calendar />  </div>: ""}
+        {roleName?.role=="ADMIN" ? <div className="bg-white dark:text-gray-400 dark:bg-secondary-dark-bg m-3 p-4 rounded-2xl md:w-780  "> <Calendar />  </div>: ""}
           
         <div>
           {roleName?.role=="ADMIN" ?<EarningChart />: ""}
@@ -66,7 +67,8 @@ const Dashboard = () => {
          
         </div>
       </div>
-
+      {roleName?.role=="DOCTOR" ? <div className="flex gap-10 m-4 flex-wrap justify-center"> <Appointment /> <Data1 /></div>: ""}
+          
       <div className="flex gap-10 m-4 flex-wrap justify-center">
         <Data1 />
         <Overview />

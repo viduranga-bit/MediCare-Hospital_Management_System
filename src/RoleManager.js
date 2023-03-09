@@ -1,6 +1,6 @@
 export const RoleManager = {
     ADMIN:["dashboard","doctor","patient","nurse","department","accountant","calander","pharmacist","laboratorist","recieptionist"],
-    DOCTOR:["dashboard","patient","nurse","department"],
+    DOCTOR:["dashboard","appointments"],
     NURSE:["dashboard","patient","nurse","department"],
     LABORARIST:["dashboard","patient","nurse","department"],
     PHARMACIST:["dashboard","patient","nurse","department"],
