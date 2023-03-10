@@ -1,25 +1,30 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import axios from "axios";
 import "dayjs/locale/de";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
-
 import 'react-toastify/dist/ReactToastify.css';
 import toast, { Toaster } from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
-import { height } from "@mui/system";
 import { Typography } from '@mui/material';
 
 export default function RegisterPatient() {
-    let navigate = useNavigate();
+  const [doctors,setDoctors] = useState([]);
+
+  useEffect(() => {
+    axios.get('http://localhost:8080/api/v1/users/role/DOCTOR').then(response =>{
+         setDoctors(response.data)
+         console.log(response.data)
+    })
+    
+    
+  }, []);
+  let navigate = useNavigate();
   const [patient, setPatient] = useState({
     patientName: "",
     mobileNo: "",
@@ -32,7 +37,9 @@ export default function RegisterPatient() {
     nic: "",
     bloodGroup: "",
     patientType:"",
-    gender:""
+    gender:"",
+    doc_id:"",
+    age:""
   });       
   const {
     patientName,
@@ -46,17 +53,15 @@ export default function RegisterPatient() {
     bloodGroup,
     patientType,
     specialNote,
-    gender
+    gender,
+    doc_id,
+    age
   } = patient;
 
   const onInputChange = (e) => {
     setPatient({ ...patient, [e.target.name]: e.target.value });
- 
-   
-       
+  
     }
-
-
   const onSubmit = async (e) => {
     e.preventDefault();
     await axios.post("http://localhost:8080/api/v1/patients", patient).then(r =>{
@@ -98,7 +103,7 @@ export default function RegisterPatient() {
             defaultValue=""
             required
           />
-
+           
           <TextField
             label="Date Of Birth"
             required
@@ -121,7 +126,16 @@ export default function RegisterPatient() {
             label="NIC"
             defaultValue=""
           />
-
+  <TextField
+            sx={{ m: 2, width: "55ch", height:"10px"}}
+            id="outlined-disabled"
+            name="age"
+            value={age}
+            onChange={(e) => onInputChange(e)}
+            label="Age"
+            defaultValue=""
+            required
+          />
 <FormControl sx={{ m: 1, width: "55ch" }}>
             <InputLabel >Gender</InputLabel>
             <Select
@@ -139,7 +153,7 @@ export default function RegisterPatient() {
              
             </Select>
           </FormControl>
-
+             
             <Typography variant="h6" gutterBottom>
             Admission Details 
         </Typography>
@@ -160,7 +174,24 @@ export default function RegisterPatient() {
             </Select>
           </FormControl>
 
-       
+          <FormControl sx={{ m: 1, width: "55ch" }}>
+            <InputLabel >Assign Doctor</InputLabel>
+            <Select
+              labelId="demo-simple-select-label"
+              id="demo-simple-select"
+              name="doc_id"
+              value={doc_id}
+              label="doc_id"
+              onChange={(e) => onInputChange(e)}
+              required
+            >
+               {doctors.map(doctor => (
+            <MenuItem key={doctor.id} value={doctor.id}>{doctor.name}</MenuItem>
+          ))}
+
+             
+            </Select>
+          </FormControl>
             <TextField
               label="Admission Date"
               required
@@ -173,7 +204,7 @@ export default function RegisterPatient() {
               focused
             />
        
-
+     
 
           <FormControl sx={{ m: 1, width: "55ch" }}>
             <InputLabel >Blood Group</InputLabel>

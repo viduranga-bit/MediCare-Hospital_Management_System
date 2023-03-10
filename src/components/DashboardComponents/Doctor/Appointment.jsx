@@ -1,4 +1,5 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import {  SparklineAreaData} from '../../../data/dummy';
 import { SparkLine } from '../../../components';
 import { useStateContext} from '../../../contexts/ContextProvider';
@@ -11,21 +12,31 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 
 
-function createData(name, calories, fat, carbs, protein) {
-    return { name, calories, fat, carbs, protein };
-  }
-  
-  const rows = [
-    createData('Frozen yoghurt', 159, 6.0, 24, 4.0),
-    createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
-    createData('Eclair', 262, 16.0, 24, 6.0),
-    createData('Cupcake', 305, 3.7, 67, 4.3),
-    createData('Gingerbread', 356, 16.0, 49, 3.9),
-  ];
 
 export default function Appointment() {
+   
+    const [patients, setPatients] = useState([]);
+  
+  
+    
+    useEffect(() => {
+      
+      
+      if ("user" in localStorage) {
+      
+        
+        
+        axios.get("http://localhost:8080/api/v1/patients").then(response => {
 
+      
+        const doctorPatient = response.data.filter(patient => patient.doc_id ==JSON.parse(localStorage.getItem("user")).userId);
+        setPatients(doctorPatient);
+        console.log(doctorPatient)
+      })
+      }
+    }, []);
 
+ 
     const { currentColor, currentMode } = useStateContext();
     return (
       <div>
@@ -38,7 +49,7 @@ export default function Appointment() {
              
               <div>
               <TableContainer component={Paper}>
-      <Table sx={{ minWidth: 650 }} aria-label="simple table">
+      <Table sx={{ minWidth: 600 }} aria-label="simple table">
         <TableHead>
           <TableRow>
             <TableCell>Registration ID</TableCell>
@@ -49,17 +60,17 @@ export default function Appointment() {
           </TableRow>
         </TableHead>
         <TableBody>
-          {rows.map((row) => (
+          {patients.map((row) => (
             <TableRow
               key={row.name}
               sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
             >
               <TableCell component="th" scope="row">
-                {row.name}
+                {row.patientId}
               </TableCell>
-              <TableCell align="right">{row.calories}</TableCell>
-              <TableCell align="right">{row.fat}</TableCell>
-              <TableCell align="right">{row.carbs}</TableCell>
+              <TableCell align="right">{row.patientName}</TableCell>
+              <TableCell align="right">{row.age}</TableCell>
+              <TableCell align="right">{row.patientType}</TableCell>
               <TableCell align="right">{row.protein}</TableCell>
             </TableRow>
           ))}

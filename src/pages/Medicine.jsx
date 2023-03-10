@@ -1,86 +1,107 @@
 import React from 'react'
 import Paper from "@mui/material/Paper";
+import Box from '@mui/material/Box';
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
-import TableCell from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TablePagination from "@mui/material/TablePagination";
 import TableRow from "@mui/material/TableRow";
+import TableCell from "@mui/material/TableCell";
 import axios from "axios";
 import { useState, useEffect } from "react";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 
 const columns = [
-  { id: "id", label: "User Id",align: "center", maxWidth: 20 },
 
-  {
-    id: "name",
-    label: "Recieptionist Name",
-    align: "center",
-    minWidth:20
-    
-  },
-  {
-    id: "phone",
-    label: "Phone No",
-    maxWidth:20,
-    align: "center",
-    
-  },
-  {
-    id: "email",
-    label: "Email Address",
-    maxWidth:20,
-    align: "center",
-    
-  },
-  {
-    id: "address",
-    label: "Living Address",
-    maxWidth:20,
-    align: "center",
-    
-  },
-  {
-    id: "username",
-    label: "User Name",
-    maxWidth:20,
-    align: "center",
-    
-  },
-  {
-    id: "passwrd",
-    label: "Password",
-    maxWidth:20,
-    align: "center",
-    
-  }
-];
+    { id: "medicineId",
+     label: "#ID",
+     align: "center",
+     maxWidth: 20 },
+  
+    {
+      id: "medicineName",
+      label: "Drug Name",
+      align: "center",
+      minWidth:20
+      
+    },
+    {
+      id: "Date Added",
+      label: "dateAdded",
+      maxWidth:20,
+      align: "center",
+      
+    },
+    {
+      id: "ManufacturingCompany",
+      label: "Manfactured By",
+      maxWidth:20,
+      align: "center",
+      
+    },
+    {
+      id: "price",
+      label: "Price",
+      maxWidth:20,
+      align: "center",
+      
+    },
+    {
+        id: "sellingPrice",
+        label: "selling Price",
+        maxWidth:20,
+        align: "center",
+        
+      },
+    {
+      id: "description",
+      label: "Description",
+      maxWidth:20,
+      align: "center",
+      
+    },
 
-export default function RecieptionistTable() {
 
-  const [RecieptionistList, setRecieptionist] = useState([]);
+    {
+        id: "currentQuantity",
+        label: "Current Quantity",
+        maxWidth:20,
+        align: "center",
+        
+      },
+    {
+      id: "status",
+      label: "Status",
+      maxWidth:20,
+      align: "center",
+      
+    }
+  ];
+ 
+export default function Medicine() {
+    const [search , setSearch] = useState([]);
+    const [medicine, setMedicine] = useState([]);
 
   useEffect(() => {
-    loadRecieptionist();
+    LoadMedicine();
   }, []);
 
-  const loadRecieptionist = async () => {
+  const LoadMedicine = async () => {
     const result = await axios
-      .get("http://localhost:8080/api/v1/users/role/RECIEPTIONIST")
+      .get("http://localhost:8080/api/v1/medicine")
       .then((res) => {
-        console.log(res.data);
-        setRecieptionist(res.data);
+        setMedicine(res.data);
       });
   };
 
-  async function deleteRecieptionist(did) {
+  async function deleteLaborarist(did) {
     const result = await axios
       .delete(`http://localhost:8080/api/v1/users/delete/${did}`)
       .then((res) => {
-        loadRecieptionist();
+        //console.log(res.data);
+        loadLaborarist();
       });
   }
 
@@ -95,8 +116,16 @@ export default function RecieptionistTable() {
     setRowsPerPage(+event.target.value);
     setPage(0);
   };
-
   return (
+    
+    
+  
+    <div  className="border border-warning shadow-lg p-3 mb-5 bg-white rounded  m-2 md:m-10 mt-24 p-2 md:p-10 bg-white rounded-3xl">
+
+        
+    <Box sx={{ width: '100%', typography: 'body1'}}>
+
+  
     <Paper sx={{ width: "100%", overflow: "hidden" }}>
       <TableContainer sx={{ maxHeight: 440 }}>
         <Table stickyHeader aria-label="sticky table">
@@ -115,7 +144,7 @@ export default function RecieptionistTable() {
             </TableRow>
           </TableHead>
           <TableBody>
-            {RecieptionistList.map((row) => {
+            {medicine.map((row) => {
               return (
                 <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
                   {columns.map((column) => {
@@ -130,7 +159,7 @@ export default function RecieptionistTable() {
                   })}
                   <TableCell>
                     <EditIcon />
-                    <DeleteIcon onClick={()=>deleteRecieptionist(row.id)}/>
+                    <DeleteIcon onClick={()=>deleteLaborarist(row.id)}/>
                   </TableCell>
                 </TableRow>
               );
@@ -141,7 +170,7 @@ export default function RecieptionistTable() {
       <TablePagination
         rowsPerPageOptions={[10, 25, 100]}
         component="div"
-        count={RecieptionistList.length}
+        count={medicine.length}
         rowsPerPage={rowsPerPage}
         page={page}
         onPageChange={handleChangePage}
@@ -149,6 +178,10 @@ export default function RecieptionistTable() {
       />
       
     </Paper>
+    </Box>
+    </div>
+
+
     
-  );
+  )
 }

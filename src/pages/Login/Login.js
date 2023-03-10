@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useEffect,useState } from 'react';
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -15,6 +15,7 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import Autocomplete from "@mui/material/Autocomplete";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import Appointment from "../../components/DashboardComponents/Doctor/Appointment";
 
 function Copyright(props) {
   return (
@@ -38,21 +39,21 @@ const theme = createTheme();
 
 export default function SignInSide() {
   const navigate = useNavigate();
-
+  const [userId,setUserId]= useState([])
   const setUserDetails = async (username) => {
     
     const result = await axios
       .get(`http://localhost:8080/api/v1/users/${username}`)
       .then((res) => {
-        console.log(res.data);
+       console.log(res.data);
         const user ={
           role:res.data.role,
           name:res.data.name,
-          email:res.data.email
-
-
+          email:res.data.email,
+          userId:res.data.id
 
         }
+        setUserId(res.data.id);
         localStorage.setItem("user", JSON.stringify(user));
         
       });
