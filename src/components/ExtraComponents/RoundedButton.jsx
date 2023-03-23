@@ -11,7 +11,7 @@ const Button = styled(
   MuiButton,
   options,
 )(({ theme, rounded }) => ({
-  borderRadius: rounded ? '24px' : null,
+  borderRadius: rounded ? '20px' : null,
 }));
 
 const theme = createTheme({
@@ -22,15 +22,15 @@ const theme = createTheme({
 
 function RoundedButton(props) {
 
-    const { onClick, label } = props;
+    const { onClick, label , color} = props;
 
   return (
     <ThemeProvider theme={theme}>
-      <Box sx={{ '& > :not(style)': { m: 1 } }}>
-        <Button variant="contained" rounded onClick={onClick}>
+      <Box sx={{ '& > :not(style)': { m: 0.1 } }}>
+        <Button color={color} variant="contained"  rounded onClick={onClick} >
           {label}
         </Button>
-      </Box>
+      </Box>  
     </ThemeProvider>
   );
 }

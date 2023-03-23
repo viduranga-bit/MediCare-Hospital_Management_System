@@ -1,4 +1,4 @@
-import React, { useState,useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
@@ -8,21 +8,33 @@ import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
-import 'react-toastify/dist/ReactToastify.css';
-import toast, { Toaster } from 'react-hot-toast';
-import { useNavigate } from 'react-router-dom';
-import { Typography } from '@mui/material';
+import "react-toastify/dist/ReactToastify.css";
+import toast, { Toaster } from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
+import { Typography } from "@mui/material";
 
 export default function RegisterPatient() {
-  const [doctors,setDoctors] = useState([]);
+
+  const [resID, setresID] = useState();
 
   useEffect(() => {
-    axios.get('http://localhost:8080/api/v1/users/role/DOCTOR').then(response =>{
-         setDoctors(response.data)
-         console.log(response.data)
-    })
-    
-    
+    if ("user" in localStorage) {
+      setresID(JSON.parse(localStorage.getItem("user")));
+    }
+  }, []); 
+
+  console.log(resID?.userId);
+
+
+  const [doctors, setDoctors] = useState([]);
+
+  useEffect(() => {
+    axios
+      .get("http://localhost:8080/api/v1/users/role/DOCTOR")
+      .then((response) => {
+        setDoctors(response.data);
+        console.log(response.data);
+      });
   }, []);
   let navigate = useNavigate();
   const [patient, setPatient] = useState({
@@ -36,11 +48,12 @@ export default function RegisterPatient() {
     admitdate: "",
     nic: "",
     bloodGroup: "",
-    patientType:"",
-    gender:"",
-    doc_id:"",
-    age:""
-  });       
+    patientType: "",
+    gender: "",
+    doc_id: "",
+    age: "",
+    res_id:""
+  });
   const {
     patientName,
     mobileNo,
@@ -55,46 +68,42 @@ export default function RegisterPatient() {
     specialNote,
     gender,
     doc_id,
-    age
+    age,
+    res_id
   } = patient;
 
   const onInputChange = (e) => {
     setPatient({ ...patient, [e.target.name]: e.target.value });
-  
-    }
-  const onSubmit = async (e) => {
-    e.preventDefault();
-    await axios.post("http://localhost:8080/api/v1/patients", patient).then(r =>{
-        if(r.status === 200){
-            
-            navigate(`/printPatientDetails?id=${r.data.patientId}`)
-            toast.success('Successfully Registered Patient!',{
-
-                position : "top-right"
-            })
-        }
-       
-    });
-   
-
   };
+  const onSubmit = async (e) => {
+    e.preventDefault(); 
+    await axios
+      .post("http://localhost:8080/api/v1/patients", patient)
+      .then((r) => {
+        if (r.status === 200) {
+          navigate(`/printPatientDetails?id=${r.data.patientId}`);
+          toast.success("Successfully Registered Patient!", {
+            position: "top-right",
+          });
+        }
+      });
+  };
+
+  
 
   return (
     <form className="m-3 md:m-1 p-2 md:p-10 " onSubmit={(e) => onSubmit(e)}>
       <Box
         sx={{
-       
           "& .MuiTextField-root": { m: 1.5 },
-        
         }}
       >
         <div>
-
-        <Typography variant="h6" gutterBottom>
-           Personal Details 
-      </Typography>
+          <Typography variant="h6" gutterBottom>
+            Personal Details
+          </Typography>
           <TextField
-            sx={{ m: 2, width: "55ch", height:"10px"}}
+            sx={{ m: 2, width: "55ch", height: "10px" }}
             id="outlined-disabled"
             name="patientName"
             value={patientName}
@@ -103,7 +112,7 @@ export default function RegisterPatient() {
             defaultValue=""
             required
           />
-           
+
           <TextField
             label="Date Of Birth"
             required
@@ -116,7 +125,7 @@ export default function RegisterPatient() {
             focused
           />
 
-<TextField
+          <TextField
             sx={{ m: 1, width: "55ch" }}
             required
             id="outlined-disabled"
@@ -126,8 +135,8 @@ export default function RegisterPatient() {
             label="NIC"
             defaultValue=""
           />
-  <TextField
-            sx={{ m: 2, width: "55ch", height:"10px"}}
+          <TextField
+            sx={{ m: 2, width: "55ch", height: "10px" }}
             id="outlined-disabled"
             name="age"
             value={age}
@@ -136,8 +145,8 @@ export default function RegisterPatient() {
             defaultValue=""
             required
           />
-<FormControl sx={{ m: 1, width: "55ch" }}>
-            <InputLabel >Gender</InputLabel>
+          <FormControl sx={{ m: 1, width: "55ch" }}>
+            <InputLabel>Gender</InputLabel>
             <Select
               labelId="demo-simple-select-label"
               id="demo-simple-select"
@@ -149,17 +158,15 @@ export default function RegisterPatient() {
             >
               <MenuItem value={"MALE"}>Male</MenuItem>
               <MenuItem value={"Female"}>Female</MenuItem>
-
-             
             </Select>
           </FormControl>
-             
-            <Typography variant="h6" gutterBottom>
-            Admission Details 
-        </Typography>
-     
-      <FormControl sx={{ m: 1, width: "55ch" }}>
-            <InputLabel >Patient Type</InputLabel>
+
+          <Typography variant="h6" gutterBottom>
+            Admission Details
+          </Typography>
+
+          <FormControl sx={{ m: 1, width: "55ch" }}>
+            <InputLabel>Patient Type</InputLabel>
             <Select
               labelId="demo-simple-select-label"
               id="demo-simple-select"
@@ -170,12 +177,11 @@ export default function RegisterPatient() {
             >
               <MenuItem value={"INPATIENT"}>In Patient</MenuItem>
               <MenuItem value={"OUTPATIENT"}>Out Patient</MenuItem>
-             
             </Select>
           </FormControl>
 
           <FormControl sx={{ m: 1, width: "55ch" }}>
-            <InputLabel >Assign Doctor</InputLabel>
+            <InputLabel>Assign Doctor</InputLabel>
             <Select
               labelId="demo-simple-select-label"
               id="demo-simple-select"
@@ -185,31 +191,28 @@ export default function RegisterPatient() {
               onChange={(e) => onInputChange(e)}
               required
             >
-               {doctors.map(doctor => (
-            <MenuItem key={doctor.id} value={doctor.id}>{doctor.name}</MenuItem>
-          ))}
-
-             
+              {doctors.map((doctor) => (
+                <MenuItem key={doctor.id} value={doctor.id}>
+                  {doctor.name}
+                </MenuItem>
+              ))}
             </Select>
           </FormControl>
-            <TextField
-              label="Admission Date"
-              required
-              sx={{ m: 1, width: "55ch" }}
-              type="date"
-              id="outlined-uncontrolled"
-              name="admitdate"
-              value={admitdate}
-              onChange={(e) => onInputChange(e)}
-              focused
-            />
-       
-     
+          <TextField
+            label="Admission Date"
+            required
+            sx={{ m: 1, width: "55ch" }}
+            type="date"
+            id="outlined-uncontrolled"
+            name="admitdate"
+            value={admitdate}
+            onChange={(e) => onInputChange(e)}
+            focused
+          />
 
           <FormControl sx={{ m: 1, width: "55ch" }}>
-            <InputLabel >Blood Group</InputLabel>
+            <InputLabel>Blood Group</InputLabel>
             <Select
-            
               labelId="demo-simple-select-label"
               id="demo-simple-select"
               name="bloodGroup"
@@ -227,11 +230,10 @@ export default function RegisterPatient() {
               <MenuItem value={"AB-"}>AB-</MenuItem>
             </Select>
           </FormControl>
-          
-   
+
           <Typography variant="h6" gutterBottom>
-          Contact Details 
-      </Typography>
+            Contact Details
+          </Typography>
 
           <TextField
             sx={{ m: 1, width: "55ch" }}
@@ -242,7 +244,7 @@ export default function RegisterPatient() {
             label="Contact Number"
             defaultValue=""
           />
-          
+
           <TextField
             sx={{ m: 1, width: "55ch" }}
             required
@@ -284,8 +286,6 @@ export default function RegisterPatient() {
         Register Patient
       </Button>
       <Toaster />
-  
     </form>
   );
-
-    }
+}

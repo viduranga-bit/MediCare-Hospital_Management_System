@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import {  SparklineAreaData} from '../../../data/dummy';
-import { SparkLine } from '../../../components';
 import { useStateContext} from '../../../contexts/ContextProvider';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -10,6 +8,9 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
+import Button from '@mui/material/Button';
+import { useNavigate } from 'react-router-dom';
+
 
 
 
@@ -31,13 +32,21 @@ export default function Appointment() {
       
         const doctorPatient = response.data.filter(patient => patient.doc_id ==JSON.parse(localStorage.getItem("user")).userId);
         setPatients(doctorPatient);
-        console.log(doctorPatient)
+        
       })
       }
-    }, []);
+    }, []); 
 
- 
+     const  revpatients = patients.slice(patients.length-5,patients.length).reverse();
     const { currentColor, currentMode } = useStateContext();
+
+    let navigate = useNavigate();
+    const TreatPatientFunc = (patientId) =>{
+
+       console.log(patientId);
+       navigate(`/treatPatient?id=${patientId}`)
+
+    }
     return (
       <div>
         <div className="border shadow p-5 mb-5 bg-white rounded bg-white dark:text-gray-300 dark:bg-secondary-dark-bg p-6 rounded-2xl w-96 md:w-760">
@@ -52,26 +61,32 @@ export default function Appointment() {
       <Table sx={{ minWidth: 600 }} aria-label="simple table">
         <TableHead>
           <TableRow>
-            <TableCell>Registration ID</TableCell>
-            <TableCell align="right">Name</TableCell>
-            <TableCell align="right">Age</TableCell>
-            <TableCell align="right">Patient Type</TableCell>
-            <TableCell align="right">Action</TableCell>
+            <TableCell align="center">Registration ID</TableCell>
+            <TableCell align="center">Name</TableCell>
+            <TableCell align="center">Age</TableCell>
+            <TableCell align="center">Patient Type</TableCell>
+            <TableCell align="center">Action</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
-          {patients.map((row) => (
+          {revpatients.map((row) => (
             <TableRow
               key={row.name}
               sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
             >
-              <TableCell component="th" scope="row">
+              <TableCell align="center" component="th" scope="row">
                 {row.patientId}
               </TableCell>
-              <TableCell align="right">{row.patientName}</TableCell>
-              <TableCell align="right">{row.age}</TableCell>
-              <TableCell align="right">{row.patientType}</TableCell>
-              <TableCell align="right">{row.protein}</TableCell>
+              <TableCell align="center">{row.patientName}</TableCell>
+              <TableCell align="center">{row.age}</TableCell>
+              <TableCell align="center">{row.patientType}</TableCell>
+              <TableCell align='center'> 
+            
+               
+                 <Button color="success" variant="contained"   onClick={(e)=>TreatPatientFunc(row.patientId)} >
+          Treat
+        </Button>
+                 </TableCell>
             </TableRow>
           ))}
         </TableBody>

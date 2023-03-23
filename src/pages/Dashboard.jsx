@@ -15,7 +15,6 @@ import Overview from "../components/DashboardComponents/Overview";
 import WeeklyStat from "../components/DashboardComponents/WeeklyStat";
 import Branding from "../components/DashboardComponents/Branding";
 import LastComponent from "../components/DashboardComponents/LastComponent";
-import RegisterPatient from "../components/DashboardComponents/Recieptionist/RegisterPatient";
 import Appointment from "../components/DashboardComponents/Doctor/Appointment";
 
 const Dashboard = () => {
@@ -53,9 +52,7 @@ const Dashboard = () => {
   return (
     
     <div className="mt-13">
-      
-
-
+    
       <UsersCounts />
       <div className="flex gap-10 flex-wrap justify-center">
         

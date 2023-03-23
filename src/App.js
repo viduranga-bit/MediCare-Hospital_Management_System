@@ -32,6 +32,7 @@ import RegisterPatientSection from "./components/DashboardComponents/Recieptioni
 import PrintAdmissionCard from "./components/DashboardComponents/Recieptionist/PrintAdmissionCard";
 import Appointment from "./components/DashboardComponents/Doctor/Appointment";
 import Medicine from "./pages/Medicine";
+import TreatPatient from "./components/DashboardComponents/Doctor/TreatPatient";
 
 const App = () => {
   const {
@@ -73,6 +74,7 @@ const App = () => {
 
             {/*Doctor routs*/}
             <Route path="/appointments" element={<Appointment/>} />  
+            <Route path="/treatPatient" element={<TreatPatient/>} />  
 
             {/* charts  */}
             <Route path="/line" element={<Line />} />

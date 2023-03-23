@@ -10,10 +10,11 @@ import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 import Typography from '@mui/material/Typography';
 import RoundedButton from './RoundedButton';
-
+import AddNewMedicine from '../Forms/AddNewMedicine';
+import {  Paper } from '@material-ui/core';
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   '& .MuiDialogContent-root': {
-    padding: theme.spacing(2),
+    padding: theme.spacing(3),
   },
   '& .MuiDialogActions-root': {
     padding: theme.spacing(1),
@@ -24,7 +25,7 @@ function BootstrapDialogTitle(props) {
   const { children, onClose, ...other } = props;
 
   return (
-    <DialogTitle sx={{ m: 0, p: 2 }} {...other}>
+    <DialogTitle sx={{ m: 1, p: 3 }} {...other}>
       {children}
       {onClose ? (
         <IconButton
@@ -32,9 +33,9 @@ function BootstrapDialogTitle(props) {
           onClick={onClose}
           sx={{
             position: 'absolute',
-            right: 8,
-            top: 8,
-            color: (theme) => theme.palette.grey[500],
+            left: 340,
+            top: 1,
+            color: (theme) => theme.palette.grey[600],
           }}
         >
           <CloseIcon />
@@ -62,8 +63,8 @@ export default function CustomizedDialogs() {
 
   return (
     <div>
-
-<RoundedButton onClick={handleClickOpen} label ="Add New Medicine"  />
+ 
+<RoundedButton onClick={handleClickOpen} label ="Add New Medicine"/>
       
       
       <BootstrapDialog
@@ -72,30 +73,16 @@ export default function CustomizedDialogs() {
         open={open}
       >
         <BootstrapDialogTitle id="customized-dialog-title" onClose={handleClose}>
-          Modal title
+          Add New Medicine
         </BootstrapDialogTitle>
-        <DialogContent dividers>
-          <Typography gutterBottom>
-            Cras mattis consectetur purus sit amet fermentum. Cras justo odio,
-            dapibus ac facilisis in, egestas eget quam. Morbi leo risus, porta ac
-            consectetur ac, vestibulum at eros.
-          </Typography>
-          <Typography gutterBottom>
-            Praesent commodo cursus magna, vel scelerisque nisl consectetur et.
-            Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor.
-          </Typography>
-          <Typography gutterBottom>
-            Aenean lacinia bibendum nulla sed consectetur. Praesent commodo cursus
-            magna, vel scelerisque nisl consectetur et. Donec sed odio dui. Donec
-            ullamcorper nulla non metus auctor fringilla.
-          </Typography>
+        <DialogContent >
+          <AddNewMedicine />
         </DialogContent>
         <DialogActions>
-          <Button autoFocus onClick={handleClose}>
-            Save changes
-          </Button>
+          
         </DialogActions>
       </BootstrapDialog>
+  
     </div>
   );
 }

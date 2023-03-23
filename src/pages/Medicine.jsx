@@ -14,8 +14,11 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import { Header } from '../components';
 import ActionButton from "../components/ExtraComponents/ActionButton";
 import Popup from "../components/ExtraComponents/Popup";
-
-
+import IconButton from "@mui/material/IconButton";
+import SearchIcon from "@mui/icons-material/Search";
+import TextField from "@mui/material/TextField";
+import { styled } from '@mui/material/styles';
+import Grid from '@mui/material/Grid';
 const columns = [
   { id: "medicineId", label: "#ID", align: "center", maxWidth: 20 },
 
@@ -105,14 +108,45 @@ export default function Medicine() {
  
   return (
 
-    
 
     <div className="border border-warning shadow-lg p-3 mb-5 bg-white rounded  m-2 md:m-10 mt-24 p-2 md:p-10 bg-white rounded-3xl">
 
        <Header  title="Manage Medicine Stock" />
 
       <Box sx={{ width: "100%", typography: "body1"  }}> 
-      <Popup/>
+       
+      <Grid container spacing={1}>
+  <Grid item xs={2}>
+  <Popup/>
+  </Grid>
+  <Grid item xs={6}>
+  <form>
+    <TextField   sx={{ m: 1, width: "42ch" }}
+      id="search-bar"
+      className="text"
+      onInput={(e) => {
+      //  setSearchQuery(e.target.value);
+      }}
+      label="Search Medicine"
+      variant="outlined"
+      placeholder="Search..."
+      size="small"
+    />
+    <IconButton sx={{ m: 1 }} type="submit" aria-label="search">
+      <SearchIcon style={{ fill: "blue" }} />
+    </IconButton>
+  </form>
+  </Grid>
+
+
+  
+</Grid>
+
+
+
+      
+
+      
         <Paper sx={{ width: "100%", overflow: "hidden" }}>
           <TableContainer sx={{ maxHeight: 440 }}>
             <Table stickyHeader aria-label="sticky table">

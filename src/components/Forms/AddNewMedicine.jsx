@@ -1,8 +1,13 @@
-import React from 'react'
-import { Grid, Paper, Button, Typography } from '@material-ui/core'
-import { TextField } from '@material-ui/core'
-import { Formik, Form, Field, ErrorMessage } from 'formik'
+import React, { useState,useEffect,useContext } from "react";
+import { Button } from '@material-ui/core'
 import * as Yup from 'yup'
+import Box from "@mui/material/Box";
+import TextField from "@mui/material/TextField";
+import axios from "axios";
+import FormControl from '@mui/material/FormControl';
+import InputLabel from "@mui/material/InputLabel";
+import Select from "@mui/material/Select";
+import MenuItem from "@mui/material/MenuItem";
 
 const AddNewMedicine = () => {
     const paperStyle = { padding: '0 15px 40px 15px', width: 250, }
@@ -25,53 +30,199 @@ const AddNewMedicine = () => {
         .matches(passwordRegExp,"Password must have one upper, lower case, number, special symbol").required('Required'),
         confirmPassword:Yup.string().oneOf([Yup.ref('password')],"Password not matches").required('Required')
     })
-    const onSubmit = (values, props) => {
+    
 
-        alert(JSON.stringify(values), null, 2)
-        props.resetForm()
-    }
-    return (
-        <Grid>
-            <Paper elevation={0} style={paperStyle}>
-                <Grid align='center'>
-                    <Typography variant='caption'>Fill the form to create an account</Typography>
-                </Grid>
-                <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={onSubmit}>
-                    {(props) => (
-                        <Form noValidate>
-                            {/* <TextField label='Name' name="name" fullWidth value={props.values.name}
-                    onChange={props.handleChange} /> */}
 
-                            <Field as={TextField} name='name' label='Name' fullWidth
-                                error={props.errors.name && props.touched.name}
-                                helperText={<ErrorMessage name='name' />} required />
+    
 
-                            {/* <TextField label='Email' name='email' type='Email' fullWidth 
-                    {...props.getFieldProps('email')}/> */}
+    const [medicine, setMedicine] = useState({
+      medicineName: "",
+      dateAdded: "",
+      manufacturingCompany: "",
+      price: "",
+      sellingPrice: "",
+      currentQuantity: "",
+      description: "",
+      status:"ACTIVE"
+    
+    });
+    const { medicineName, dateAdded, manufacturingCompany, price, sellingPrice,currentQuantity,description,status } = medicine;
+    const onInputChange = (e) => {
+      setMedicine({ ...medicine, [e.target.name]: e.target.value });
+    };
+    
+    const onSubmit = async (e) => {
+      e.preventDefault();
+      await axios.post("http://localhost:8080/api/v1/medicine", medicine);
+    
+    };
 
-                            <Field as={TextField} name='email' label='Email' fullWidth
-                                error={props.errors.email && props.touched.email}
-                                helperText={<ErrorMessage name='email' />} required />
+    return (  
 
-                            <Field as={TextField} name="phoneNumber" label='Phone Number' fullWidth
-                                error={props.errors.phoneNumber && props.touched.phoneNumber}
-                                helperText={<ErrorMessage name='phoneNumber' />} required />
+<Box
+        sx={{
+          alignItems: 'center',
+          "& .MuiTextField-root": { mt:3},
+        }} 
+      >
+        <form onSubmit={(e) => onSubmit(e)}>
+      
+        <div>
 
-                            <Field as={TextField} name='password' label='Password' type='password' fullWidth
-                                error={props.errors.password && props.touched.password}
-                                helperText={<ErrorMessage name='password' />} required />
+      
+        <TextField
+          required
+          sx={{ m: 1, width: "31ch" }}
+          id="outlined-disabled"
+          label="Drug Name"
+          name="medicineName"  
+          value={medicineName}
+          onChange={(e) => onInputChange(e)}
+          defaultValue=""
+        />
+         <TextField
+            required
+            label="Date Of Add Medicine"
+            sx={{ m: 1, width: "25ch" }}
+            type="date"
+            id="filled-multiline-flexible"
+            name="dateAdded"
+            variant="outlined"
+            value={dateAdded}
+            onChange={(e) => onInputChange(e)}
+            focused
+          />  
 
-                            <Field as={TextField} name='confirmPassword' label='Confirm Password' type='password' fullWidth
-                                error={props.errors.confirmPassword && props.touched.confirmPassword}
-                                helperText={<ErrorMessage name='confirmPassword' />} required />
 
-                            <Button type='submit' style={btnStyle} variant='contained'
-                                color='primary'>Register</Button>
-                        </Form>
-                    )}
-                </Formik>
-            </Paper>
-        </Grid>
+        <TextField
+          sx={{ m: 1, width: "17.5 ch" }}
+          id="filled-multiline-flexible"
+          label="Price"
+          multiline
+          maxRows={6}
+          variant="outlined"
+          name="price"  
+          value={price}
+          onChange={(e) => onInputChange(e)}
+          defaultValue=""
+        />
+
+<TextField
+          sx={{ m: 1, width: "17ch" }}
+          id="filled-multiline-flexible"
+          label="Selling Price"
+          multiline
+          maxRows={6}
+          variant="outlined"
+          name="sellingPrice"  
+          value={sellingPrice}
+          onChange={(e) => onInputChange(e)}
+          defaultValue=""
+        />
+
+<TextField
+          sx={{ m: 1, width: "15ch" }}
+          id="filled-multiline-flexible"
+          label="Quantity"
+          multiline
+          maxRows={6}
+          variant="outlined"
+          name="currentQuantity"  
+          value={currentQuantity}
+          onChange={(e) => onInputChange(e)}
+          defaultValue=""
+        />
+
+<TextField
+          sx={{ ml: 1, width: "57.5ch" }}
+          id="filled-multiline-flexible"
+          label="Supplier"
+          multiline
+          maxRows={6}
+          variant="outlined"
+          name="manufacturingCompany"  
+          value={manufacturingCompany}
+          onChange={(e) => onInputChange(e)}
+          defaultValue=""
+        />
+
+<TextField
+            sx={{ ml:1, width: "57.5ch" }}
+          id="filled-multiline-flexible"
+          label="Description"
+          multiline
+          rows={4}
+          variant="outlined"
+          name="description"  
+          value={description}
+          onChange={(e) => onInputChange(e)}
+          defaultValue=""
+        />  
+
+        <div >
+ 
+
+      </div>
+   </div>
+     
+
+   <Button
+    sx={{ m: 6, width: "2ch" }}
+    variant="contained"
+    size="medium"
+    type="submit"
+        >
+    Add Medicine
+  </Button>
+
+    </form>
+    
+
+
+</Box>
+
+    
+        // <Grid>
+        //     <Paper elevation={0} style={paperStyle}>
+        //         <Grid align='center'>
+        //             <Typography variant='caption'>Add New Medicine </Typography>
+        //         </Grid>
+        //         <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={onSubmit}>
+        //             {(props) => (
+        //                 <Form noValidate>
+        //                     {/* <TextField label='Name' name="name" fullWidth value={props.values.name}
+        //             onChange={props.handleChange} /> */}
+
+        //                     <Field as={TextField} name='name' label='Name' fullWidth
+        //                         error={props.errors.name && props.touched.name}
+        //                         helperText={<ErrorMessage name='name' />} required />
+
+        //                     {/* <TextField label='Email' name='email' type='Email' fullWidth 
+        //             {...props.getFieldProps('email')}/> */}
+
+        //                     <Field sx={{ m: 1, width: "80ch" }} as={TextField} name='email' label='Email' fullWidth
+        //                         error={props.errors.email && props.touched.email}
+        //                         helperText={<ErrorMessage name='email' />} required />
+
+        //                     <Field as={TextField} name="phoneNumber" label='Phone Number' fullWidth
+        //                         error={props.errors.phoneNumber && props.touched.phoneNumber}
+        //                         helperText={<ErrorMessage name='phoneNumber' />} required />
+
+        //                     <Field as={TextField} name='password' label='Password' type='password' fullWidth
+        //                         error={props.errors.password && props.touched.password}
+        //                         helperText={<ErrorMessage name='password' />} required />
+
+        //                     <Field as={TextField} name='confirmPassword' label='Confirm Password' type='password' fullWidth
+        //                         error={props.errors.confirmPassword && props.touched.confirmPassword}
+        //                         helperText={<ErrorMessage name='confirmPassword' />} required />
+
+        //                     <Button type='submit' style={btnStyle} variant='contained'
+        //                         color='primary'>Register</Button>
+        //                 </Form>
+        //             )}
+        //         </Formik>
+        //     </Paper>
+        // </Grid>
     )
 }
 
