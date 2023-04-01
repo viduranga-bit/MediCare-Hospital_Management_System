@@ -1,17 +1,21 @@
-import React, { useState,useEffect,useContext } from "react";
-import { Button } from '@material-ui/core'
-import * as Yup from 'yup'
-import Box from "@mui/material/Box";
-import TextField from "@mui/material/TextField";
-import axios from "axios";
-import FormControl from '@mui/material/FormControl';
-import InputLabel from "@mui/material/InputLabel";
-import Select from "@mui/material/Select";
-import MenuItem from "@mui/material/MenuItem";
+  import React, { useState,useEffect,useContext } from "react";
+  import { Button } from '@material-ui/core'
+  import * as Yup from 'yup'
+  import Box from "@mui/material/Box";
+  import TextField from "@mui/material/TextField";
+  import axios from "axios";
+  import FormControl from '@mui/material/FormControl';
+  import InputLabel from "@mui/material/InputLabel";
+  import Select from "@mui/material/Select";
+  import MenuItem from "@mui/material/MenuItem";
 
-const AddNewMedicine = () => {
+const AddNewMedicine = (props) => {
     const paperStyle = { padding: '0 15px 40px 15px', width: 250, }
-    const btnStyle = { marginTop: 10 }
+    const btnStyle = { 
+      marginTop: 10,
+      left: "43%",
+  
+    }
     const phoneRegExp=/^[2-9]{2}[0-9]{8}/
     const passwordRegExp=/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/
     const initialValues = {
@@ -37,7 +41,7 @@ const AddNewMedicine = () => {
 
     const [medicine, setMedicine] = useState({
       medicineName: "",
-      dateAdded: "",
+      date_added: "",
       manufacturingCompany: "",
       price: "",
       sellingPrice: "",
@@ -46,14 +50,14 @@ const AddNewMedicine = () => {
       status:"ACTIVE"
     
     });
-    const { medicineName, dateAdded, manufacturingCompany, price, sellingPrice,currentQuantity,description,status } = medicine;
+    const { medicineName, date_added, manufacturingCompany, price, sellingPrice,currentQuantity,description,status } = medicine;
     const onInputChange = (e) => {
       setMedicine({ ...medicine, [e.target.name]: e.target.value });
     };
     
     const onSubmit = async (e) => {
-      e.preventDefault();
-      await axios.post("http://localhost:8080/api/v1/medicine", medicine);
+     e.preventDefault()
+     props.addNew(medicine)
     
     };
 
@@ -86,9 +90,9 @@ const AddNewMedicine = () => {
             sx={{ m: 1, width: "25ch" }}
             type="date"
             id="filled-multiline-flexible"
-            name="dateAdded"
+            name="date_added"
             variant="outlined"
-            value={dateAdded}
+            value={date_added}
             onChange={(e) => onInputChange(e)}
             focused
           />  
@@ -164,17 +168,10 @@ const AddNewMedicine = () => {
 
       </div>
    </div>
-     
-
-   <Button
-    sx={{ m: 6, width: "2ch" }}
-    variant="contained"
-    size="medium"
-    type="submit"
-        >
-    Add Medicine
-  </Button>
-
+  
+  
+                      <Button type='submit' style={btnStyle} variant='contained'
+                             color='primary'>Submit</Button>
     </form>
     
 

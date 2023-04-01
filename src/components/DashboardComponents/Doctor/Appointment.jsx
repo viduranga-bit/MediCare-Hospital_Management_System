@@ -15,35 +15,31 @@ import { useNavigate } from 'react-router-dom';
 
 
 export default function Appointment() {
-   
+
     const [patients, setPatients] = useState([]);
-  
-  
     
     useEffect(() => {
-      
-      
-      if ("user" in localStorage) {
-      
-        
-        
+      if ("user" in localStorage) {  
         axios.get("http://localhost:8080/api/v1/patients").then(response => {
-
-      
         const doctorPatient = response.data.filter(patient => patient.doc_id ==JSON.parse(localStorage.getItem("user")).userId);
         setPatients(doctorPatient);
         
+       
       })
       }
-    }, []); 
+    },[]); 
 
-     const  revpatients = patients.slice(patients.length-5,patients.length).reverse();
-    const { currentColor, currentMode } = useStateContext();
+    
+    const  revpatients = patients.slice(patients.length-5,patients.length).reverse().filter((row)=>row.isTreated !=1);
+    const lenghtPatient = revpatients.length;
+    
+     
+
+     
+     const { currentColor, currentMode } = useStateContext();
 
     let navigate = useNavigate();
     const TreatPatientFunc = (patientId) =>{
-
-       console.log(patientId);
        navigate(`/treatPatient?id=${patientId}`)
 
     }
@@ -54,8 +50,8 @@ export default function Appointment() {
 
             <div className="justify-between items-center gap-2 mb-10">
                 
-        <p className="text-xl font-semibold p-3">Appointments</p>
-             
+        <p className="text-xl font-semibold p-3">New Appointments ({lenghtPatient})</p>
+              
               <div>
               <TableContainer component={Paper}>
       <Table sx={{ minWidth: 600 }} aria-label="simple table">

@@ -50,7 +50,7 @@ BootstrapDialogTitle.propTypes = {
   onClose: PropTypes.func.isRequired,
 };
 
-export default function CustomizedDialogs() {
+export default function CustomizedDialogs(props) {
   const [open, setOpen] = React.useState(false);
 
   const handleClickOpen = () => {
@@ -76,7 +76,7 @@ export default function CustomizedDialogs() {
           Add New Medicine
         </BootstrapDialogTitle>
         <DialogContent >
-          <AddNewMedicine />
+          <AddNewMedicine addNew={(e)=>{props.addNew(e);handleClose()}} />
         </DialogContent>
         <DialogActions>
           

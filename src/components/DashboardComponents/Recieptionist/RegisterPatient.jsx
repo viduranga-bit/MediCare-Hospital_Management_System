@@ -81,7 +81,7 @@ export default function RegisterPatient() {
       .post("http://localhost:8080/api/v1/patients", patient)
       .then((r) => {
         if (r.status === 200) {
-          navigate(`/printPatientDetails?id=${r.data.patientId}`);
+           navigate(`/printPatientDetails?id=${r.data.patientId}`);
           toast.success("Successfully Registered Patient!", {
             position: "top-right",
           });
