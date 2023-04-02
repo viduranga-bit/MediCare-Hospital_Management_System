@@ -9,50 +9,43 @@ import TablePagination from "@mui/material/TablePagination";
 import TableRow from "@mui/material/TableRow";
 import axios from "axios";
 import { useState, useEffect } from "react";
-import DeleteIcon from "@mui/icons-material/Delete";
-import EditIcon from "@mui/icons-material/Edit";
+import Button from '@mui/material/Button';
 
 const columns = [
-  { id: "id", label: "User Id",align: "center", maxWidth: 20 },
+  { id: "patientId", label: "Patient Id",align: "center", maxWidth: 20 },
 
   {
-    id: "name",
-    label: "Pharmacist Name",
+    id: "patientName",
+    label: "Patient Name",
     align: "center",
     minWidth:20
     
   },
+
   {
-    id: "phone",
-    label: "Phone No",
+    id: "patientType",
+    label: "Patient Type",
     maxWidth:20,
     align: "center",
     
   },
   {
-    id: "email",
-    label: "Email Address",
+    id: "dob",
+    label: "Date Of Birth",
     maxWidth:20,
     align: "center",
     
   },
   {
-    id: "address",
-    label: "Living Address",
+    id: "gender",
+    label: "Gender",
     maxWidth:20,
     align: "center",
     
   },
   {
-    id: "username",
-    label: "User Name",
-    maxWidth:20,
-    align: "center",
-    
-  },
-  {
-    id: "passwrd",
-    label: "Password",
+    id: "mobileNo",
+    label: "Mobile Number",
     maxWidth:20,
     align: "center",
     
@@ -61,29 +54,24 @@ const columns = [
 
 export default function NewAppointmentTable() {
 
-  const [PharmacistList, setPharmacist] = useState([]);
+  const [patients, setPatients] = useState([]);
 
   useEffect(() => {
-    loadPharmacist();
+    loadPatient();
   }, []);
 
-  const loadPharmacist = async () => {
+  const loadPatient = async () => {
     const result = await axios
-      .get("http://localhost:8080/api/v1/users/role/PHARMACIST")
+      .get("http://localhost:8080/api/v1/patients")
       .then((res) => {
         console.log(res.data);
-        setPharmacist(res.data);
+        setPatients(res.data);
       });
   };
 
-  async function deletePharmacist(did) {
-    const result = await axios
-      .delete(`http://localhost:8080/api/v1/users/delete/${did}`)
-      .then((res) => {
-        //console.log(res.data);
-        loadPharmacist();
-      });
-  }
+ 
+  const  revpatients = patients.slice(  ).reverse()
+  const lenghtPatient = revpatients.length;
 
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
@@ -116,7 +104,7 @@ export default function NewAppointmentTable() {
             </TableRow>
           </TableHead>
           <TableBody>
-            {PharmacistList.map((row) => {
+            {revpatients.map((row) => {
               return (
                 <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
                   {columns.map((column) => {
@@ -130,8 +118,10 @@ export default function NewAppointmentTable() {
                     );
                   })}
                   <TableCell>
-                    <EditIcon />
-                    <DeleteIcon onClick={()=>deletePharmacist(row.id)}/>
+
+                  <Button disabled color="success" variant="contained"   onClick={(e)=>TreatPatientFunc(row.patientId)} >
+          Treat
+        </Button>
                   </TableCell>
                 </TableRow>
               );
@@ -142,7 +132,7 @@ export default function NewAppointmentTable() {
       <TablePagination
         rowsPerPageOptions={[10, 25, 100]}
         component="div"
-        count={PharmacistList.length}
+        count={revpatients.length}
         rowsPerPage={rowsPerPage}
         page={page}
         onPageChange={handleChangePage}
