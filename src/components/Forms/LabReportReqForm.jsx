@@ -2,12 +2,34 @@ import React, { useState,useEffect,useContext } from "react";
 import { Button } from '@material-ui/core'
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
+import InputLabel from "@mui/material/InputLabel";
+import Select from "@mui/material/Select";
+import MenuItem from "@mui/material/MenuItem";
 import axios from "axios";
 import { ToastContainer , toast  } from 'react-toastify';
+import FormControl from "@mui/material/FormControl";
 
 export default function LabReportReqForm(prop) {
 
  const patientId=prop.patID;
+ const docID=prop.docID;
+
+ console.log(docID);
+ const [labReport, setlabReport] = useState({
+  reportName: "",
+  laboratarist_id: "",
+  patient_id:patientId,
+  doc_id:docID
+});
+
+const {
+  reportName,
+  laboratarist_id,
+  patient_id,
+  doc_id
+} = labReport;
+
+
  const {open,setOpen, setIsRequestTest} = prop;
  const test ="sdcsdc"
     const btnStyle = { 
@@ -15,13 +37,44 @@ export default function LabReportReqForm(prop) {
       left: "43%",
   
     }   
+    const [laborotarist, setLaborotarist] = useState([]);
+
+    useEffect(() => {
+      axios
+        .get("http://localhost:8080/api/v1/users/role/LABORARIST")
+        .then((response) => {
+          setLaborotarist(response.data);
+          console.log(response.data);
+        });
+    }, []);
+
+   
+
+
+    const onInputChange = (e) => {
+      setlabReport({ ...labReport, [e.target.name]: e.target.value });
+    };
+
+
     const onSubmitReport = async (e) => {
     e.preventDefault(); 
-     const res = await axios.patch(`http://localhost:8080/api/v1/patients/${patientId}`, { isRequestTest: true }).then((r) => {
+
+    await axios
+      .post("http://localhost:8080/api/v1/labReport", labReport)
+      .then((r) => {
+        if (r.status === 200) {
+          
+          //  toast.success("Successfully Registered Patient!", {
+          //   position: "top-right",
+          //  });
+        }
+      });
+
+    const res = await axios.patch(`http://localhost:8080/api/v1/patients/${patientId}`, { isRequestTest: true }).then((r) => {
       if (r.status === 200) {
         setIsRequestTest(true);
         setOpen(false);
-        toast.success(`${test} report is Successfull`,{position: "top-right",
+        toast.success(`${test} report Request is Successfull`,{position: "top-right",
         autoClose: 2000,
         hideProgressBar: false,
         closeOnClick: true,
@@ -31,6 +84,8 @@ export default function LabReportReqForm(prop) {
         theme: "light"});
      res.data.headers['Content-Type'];
       }});
+  
+   
   };
   return (
     
@@ -51,29 +106,33 @@ export default function LabReportReqForm(prop) {
           label="Test to be done"
           multiline
           required
+          value={reportName}
           maxRows={6}
           variant="outlined"
-          name="testToDone"  
+          name="reportName"  
           onChange={(e) => onInputChange(e)}
-          defaultValue=""
+        
         />
 
-<TextField
-          sx={{ ml:1, width: "57.5ch" }}
-          id="filled-multiline-flexible"
-          label="Lab technician"
-          multiline
-          required
-          variant="outlined"
-          name="labTechnician"  
-        //value={description}
-          onChange={(e) => onInputChange(e)}
-          defaultValue=""
-        />  
+<FormControl sx={{ m: 1,mt:5, width: "57.5ch" }}>
+            <InputLabel>Assign Lab Technician</InputLabel>
+            <Select
+              labelId="demo-simple-select-label"
+              id="demo-simple-select"
+              name="laboratarist_id"
+              value={laboratarist_id}
+              onChange={(e) => onInputChange(e)}
+              required
+            >
+              {laborotarist.map((laborotarist) => (
+                <MenuItem key={laborotarist.id} value={laborotarist.id}>
+                  {laborotarist.name}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
 
         <div >
- 
-
       </div>
    </div>
   

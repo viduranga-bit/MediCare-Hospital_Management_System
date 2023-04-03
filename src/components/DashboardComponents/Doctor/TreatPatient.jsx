@@ -29,6 +29,8 @@ const Item = styled(Paper)(({ theme }) => ({
 }));
 
 export default function TreatPatient() {
+
+ 
   const [open, setOpen] = React.useState(false);
   const [isRequestTest, setIsRequestTest] = React.useState(false);
 
@@ -36,13 +38,20 @@ export default function TreatPatient() {
     setOpen(true);
   };
   const patientId = new URLSearchParams(document.location.search).get("id");
-
+ 
   const [patientData, setPatientData] = useState([]);
   let navigate = useNavigate();
+  const [docID,SetDocID] =useState([])
 
   useEffect(() => {
     loadPatients();
 
+    if ("user" in localStorage){
+      const docID = JSON.parse(localStorage.getItem("user")).userId;
+
+       SetDocID(docID);
+    }
+  
   }, []);
 
 
@@ -275,6 +284,7 @@ export default function TreatPatient() {
       <ToastContainer />
       <LabrotaryRequestPopup
         pid={patientId}
+        docID={docID}
         setOpen={setOpen}
         open={open}
         setIsRequestTest={setIsRequestTest}

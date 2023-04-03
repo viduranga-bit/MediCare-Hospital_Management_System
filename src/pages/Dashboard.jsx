@@ -1,4 +1,4 @@
-import React from "react";
+  import React from "react";
 import axios from "axios";
 import { useNavigate,useLocation} from "react-router-dom";
 
@@ -17,6 +17,7 @@ import Branding from "../components/DashboardComponents/Branding";
 import LastComponent from "../components/DashboardComponents/LastComponent";
 import Appointment from "../components/DashboardComponents/Doctor/Appointment";
 import TreatedPatient from "../components/DashboardComponents/Doctor/TreatedPatient";
+import TestSection from "../components/DashboardComponents/Laborotarist/TestSection";
 
 const Dashboard = () => {
   const { currentColor, currentMode } = useStateContext();
@@ -69,6 +70,11 @@ const Dashboard = () => {
           
       {roleName?.role=="DOCTOR" ? <div className="flex gap-10 m-4 flex-wrap justify-center">
         <TreatedPatient />
+        <Overview />
+      </div>: ""}
+
+      {roleName?.role=="LABORARIST" ? <div className="flex m-4 flex-wrap justify-center">
+        <TestSection />
         <Overview />
       </div>: ""}
 

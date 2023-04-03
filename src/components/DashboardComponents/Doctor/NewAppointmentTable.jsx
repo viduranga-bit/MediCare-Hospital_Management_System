@@ -118,10 +118,14 @@ export default function NewAppointmentTable() {
                     );
                   })}
                   <TableCell>
-
-                  <Button disabled color="success" variant="contained"   onClick={(e)=>TreatPatientFunc(row.patientId)} >
+                  <div>
+                 {row.isTreated != 1 ?  <div><Button  color="success" variant="contained"   onClick={(e)=>TreatPatientFunc(row.patientId)} >
           Treat
-        </Button>
+        </Button></div>:<div><Button disabled color="success" variant="contained"   onClick={(e)=>TreatPatientFunc(row.patientId)} >
+          Treated
+        </Button></div>}
+                     </div>
+        
                   </TableCell>
                 </TableRow>
               );
