@@ -9,7 +9,6 @@ import Grid from "@mui/material/Grid";
 import Button from "@mui/material/Button";
 import FormControl from "@mui/joy/FormControl";
 import Textarea from "@mui/joy/Textarea";
-import LabrotaryRequestPopup from "./LabrotaryRequestPopup";
 import Radio from "@mui/material/Radio";
 import RadioGroup from "@mui/material/RadioGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
@@ -140,26 +139,13 @@ export default function TreatPatient() {
                     "& .MuiTextField-root": { mt: 2 },
                   }}
                 >
-                  <p className=" mb-2 align Right font-extrabold  text-slate-700">
-                    CAPTURE PATIENT'S SYMPTOMS
-                  </p>
+                 
 
                   <div>
-                    <FormControl
-                      sx={{
-                        mt: 2,
-                      }}
-                    >
-                      <Textarea
-                        value={symptoms}
-                        name="symptoms"
-                        onChange={(e) => onInputChange(e)}
-                        placeholder="Enter Patient's Symptoms one by one Here....."
-                        minRows={5}
-                      />
-                    </FormControl>
+                   
+                    
                     <p className=" mb-2 mt-8 align Right font-extrabold  text-slate-700">
-                      PATIENT'S CASE HISTORY
+                      Enter Price Of the Test
                     </p>
                     <FormControl
                       sx={{
@@ -170,14 +156,14 @@ export default function TreatPatient() {
                         value={case_history}
                         name="case_history"
                         onChange={(e) => onInputChange(e)}
-                        placeholder="Enter Patient's case history Here....."
-                        minRows={5}
+                        placeholder="Enter Price of the test in rupees Here....."
+                        minRows={1}
                       />
                     </FormControl>
                   </div>
 
                   <p className=" mt-7 mb-4 align Right font-extrabold  text-slate-700">
-                    SEND PATIENT TO LABROTARY
+                    SUBMIT TEST REPORT
                   </p>
                   <Grid container spacing={2}>
                     <Grid
@@ -188,95 +174,26 @@ export default function TreatPatient() {
                     >
                       <Item>
                         <p className="mt-3 mb-4  text-1xl align Right font-extrabold tracking-tight text-slate-600">
-                          {isRequestTest
-                            ? "Your Lab report Request has been Sent Successfully..."
-                            : "Send the Patient to labrotary by clicking following button"}
+                        
+                               Please Upload PDF file of Test Result using following button...
+    
                         </p>
-                        <p className="mt-3 mb-4  text-1xl align Right font-extrabold tracking-tight text-slate-600">
-                          {isRequestTest
-                            ? "Please Wait For the Result"
-                            : ""}
-                        </p>
-                        {!isRequestTest ?
+                    
                         <RoundedButton
                           onClick={handleClickOpen}
-                          label="Send Request"
-                        /> : ""}
+                          label="Submit Report"
+                        /> 
                       </Item>
-                      <p className=" mb-2 mt-8 align Right font-extrabold  text-slate-700">
-                        ADD MEDICATIONS
-                      </p>
-                      <FormControl
-                        sx={{
-                          mt: 2,
-                        }}
-                      >
-                        <Textarea
-                          value={medication}
-                          name="medication"
-                          onChange={(e) => onInputChange(e)}
-                          placeholder="Enter Patient's case history Here....."
-                          minRows={5}
-                        />
-                      </FormControl>
-                      <p className=" mb-2 mt-8 align Right font-extrabold  text-slate-700">
-                        SPECIAL NOTES OR DESCIPTION
-                      </p>
-                      <FormControl
-                        sx={{
-                          mt: 2,
-                        }}
-                      >
-                        <Textarea
-                          value={description}
-                          name="description"
-                          onChange={(e) => onInputChange(e)}
-                          placeholder="Add Sepcial Notes  Here....."
-                          minRows={5}
-                        />
-                      </FormControl>
+                     
+                      <Button color="success" variant="contained"   onClick={(e)=>TreatPatientFunc(row.patientId)} >
+          Treat
+        </Button>
 
-                      <p className=" mb-2 mt-8 align Right font-extrabold  text-slate-700">
-                        IS THIS PATIENT NEED TO BE ADMITTED ?
-                      </p>
-                      <FormControl
-                        sx={{
-                          m: 3,
-                        }}
-                      >
-                        <RadioGroup
-                          defaultValue="female"
-                          row
-                          aria-labelledby="demo-row-radio-buttons-group-label"
-                          name="row-radio-buttons-group"
-                        >
-                          <FormControlLabel
-                            sx={{
-                              m: 3,
-                              mr: 4,
-                            }}
-                            value="INPATIENT"
-                            control={<Radio />}
-                            label="Yes"
-                          />
-                          <FormControlLabel
-                            value="OUTPATIENT"
-                            control={<Radio />}
-                            label="No"
-                          />
-                        </RadioGroup>
-                      </FormControl>
+                      
                     </Grid>
                   </Grid>
                 </Box>
-                <Button
-                  sx={{ alignItems: "center", m: 1, width: "22ch" }}
-                  variant="contained"
-                  size="medium"
-                  type="submit"
-                >
-                  Submit
-                </Button>
+              
               </form>
             </div>
           </Grid>
@@ -284,13 +201,7 @@ export default function TreatPatient() {
       </div>
 
       <ToastContainer />
-      <LabrotaryRequestPopup
-        pid={patientId}
-        doctorId={doctorId}
-        setOpen={setOpen}
-        open={open}
-        setIsRequestTest={setIsRequestTest}
-      />
+     
     </div>
   );
 }

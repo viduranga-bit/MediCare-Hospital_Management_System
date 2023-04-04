@@ -34,7 +34,7 @@ import Appointment from "./components/DashboardComponents/Doctor/Appointment";
 import Medicine from "./pages/Medicine";
 import TreatPatient from "./components/DashboardComponents/Doctor/TreatPatient";
 import AppointmentSection from "./components/DashboardComponents/Doctor/ApointmentSection";
-
+import SubmitReport from "./components/DashboardComponents/Laborotarist/SubmitReport";
 const App = () => {
   const {
     currentMode
@@ -76,6 +76,10 @@ const App = () => {
             {/*Doctor routs*/}
             <Route path="/appointments" element={<AppointmentSection/>} />  
             <Route path="/treatPatient" element={<TreatPatient/>} />  
+           
+            
+            {/*Laborotarist routs*/}
+            <Route path="/submitReport" element={<SubmitReport/>} /> 
 
             {/* charts  */}
             <Route path="/line" element={<Line />} />

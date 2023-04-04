@@ -12,20 +12,21 @@ import FormControl from "@mui/material/FormControl";
 export default function LabReportReqForm(prop) {
 
  const patientId=prop.patID;
- const docID=prop.docID;
 
- console.log(docID);
+ const [docID,SetDocID] =useState([]);
+
  const [labReport, setlabReport] = useState({
   reportName: "",
   laboratarist_id: "",
-  patient_id:patientId,
-  doc_id:docID
+  doc_id:"",
+  patient_id:patientId
+  
 });
 
 const {
   reportName,
   laboratarist_id,
-  patient_id,
+  patient_id, 
   doc_id
 } = labReport;
 
@@ -38,7 +39,9 @@ const {
   
     }   
     const [laborotarist, setLaborotarist] = useState([]);
+   
 
+  
     useEffect(() => {
       axios
         .get("http://localhost:8080/api/v1/users/role/LABORARIST")
@@ -46,6 +49,19 @@ const {
           setLaborotarist(response.data);
           console.log(response.data);
         });
+
+        
+    if ("user" in localStorage){
+      const docID = JSON.parse(localStorage.getItem("user")).userId;
+
+       SetDocID(docID);
+
+       setlabReport(labReport => ({
+        ...labReport,
+        doc_id: docID
+      }));
+    }
+  
     }, []);
 
    
