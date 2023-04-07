@@ -51,11 +51,9 @@ export default function SignInSide() {
           name:res.data.name,
           email:res.data.email,
           userId:res.data.id
-
         }
         setUserId(res.data.id);
         localStorage.setItem("user", JSON.stringify(user));
-        
       });
   };
 

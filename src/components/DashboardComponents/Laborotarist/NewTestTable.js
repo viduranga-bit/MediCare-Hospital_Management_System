@@ -14,39 +14,38 @@ import { useNavigate } from 'react-router-dom';
 
 
 const columns = [
-  { id: "labReport_Id", label: "Report Id",align: "center", maxWidth: 20 },
+  { id: "reportId", label: "Report Id", align: "center", maxWidth: 20 },
 
-  
   {
     id: "reportName",
     label: "Report Name",
-    width:40,
+    width: 40,
     align: "center",
-    
   },
   {
-    id: "patient_id",
+    id: "patientId",
     label: "Patient ID",
-    maxWidth:20,
+    maxWidth: 20,
     align: "center",
-    
+  },
+  {
+    id: "patientName",
+    label: "Patient Name",
+    maxWidth: 20,
+    align: "center",
   },
   {
     id: "doc_id",
     label: "Doctor ID",
-    maxWidth:20,
+    maxWidth: 20,
     align: "center",
-    
   },
   {
-    id: "submitTime",
+    id: "requestDate",
     label: "Request Time",
-    maxWidth:20,
+    maxWidth: 20,
     align: "center",
-    
-    
   },
-  
 ];
 
 export default function NewTestTable() {
@@ -62,7 +61,7 @@ export default function NewTestTable() {
  
   const loadLabReport = async () => {
     const result = await axios
-      .get("http://localhost:8080/api/v1/labReport")
+      .get("http://localhost:8080/api/v1/labReport/get-lab-details")
       .then((res) => {
         setLabReport(res.data);
       });
@@ -126,7 +125,7 @@ export default function NewTestTable() {
                       color="success"
                       variant="contained"
                       onClick={(e) =>
-                        submitReportFunc(row.patient_id, row.labReport_Id)
+                        submitReportFunc(row.patientId, row.reportId)
                       }
                     >
                       Submit Result

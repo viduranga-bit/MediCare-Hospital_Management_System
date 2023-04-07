@@ -114,11 +114,7 @@ export default function SubmitReport() {
       });
 
 
-    const res = await axios.patch(
-      `http://localhost:8080/api/v1/patients/${patientId}`,
-      { isTreated: true }
-    );
-    res.data.headers["Content-Type"];
+   
   };
 
   return (

@@ -1,3 +1,4 @@
+/* eslint-disable quotes */
   import React from "react";
 import axios from "axios";
 import { useNavigate,useLocation} from "react-router-dom";
@@ -18,73 +19,80 @@ import LastComponent from "../components/DashboardComponents/LastComponent";
 import Appointment from "../components/DashboardComponents/Doctor/Appointment";
 import TreatedPatient from "../components/DashboardComponents/Doctor/TreatedPatient";
 import TestSection from "../components/DashboardComponents/Laborotarist/TestSection";
-
+import Spinner from "../components/ExtraComponents/Spinner";
+import { HashLoader } from "react-spinners";
 const Dashboard = () => {
   const { currentColor, currentMode } = useStateContext();
-  const [DepartmentsList, setDepartments] = useState([]);
-  const location = useLocation();
-
+ 
 
   const [roleName, setRoleName] = useState();
-  
-  useEffect(() => {
-    if ("user" in localStorage) {
-      
-      setRoleName(JSON.parse(localStorage.getItem("user")));
-    
-    }
-  },[location]);
+  const getRole = JSON.parse(localStorage.getItem("user"));
 
-  useEffect(() => {
-    loadDepartments();
-  }, []);
-
-  const loadDepartments = async () => {
-    const result = await axios
-      .get("http://localhost:8080/api/v1/departments")
-      .then((res) => {
-        console.log(res.data);
-        setDepartments(res.data);
-        
-      });
-  };
+  useEffect(()=>{
+    setRoleName(getRole);
+  },[getRole])
 
 
 
   return (
-    
-    <div className="mt-13">
-    
-      <UsersCounts />
-      <div className="flex gap-10 flex-wrap justify-center">
-        
-        {roleName?.role=="ADMIN" ? <div className="bg-white dark:text-gray-400 dark:bg-secondary-dark-bg m-3 p-4 rounded-2xl md:w-780  "> <Calendar />  </div>: ""}
-          
-        <div>
-          {roleName?.role=="ADMIN" ?<EarningChart />: ""}
-          {roleName?.role=="ADMIN" ? <PieChart />: ""}
-         
+    // eslint-disable-next-line react/jsx-no-useless-fragment
+    <>
+      {roleName?.role ? (
+        <div className="mt-13">
+          <div className="flex gap-10 flex-wrap justify-center">
+            {roleName?.role == "ADMIN" ? (
+              <div className="bg-white dark:text-gray-400 dark:bg-secondary-dark-bg m-3 p-4 rounded-2xl md:w-780  ">
+                {" "}
+               
+              </div>
+            ) : (
+              ""
+            )}
+
+            <div>
+              {roleName?.role == "ADMIN" ? <EarningChart /> : ""}
+              {roleName?.role == "ADMIN" ? <PieChart /> : ""}
+            </div>
+          </div>
+          {roleName?.role == "DOCTOR" ? (
+            <div className="flex gap-10 m-4 flex-wrap justify-center">
+              {" "}
+              <Appointment /> <Data1 />
+            </div>
+          ) : (
+            ""
+          )}
+
+          {roleName?.role == "DOCTOR" ? (
+            <div className="flex gap-10 m-4 flex-wrap justify-center">
+              <TreatedPatient />
+              <Overview />
+            </div>
+          ) : (
+            ""
+          )}
+
+          {roleName?.role == "LABORARIST" ? (
+            <div className="flex m-4 flex-wrap justify-center">
+              <TestSection />
+              <Overview />
+            </div>
+          ) : (
+            ""
+          )}
+
+          <div className="flex flex-wrap justify-center">
+            <WeeklyStat />
+            <Branding />
+            <LastComponent />
+          </div>
         </div>
-      </div>
-      {roleName?.role=="DOCTOR" ? <div className="flex gap-10 m-4 flex-wrap justify-center"> <Appointment /> <Data1 /></div>: ""}
-          
-      {roleName?.role=="DOCTOR" ? <div className="flex gap-10 m-4 flex-wrap justify-center">
-        <TreatedPatient />
-        <Overview />
-      </div>: ""}
-
-      {roleName?.role=="LABORARIST" ? <div className="flex m-4 flex-wrap justify-center">
-        <TestSection />
-        <Overview />
-      </div>: ""}
-
-      <div className="flex flex-wrap justify-center">
-        <WeeklyStat />
-        <Branding />
-        <LastComponent />
-      </div>
-    </div>
-
+      ) : (
+        <p>
+          <HashLoader />
+        </p>
+      )}
+    </>
   );
 };
 
