@@ -29,8 +29,6 @@ const Item = styled(Paper)(({ theme }) => ({
 }));
 
 export default function TreatPatient() {
-
- 
   const [open, setOpen] = React.useState(false);
   const [isRequestTest, setIsRequestTest] = React.useState(false);
 
@@ -38,32 +36,29 @@ export default function TreatPatient() {
     setOpen(true);
   };
   const patientId = new URLSearchParams(document.location.search).get("id");
- 
+
   const [patientData, setPatientData] = useState([]);
   let navigate = useNavigate();
-  const [docID,SetDocID] =useState([])
+  const [docID, SetDocID] = useState([]);
 
- const doctorId = docID;
+  const doctorId = docID;
 
   useEffect(() => {
     loadPatients();
 
-    if ("user" in localStorage){
+    if ("user" in localStorage) {
       const docID = JSON.parse(localStorage.getItem("user")).userId;
 
-       SetDocID(docID);
+      SetDocID(docID);
     }
-  
   }, []);
-
-
 
   const loadPatients = async () => {
     const result = await axios
       .get(`http://localhost:8080/api/v1/patients/${patientId}`)
       .then((res) => {
         setPatientData(res.data);
-        setIsRequestTest(res.data.isRequestTest)
+        setIsRequestTest(res.data.isRequestTest);
       });
   };
 
@@ -75,7 +70,7 @@ export default function TreatPatient() {
   });
   const { symptoms, case_history, medication, description } = prescription;
 
-  const onInputChange = (e) => { 
+  const onInputChange = (e) => {
     setPrescription({ ...prescription, [e.target.name]: e.target.value });
   };
   const onSubmit = async (e) => {
@@ -193,15 +188,25 @@ export default function TreatPatient() {
                             : "Send the Patient to labrotary by clicking following button"}
                         </p>
                         <p className="mt-3 mb-4  text-1xl align Right font-extrabold tracking-tight text-slate-600">
-                          {isRequestTest
-                            ? "Please Wait For the Result"
-                            : ""}
+                          {isRequestTest ? "Please Wait For the Result" : ""}
                         </p>
-                        {!isRequestTest ?
-                        <RoundedButton
-                          onClick={handleClickOpen}
-                          label="Send Request"
-                        /> : ""}
+                        {!isRequestTest ? (
+                          <RoundedButton
+                            onClick={handleClickOpen}
+                            label="Send Request"
+                          />
+                        ) : (
+                          ""
+                        )}
+
+                        {/* {pdfUrl && (
+                          <iframe
+                            src={`https://docs.google.com/gview?url=${pdfUrl}&embedded=true`}
+                            width="600"
+                            height="800"
+                            frameborder="0"
+                          ></iframe>
+                        )} */}
                       </Item>
                       <p className=" mb-2 mt-8 align Right font-extrabold  text-slate-700">
                         ADD MEDICATIONS

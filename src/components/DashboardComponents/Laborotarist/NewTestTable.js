@@ -52,11 +52,14 @@ const columns = [
 export default function NewTestTable() {
 
   const [labReport, setLabReport] = useState([]);
+  const [patientData, setPatientData] = useState([]);
+
 
   useEffect(() => {
     loadLabReport();
+  
   }, []);
-
+ 
   const loadLabReport = async () => {
     const result = await axios
       .get("http://localhost:8080/api/v1/labReport")
@@ -64,11 +67,14 @@ export default function NewTestTable() {
         setLabReport(res.data);
       });
   };
+      
   let navigate = useNavigate();
-  const submitReportFunc = (patientId) =>{
-    navigate(`/submitReport?id=${patientId}`)
+  const submitReportFunc = (patientId,lid) =>{
+    navigate(`/submitReport?id=${patientId}&labid=${lid}`);
 
  }
+
+ const revLabReport = labReport.slice().reverse();
 
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
@@ -97,11 +103,12 @@ export default function NewTestTable() {
                   {column.label}
                 </TableCell>
               ))}
-              <TableCell style={{textAlign:'center'}}>Options</TableCell>
+              
+              <TableCell style={{ textAlign: "center" }}>Options</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {labReport.map((row) => {
+            {revLabReport.map((row) => {
               return (
                 <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
                   {columns.map((column) => {
@@ -115,9 +122,15 @@ export default function NewTestTable() {
                     );
                   })}
                   <TableCell>
-                    <Button color="success" variant="contained"   onClick={(e)=>submitReportFunc(row.patient_id)} >
-            Submit Result
-            </Button>
+                    <Button
+                      color="success"
+                      variant="contained"
+                      onClick={(e) =>
+                        submitReportFunc(row.patient_id, row.labReport_Id)
+                      }
+                    >
+                      Submit Result
+                    </Button>
                   </TableCell>
                 </TableRow>
               );
@@ -134,8 +147,6 @@ export default function NewTestTable() {
         onPageChange={handleChangePage}
         onRowsPerPageChange={handleChangeRowsPerPage}
       />
-      
     </Paper>
-    
   );
 }

@@ -27,9 +27,7 @@ const Item = styled(Paper)(({ theme }) => ({
   color: theme.palette.text.secondary,
 }));
 
-export default function TreatPatient() {
-
- 
+export default function SubmitReport() {
   const [open, setOpen] = React.useState(false);
   const [isRequestTest, setIsRequestTest] = React.useState(false);
 
@@ -37,53 +35,59 @@ export default function TreatPatient() {
     setOpen(true);
   };
   const patientId = new URLSearchParams(document.location.search).get("id");
- 
+  const reportId = new URLSearchParams(document.location.search).get("labid");
   const [patientData, setPatientData] = useState([]);
   let navigate = useNavigate();
-  const [docID,SetDocID] =useState([])
+  const [docID, SetDocID] = useState([]);
 
- const doctorId = docID;
+  const doctorId = docID;
 
   useEffect(() => {
     loadPatients();
 
-    if ("user" in localStorage){
+    if ("user" in localStorage) {
       const docID = JSON.parse(localStorage.getItem("user")).userId;
 
-       SetDocID(docID);
+      SetDocID(docID);
     }
-  
   }, []);
-
-
 
   const loadPatients = async () => {
     const result = await axios
       .get(`http://localhost:8080/api/v1/patients/${patientId}`)
       .then((res) => {
         setPatientData(res.data);
-        setIsRequestTest(res.data.isRequestTest)
+        setIsRequestTest(res.data.isRequestTest);
       });
   };
-
-  const [prescription, setPrescription] = useState({
-    symptoms: "",
-    case_history: "",
-    medication: "",
-    description: "",
+  const [file, setFile] = useState(null);
+  const [labprice, setPrice] = useState({
+    price:""
   });
-  const { symptoms, case_history, medication, description } = prescription;
 
-  const onInputChange = (e) => { 
-    setPrescription({ ...prescription, [e.target.name]: e.target.value });
+  const {price}=labprice
+
+  const onInputChange = (e) => {
+    setPrice({ ...labprice, [e.target.name]: e.target.value });
   };
   const onSubmit = async (e) => {
     e.preventDefault();
+    const formData = new FormData();
+    formData.append("file", file);
+    formData.append("price", String(price)  );
     await axios
-      .post("http://localhost:8080/api/v1/prescription", prescription)
+      .post(
+        `http://localhost:8080/api/v1/labReport/upload/${reportId}`,
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      )
       .then((r) => {
         if (r.status === 200) {
-          toast.success("Patient Treatment is Successfull", {
+          toast.success("Successfully Upload Test Report", {
             position: "top-right",
             autoClose: 2000,
             hideProgressBar: false,
@@ -94,9 +98,9 @@ export default function TreatPatient() {
             theme: "light",
           });
 
-          navigate(-1);
+          //  navigate(-1);
         } else {
-          toast.error("Patient Treatment is Unsuccessfull", {
+          toast.error("File Upload is Unsuccessfull", {
             position: "top-right",
             autoClose: 2000,
             hideProgressBar: false,
@@ -108,6 +112,7 @@ export default function TreatPatient() {
           });
         }
       });
+
 
     const res = await axios.patch(
       `http://localhost:8080/api/v1/patients/${patientId}`,
@@ -121,7 +126,7 @@ export default function TreatPatient() {
       <div className="border shadow p-5 md:m-12 md:mt-4 md:p-10 bg-white rounded-3xl">
         <Grid container spacing={2}>
           <Grid item xs={10}>
-            <Header title="Treat Patient - " value={patientData?.patientName} />
+            <Header title="Test Report - " value={patientData?.patientName} />
             <p className="ml-1  text-1xl align Right font-extrabold tracking-tight text-slate-700">
               Age : {patientData?.age} | Gender : {patientData?.gender}
             </p>
@@ -139,11 +144,7 @@ export default function TreatPatient() {
                     "& .MuiTextField-root": { mt: 2 },
                   }}
                 >
-                 
-
                   <div>
-                   
-                    
                     <p className=" mb-2 mt-8 align Right font-extrabold  text-slate-700">
                       Enter Price Of the Test
                     </p>
@@ -153,8 +154,9 @@ export default function TreatPatient() {
                       }}
                     >
                       <Textarea
-                        value={case_history}
-                        name="case_history"
+                        value={price}
+                        required
+                        name="price"
                         onChange={(e) => onInputChange(e)}
                         placeholder="Enter Price of the test in rupees Here....."
                         minRows={1}
@@ -174,26 +176,24 @@ export default function TreatPatient() {
                     >
                       <Item>
                         <p className="mt-3 mb-4  text-1xl align Right font-extrabold tracking-tight text-slate-600">
-                        
-                               Please Upload PDF file of Test Result using following button...
-    
+                          Please Choose PDF file of Test Result using following
+                          button...
                         </p>
-                    
-                        <RoundedButton
-                          onClick={handleClickOpen}
-                          label="Submit Report"
-                        /> 
-                      </Item>
-                     
-                      <Button color="success" variant="contained"   onClick={(e)=>TreatPatientFunc(row.patientId)} >
-          Treat
-        </Button>
 
-                      
+                        <Button variant="contained" component="label">
+                          <input
+                            type="file"
+                            onChange={(e) => setFile(e.target.files[0])}
+                          />
+                        </Button>
+                      </Item>
+
+                      <Button sx={{ mt: 4 }} variant="contained" type="submit">
+                        Submit Test Details
+                      </Button>
                     </Grid>
                   </Grid>
                 </Box>
-              
               </form>
             </div>
           </Grid>
@@ -201,7 +201,6 @@ export default function TreatPatient() {
       </div>
 
       <ToastContainer />
-     
     </div>
   );
 }
