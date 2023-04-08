@@ -39,7 +39,8 @@ const Dashboard = () => {
     <>
       {roleName?.role ? (
         <div className="mt-13">
-          <div className="flex gap-10 flex-wrap justify-center">
+        <UsersCounts/>
+                 <div className="flex gap-10 flex-wrap justify-center">
             {roleName?.role == "ADMIN" ? (
               <div className="bg-white dark:text-gray-400 dark:bg-secondary-dark-bg m-3 p-4 rounded-2xl md:w-780  ">
                 {" "}

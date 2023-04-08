@@ -694,16 +694,8 @@ export const earningData = [
     iconColor: "rgb(0, 194, 146)",
     iconBg: "rgb(235, 250, 242)",
     pcColor: "red-600",
-  },
-  {
-    icon: <HiOutlineRefresh />,
-    amount: "39,354",
-    percentage: "-12%",
-    title: "Laboratorist",
-    iconColor: "rgb(0, 194, 146)",
-    iconBg: "rgb(235, 250, 242)",
-    pcColor: "red-600",
-  },
+  } 
+ 
 ];
 
 export const recentTransactions = [
