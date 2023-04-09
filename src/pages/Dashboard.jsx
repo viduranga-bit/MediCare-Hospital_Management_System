@@ -1,18 +1,12 @@
-/* eslint-disable quotes */
-  import React from "react";
+import React from "react";
 import axios from "axios";
-import { useNavigate,useLocation} from "react-router-dom";
-
 import { useState, useEffect } from "react";
-
 import { useStateContext } from "../contexts/ContextProvider";
-
-import { Calendar } from ".";
-import UsersCounts from "../components/DashboardComponents/UsersCounts";
-import EarningChart from "../components/DashboardComponents/EarningChart";
-import PieChart from "../components/DashboardComponents/PieChart";
-import Data1 from "../components/DashboardComponents/Data1";
-import Overview from "../components/DashboardComponents/Overview";
+import UsersCounts from '../components/DashboardComponents/UsersCounts';
+import EarningChart from '../components/DashboardComponents/EarningChart';
+import PieChart from '../components/DashboardComponents/PieChart';
+import Data1 from '../components/DashboardComponents/Data1';
+import Overview from '../components/DashboardComponents/Overview';
 import WeeklyStat from "../components/DashboardComponents/WeeklyStat";
 import Branding from "../components/DashboardComponents/Branding";
 import LastComponent from "../components/DashboardComponents/LastComponent";
@@ -26,7 +20,7 @@ const Dashboard = () => {
  
 
   const [roleName, setRoleName] = useState();
-  const getRole = JSON.parse(localStorage.getItem("user"));
+  const getRole = JSON.parse(localStorage.getItem('user'));
 
   useEffect(()=>{
     setRoleName(getRole);
@@ -39,12 +33,11 @@ const Dashboard = () => {
     <>
       {roleName?.role ? (
         <div className="mt-13">
-        <UsersCounts/>
-                 <div className="flex gap-10 flex-wrap justify-center">
+          <UsersCounts />
+          <div className="flex gap-10 flex-wrap justify-center">
             {roleName?.role == "ADMIN" ? (
-              <div className="bg-white dark:text-gray-400 dark:bg-secondary-dark-bg m-3 p-4 rounded-2xl md:w-780  ">
+              <div className="bg- white dark:text-gray-400 dark:bg-secondary-dark-bg m-3 p-4 rounded-2xl md:w-780  ">
                 {" "}
-               
               </div>
             ) : (
               ""
@@ -89,8 +82,8 @@ const Dashboard = () => {
           </div>
         </div>
       ) : (
-        <p>
-          <HashLoader />
+        <p className="flex gap-10 m-4 flex-wrap justify-center">
+          <HashLoader color={currentColor} />
         </p>
       )}
     </>

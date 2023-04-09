@@ -9,7 +9,7 @@ export default function UsersCounts() {
           {earningData.map((item) => (
             <div
               key={item.title}
-              className=" shadow-lg bg-white h-25 dark:text-gray-200 dark:bg-secondary-dark-bg w-44 p-4 pt-4 rounded-2xl "
+              className="border shadow-lg bg-white h-25 dark:text-gray-200 dark:bg-secondary-dark-bg w-44 p-4 pt-4 rounded-2xl "
             >
               <button
                 type="button"
@@ -20,7 +20,7 @@ export default function UsersCounts() {
               </button>
               
               <p className="mt-3">
-                <span className="text-lg font-semibold"></span>
+                <span className="text-lg font-semibold" />
               </p>
               <p className="text-sm text-gray-400  mt-1">{item.title}</p>
             </div>

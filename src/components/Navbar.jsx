@@ -48,8 +48,6 @@ const Navbar = () => {
     }
   }, [screenSize]);
 
-  
- 
 
   const handleActiveMenu = () => setActiveMenu(!activeMenu);
   const usr = JSON.parse(localStorage.getItem("user"));
@@ -89,7 +87,7 @@ const Navbar = () => {
         <TooltipComponent content="Profile" position="BottomCenter">
           <div
             className="flex items-center gap-2 cursor-pointer p-1 hover:bg-light-gray rounded-lg"
-            onClick={() => handleClick("userProfile")}
+            onClick={() => handleClick('userProfile')}
           >
             <img
               className="rounded-full w-8 h-8"
