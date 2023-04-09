@@ -24,7 +24,7 @@ const Dashboard = () => {
 
   useEffect(()=>{
     setRoleName(getRole);
-  },[getRole])
+  },[])
 
 
 

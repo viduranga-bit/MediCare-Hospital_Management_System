@@ -44,9 +44,18 @@ export default function TreatedPatient() {
 
                 <div>
                   <p className="text-md font-semibold">{item.patientName}</p>
-                  <p className="text-sm text-green-600">{item.patientName}</p>
+                  <p className="text-sm text-green-600">{item.patientType}</p>
                 </div>
+
+
+
+
               </div>
+              <Chip>
+                className="border shadow p-5"
+                sx={{ height: "50px" }}
+                label={"sdcc"}
+                ></Chip>
             </div>
           ))}
         </div>

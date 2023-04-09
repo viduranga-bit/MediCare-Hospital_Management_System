@@ -70,11 +70,20 @@ export default function SubmitReport() {
   const onInputChange = (e) => {
     setPrice({ ...labprice, [e.target.name]: e.target.value });
   };
+
+
   const onSubmit = async (e) => {
     e.preventDefault();
     const formData = new FormData();
     formData.append("file", file);
     formData.append("price", String(price)  );
+
+    const res = await axios.patch(
+          `http://localhost:8080/api/v1/patients/isSubmit/${patientId}`,
+        { isSubmitReport: true }
+    );
+    // res.data.headers["Content-Type"];
+
     await axios
       .post(
         `http://localhost:8080/api/v1/labReport/upload/${reportId}`,

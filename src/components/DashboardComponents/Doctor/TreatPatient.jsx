@@ -117,11 +117,11 @@ export default function TreatPatient() {
           }
         });
 
-    // const res = await axios.patch(
-    //   `http://localhost:8080/api/v1/patients/${patientId}`,
-    //   { isTreated: true }
-    // );
-    // res.data.headers["Content-Type"];
+    const res = await axios.patch(
+      `http://localhost:8080/api/v1/patients/${patientId}`,
+      { isTreated: true }
+    );
+    res.data.headers["Content-Type"];
   };
 
   const filteredReports = labReportData.filter(
@@ -188,6 +188,7 @@ export default function TreatPatient() {
                           }}
                       >
                         <Textarea
+                            required
                             value={case_history}
                             name="case_history"
                             onChange={(e) => onInputChange(e)}
@@ -260,6 +261,7 @@ export default function TreatPatient() {
                             }}
                         >
                           <Textarea
+                              required
                               value={medication}
                               name="medication"
                               onChange={(e) => onInputChange(e)}
@@ -276,6 +278,7 @@ export default function TreatPatient() {
                             }}
                         >
                           <Textarea
+                              required
                               value={description}
                               name="description"
                               onChange={(e) => onInputChange(e)}
