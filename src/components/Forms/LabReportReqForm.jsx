@@ -12,8 +12,9 @@ import FormControl from "@mui/material/FormControl";
 export default function LabReportReqForm(prop) {
 
  const patientId=prop.patID;
+ const [doc_id, setdocId] = useState();
 
- const [docID,SetDocID] =useState([]);
+ const docID = doc_id?.userId;
 
  const [labReport, setlabReport] = useState({
   reportName: "",
@@ -27,7 +28,6 @@ const {
   reportName,
   laboratarist_id,
   patient_id, 
-  doc_id
 } = labReport;
 
 
@@ -40,6 +40,13 @@ const {
     }   
     const [laborotarist, setLaborotarist] = useState([]);
    
+    
+
+    useEffect(() => {
+      if ("user" in localStorage) {
+        setdocId(JSON.parse(localStorage.getItem("user")));
+      }
+    }, []); 
 
   
     useEffect(() => {
@@ -49,18 +56,6 @@ const {
           setLaborotarist(response.data);
           console.log(response.data);
         });
-
-        
-    if ("user" in localStorage){
-      const docID = JSON.parse(localStorage.getItem("user")).userId;
-
-       SetDocID(docID);
-
-       setlabReport(labReport => ({
-        ...labReport,
-        doc_id: docID
-      }));
-    }
   
     }, []);
 
@@ -74,12 +69,11 @@ const {
 
     const onSubmitReport = async (e) => {
     e.preventDefault(); 
-
+    const labreportData = { ...labReport, doc_id:docID };
     await axios
-      .post("http://localhost:8080/api/v1/labReport", labReport)
+      .post("http://localhost:8080/api/v1/labReport", labreportData)
       .then((r) => {
         if (r.status === 200) {
-          
           //  toast.success("Successfully Registered Patient!", {
           //   position: "top-right",
           //  });
@@ -98,7 +92,7 @@ const {
         draggable: true,
         progress: undefined,
         theme: "light"});
-     res.data.headers['Content-Type'];
+    
       }});
   
    

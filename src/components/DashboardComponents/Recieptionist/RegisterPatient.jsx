@@ -23,9 +23,9 @@ export default function RegisterPatient() {
     }
   }, []); 
 
-  console.log(resID?.userId);
-
-
+ 
+  const recepID = resID?.userId;
+  console.log(recepID);
   const [doctors, setDoctors] = useState([]);
 
   useEffect(() => {
@@ -52,7 +52,7 @@ export default function RegisterPatient() {
     gender: "",
     doc_id: "",
     age: "",
-    res_id:""
+    res_id: "",
   });
   const {
     patientName,
@@ -69,7 +69,7 @@ export default function RegisterPatient() {
     gender,
     doc_id,
     age,
-    res_id
+    
   } = patient;
 
   const onInputChange = (e) => {
@@ -77,11 +77,12 @@ export default function RegisterPatient() {
   };
   const onSubmit = async (e) => {
     e.preventDefault(); 
+    const patientData = { ...patient, res_id: resID?.userId };
     await axios
-      .post("http://localhost:8080/api/v1/patients", patient)
+      .post("http://localhost:8080/api/v1/patients", patientData)
       .then((r) => {
         if (r.status === 200) {
-           navigate(`/printPatientDetails?id=${r.data.patientId}`);
+          navigate(`/printPatientDetails?id=${r.data.patientId}`);
           toast.success("Successfully Registered Patient!", {
             position: "top-right",
           });
@@ -275,6 +276,8 @@ export default function RegisterPatient() {
             label="Email Address"
             defaultValue=""
           />
+
+      
         </div>
       </Box>
       <Button

@@ -35,6 +35,7 @@ import Medicine from "./pages/Medicine";
 import TreatPatient from "./components/DashboardComponents/Doctor/TreatPatient";
 import AppointmentSection from "./components/DashboardComponents/Doctor/ApointmentSection";
 import SubmitReport from "./components/DashboardComponents/Laborotarist/SubmitReport";
+import IssueMedicine from "./components/DashboardComponents/Pharmacist/IssueMedicine";
 const App = () => {
   const {
     currentMode
@@ -55,7 +56,7 @@ const App = () => {
         <Routes>
           {/* dashboard  */}
           <Route path="/login" element={<Login />} />
-            <Route      element={<Main/>}>
+          <Route element={<Main />}>
             <Route path="/" element={<Dashboard />} />
             <Route path="/doctor" element={<Doctor />} />
             <Route path="/department" element={<Departments />} />
@@ -66,26 +67,32 @@ const App = () => {
             <Route path="/accountant" element={<Accountant />} />
             <Route path="/recieptionist" element={<Recieptionist />} />
             <Route path="/medicine" element={<Medicine />} />
-            <Route path="/editor" element={<Editor />} />
-            <Route path="/calendar" element={<Calendar />} />
-            
+
             {/*Recieptionist routs*/}
-            <Route path="/registerPatient" element={<RegisterPatientSection />} />
-            <Route path="/printPatientDetails" element={<PrintAdmissionCard/>}/>
+            <Route
+              path="/registerPatient"
+              element={<RegisterPatientSection />}
+            />
+            <Route
+              path="/printPatientDetails"
+              element={<PrintAdmissionCard />}
+            />
 
             {/*Doctor routs*/}
-            <Route path="/appointments" element={<AppointmentSection/>} />  
-            <Route path="/treatPatient" element={<TreatPatient/>} />  
-           
-            
+            <Route path="/appointments" element={<AppointmentSection />} />
+            <Route path="/treatPatient" element={<TreatPatient />} />
+
             {/*Laborotarist routs*/}
-            <Route path="/submitReport" element={<SubmitReport/>} /> 
+            <Route path="/submitReport" element={<SubmitReport />} />
+
+            {/*Pharmacist routs*/}
+            <Route path="/issueMedicine" element={<IssueMedicine />} />
 
             {/* charts  */}
             <Route path="/line" element={<Line />} />
             <Route path="/area" element={<Area />} />
             <Route path="/bar" element={<Bar />} />
-            <Route path="/pie" element={<Pie />} /> 
+            <Route path="/pie" element={<Pie />} />
             <Route path="/financial" element={<Financial />} />
             <Route path="/color-mapping" element={<ColorMapping />} />
             <Route path="/pyramid" element={<Pyramid />} />

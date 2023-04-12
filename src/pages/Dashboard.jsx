@@ -15,6 +15,8 @@ import TreatedPatient from "../components/DashboardComponents/Doctor/TreatedPati
 import TestSection from "../components/DashboardComponents/Laborotarist/TestSection";
 import Spinner from "../components/ExtraComponents/Spinner";
 import { HashLoader } from "react-spinners";
+import ReportSubmissionOverview from "../components/DashboardComponents/Laborotarist/ReportSubmissionOverview";
+import PharmacistListSection from "../components/DashboardComponents/Pharmacist/PharmacistListSection"
 const Dashboard = () => {
   const { currentColor, currentMode } = useStateContext();
  
@@ -67,19 +69,31 @@ const Dashboard = () => {
           )}
 
           {roleName?.role == "LABORARIST" ? (
-            <div className="flex m-4 flex-wrap justify-center">
+            <div className="flex  m-4 flex-wrap justify-center">
               <TestSection />
-              <Overview />
+              <ReportSubmissionOverview />
             </div>
           ) : (
             ""
           )}
 
-          <div className="flex flex-wrap justify-center">
-            <WeeklyStat />
-            <Branding />
-            <LastComponent />
-          </div>
+          {roleName?.role == "RECIEPTIONIST" ? (
+            <div className="flex m-3 flex-wrap justify-center">
+              <Overview />
+              <LastComponent />
+            </div>
+          ) : (
+            ""
+          )}
+
+          {roleName?.role == "PHARMACIST" ? (
+            <div className="flex m-3 flex-wrap justify-center">
+              <PharmacistListSection />
+              <LastComponent />
+            </div>
+          ) : (
+            ""
+          )}
         </div>
       ) : (
         <p className="flex gap-10 m-4 flex-wrap justify-center">

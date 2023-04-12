@@ -57,35 +57,63 @@ export default function Overview() {
    console.log(lastWeekData)
   return (
     <div>
-      <div className=" shadow p-5 border bg-white dark:text-gray-200 dark:bg-secondary-dark-bg p-6 rounded-2xl w-96 md:w-760">
-          <div className="flex justify-between items-center gap-2 mb-10">
-            <p className="text-xl font-semibold"> Patient's Registration Overview</p>
-            <DropDown currentMode={currentMode} />
-          </div>
-          <div className="md:w-full overflow-auto">
-
-              <BarChart
-                  width={710}
-                  height={400}
-                  data={lastWeekData}
-                  margin={{
-                      top: 5,
-                      right: 30,
-                      left: 20,
-                      bottom: 5
-                  }}
-              >
-                  <CartesianGrid strokeDasharray="4 4" />
-                  <XAxis dataKey="date" label={{ value: 'Date',position: 'insideBottomRight', offset: -20 }} />
-                  <YAxis dataKey="count" label={{ value: 'Number Of Patients', angle: -90, position: 'insideLeft', offset: 10 }}  />
-                  <Tooltip />
-                  <Legend />
-                  <Bar dataKey="count" fill={currentColor} />
-
-              </BarChart>
-
-          </div>
+      <div className=" shadow p-5 border bg-white dark:text-gray-200 dark:bg-secondary-dark-bg p-6 rounded-2xl w-96 md:w-800">
+        <div className="flex justify-between items-center gap-2 mb-10">
+          <p className="text-xl font-semibold">
+            {" "}
+            Patient's Registration Overview
+          </p>
+          <DropDown currentMode={currentMode} />
         </div>
+        <div className="md:w-full overflow-auto">
+          <BarChart
+            width={710}
+            height={400}
+            data={lastWeekData}
+            margin={{
+              top: 5,
+              right: 30,
+              left: 20,
+              bottom: 5,
+            }}
+          >
+            <defs>
+              <linearGradient
+                id="colorUv"
+                x1="0"
+                y1="0"
+                x2="0"
+                y2="100%"
+                spreadMethod="reflect"
+              >
+                <stop offset="0" stopColor="#36EC63" />
+                <stop offset="1" stopColor={currentColor} />
+              </linearGradient>
+            </defs>
+            <CartesianGrid strokeDasharray="2 2" />
+            <XAxis
+              dataKey="date"
+              label={{
+                value: "Date",
+                position: "insideBottomRight",
+                offset: -20,
+              }}
+            />
+            <YAxis
+              dataKey="count"
+              label={{
+                value: "Number Of Patients",
+                angle: -90,
+                position: "insideLeft",
+                offset: 10,
+              }}
+            />
+            <Tooltip />
+            <Legend />
+            <Bar dataKey="count" barSize={45} fill="url(#colorUv)" />
+          </BarChart>
+        </div>
+      </div>
     </div>
-  )
+  );
 }

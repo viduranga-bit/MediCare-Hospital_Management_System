@@ -1,4 +1,4 @@
-import React from 'react'
+import React from "react";
 import Paper from "@mui/material/Paper";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -8,17 +8,22 @@ import TableHead from "@mui/material/TableHead";
 import TablePagination from "@mui/material/TablePagination";
 import TableRow from "@mui/material/TableRow";
 import axios from "axios";
-import { useState, useEffect} from "react";
-import Button from '@mui/material/Button';
-import { useNavigate } from 'react-router-dom';
+import { useState, useEffect } from "react";
+import Button from "@mui/material/Button";
+import { useNavigate } from "react-router-dom";
 import { useStateContext } from "../../../contexts/ContextProvider";
 
 const columns = [
-  { id: "reportId", label: "Report Id", align: "center", maxWidth: 20 },
+  {
+    id: "prescriptionId",
+    label: "Prescription ID",
+    align: "center",
+    maxWidth: 20,
+  },
 
   {
-    id: "reportName",
-    label: "Report Name",
+    id: "patient_id",
+    label: "Patient ID",
     width: 40,
     align: "center",
   },
@@ -31,47 +36,40 @@ const columns = [
   },
   {
     id: "doctorName",
-    label: "Requested By",
-    maxWidth: 20,
-    align: "center",
-  },
-  {
-    id: "requestDate",
-    label: "Request Time",
+    label: "Treated By",
     maxWidth: 20,
     align: "center",
   },
 ];
 
-export default function NewTestTable() {
-    const { currentColor, currentMode } = useStateContext();
+export default function NewRequirementsTable() {
+  const { currentColor, currentMode } = useStateContext();
 
-  const [labReport, setLabReport] = useState([]);
-  const [patientData, setPatientData] = useState([]);
-  
- console.log(labReport);
-  useEffect(() => {
-    loadLabReport();
-  
-  }, []);
- 
-  const loadLabReport = async () => {
+  const [prescriptionData, setPrescription] = useState([]);
+
+
+
+  const loadPrescription = async () => {
     const result = await axios
-      .get("http://localhost:8080/api/v1/labReport/get-lab-details")
+      .get("http://localhost:8080/api/v1/prescription/get-prescription-details")
       .then((res) => {
-          const LaboTest = res.data.filter(labReport => labReport.laboratarist_id ==JSON.parse(localStorage.getItem("user")).userId);
-          setLabReport(LaboTest);
-          console.log(LaboTest);
+        const LaboTest = res.data;
+        setPrescription(LaboTest);
+     
       });
   };
 
+    useEffect(() => {
+      loadPrescription();
+    }, []);
+
   let navigate = useNavigate();
-  const submitReportFunc = (patientId,lid) =>{
-    navigate(`/submitReport?id=${patientId}&labid=${lid}`);
+  const submitReportFunc = (patientId, lid,event) => {
+    event.preventDefault();
+    navigate(`/issueMedicine?id=${patientId}&labid=${lid}`);
+  };
 
- }
-
- const revLabReport = labReport.slice().reverse();
+ const revLabReport = prescriptionData.slice().reverse();
 
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
@@ -100,7 +98,7 @@ export default function NewTestTable() {
                   {column.label}
                 </TableCell>
               ))}
-              
+
               <TableCell style={{ textAlign: "center" }}>Options</TableCell>
             </TableRow>
           </TableHead>
@@ -120,13 +118,13 @@ export default function NewTestTable() {
                   })}
                   <TableCell>
                     <Button
-                      sx={{  bgcolor:  "#14fc65" }}
+                      sx={{ bgcolor: "#14fc65" }}
                       variant="contained"
-                      onClick={(e) =>
-                        submitReportFunc(row.patientId, row.reportId)
+                      onClick={(event) =>
+                        submitReportFunc(row.patient_id, row.prescriptionId,event)
                       }
                     >
-                      Submit Result
+                      Issue Medicine
                     </Button>
                   </TableCell>
                 </TableRow>
@@ -138,7 +136,7 @@ export default function NewTestTable() {
       <TablePagination
         rowsPerPageOptions={[10, 25, 100]}
         component="div"
-        count={labReport.length}
+        count={prescriptionData.length}
         rowsPerPage={rowsPerPage}
         page={page}
         onPageChange={handleChangePage}
