@@ -55,7 +55,7 @@ export default function TreatedPatient() {
                 className="border shadow p-5"
                 sx={{ height: "50px" }}
                 label={"sdcc"}
-                ></Chip>
+                </Chip>
             </div>
           ))}
         </div>

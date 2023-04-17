@@ -1,14 +1,15 @@
-import React, { useEffect,useState } from 'react';
-import { AiOutlineMenu } from 'react-icons/ai';
-import { FiShoppingCart } from 'react-icons/fi';
-import { BsChatLeft } from 'react-icons/bs';
-import { RiNotification3Line } from 'react-icons/ri';
-import { MdKeyboardArrowDown } from 'react-icons/md';
-import { TooltipComponent } from '@syncfusion/ej2-react-popups';
-import jwt_decode from "jwt-decode";
-import avatar from '../data/avatar.png';
-import { Cart, Chat, Notification, UserProfile } from '.';
-import { useStateContext } from '../contexts/ContextProvider';
+import React, { useEffect, useState } from "react";
+
+import { FiShoppingCart } from "react-icons/fi";
+
+import { MdKeyboardArrowDown } from "react-icons/md";
+import { TooltipComponent } from "@syncfusion/ej2-react-popups";
+
+import avatar from "../data/avatar.png";
+import { Cart, Chat, Notification, UserProfile } from ".";
+import { useStateContext } from "../contexts/ContextProvider";
+import Chip from "@mui/material/Chip";
+import { Typography } from "@material-ui/core";
 
 const NavButton = ({ title, customFunc, icon, color, dotColor }) => (
   <TooltipComponent content={title} position="BottomCenter">
@@ -28,16 +29,24 @@ const NavButton = ({ title, customFunc, icon, color, dotColor }) => (
 );
 
 const Navbar = () => {
-  const { currentColor, activeMenu, setActiveMenu, handleClick, isClicked, setScreenSize, screenSize } = useStateContext();
+  const {
+    currentColor,
+    activeMenu,
+    setActiveMenu,
+    handleClick,
+    isClicked,
+    setScreenSize,
+    screenSize,
+  } = useStateContext();
 
   useEffect(() => {
     const handleResize = () => setScreenSize(window.innerWidth);
 
-    window.addEventListener('resize', handleResize);
+    window.addEventListener("resize", handleResize);
 
     handleResize();
 
-    return () => window.removeEventListener('resize', handleResize);
+    return () => window.removeEventListener("resize", handleResize);
   }, []);
 
   useEffect(() => {
@@ -48,12 +57,30 @@ const Navbar = () => {
     }
   }, [screenSize]);
 
+  const [username, setuserName] = useState();
+  
+  useEffect(() => {
+    if ("user" in localStorage) {
+      
+      setuserName(JSON.parse(localStorage.getItem("user")));
+    
+    } 
+  },[])
 
   const handleActiveMenu = () => setActiveMenu(!activeMenu);
   const usr = JSON.parse(localStorage.getItem("user"));
-  
 
- 
+  const [time, setTime] = useState(new Date());
+
+  useEffect(() => {
+    const timerID = setInterval(() => {
+      setTime(new Date());
+    }, 1000);
+
+    return () => {
+      clearInterval(timerID);
+    };
+  }, []);
 
   return (
     <div className=" stickey shadow-lg p-3 flex justify-between p-2 md:ml-2 relative">
@@ -64,30 +91,19 @@ const Navbar = () => {
         n
       />
       <div className="flex">
-        <NavButton
-          title="Cart"
-          customFunc={() => handleClick("cart")}
-          color={currentColor}
-          icon={<FiShoppingCart />}
-        />
-        <NavButton
-          title="Chat"
-          dotColor="#03C9D7"
-          customFunc={() => handleClick("chat")}
-          color={currentColor}
-          icon={<BsChatLeft />}
-        />
-        <NavButton
-          title="Notification"
-          dotColor="rgb(254, 201, 15)"
-          customFunc={() => handleClick("notification")}
-          color={currentColor}
-          icon={<RiNotification3Line />}
-        />
+        <p
+          className="font-extrabold  text-slate-700"
+           style={{ margin: 6, marginRight: 30 }}
+        >
+          {time.toLocaleTimeString()}
+        </p>
+
+        <Chip sx={{ mt: 0.5, mr: 2 }} label={usr?.role} variant="outlined" />
+
         <TooltipComponent content="Profile" position="BottomCenter">
           <div
             className="flex items-center gap-2 cursor-pointer p-1 hover:bg-light-gray rounded-lg"
-            onClick={() => handleClick('userProfile')}
+            onClick={() => handleClick("userProfile")}
           >
             <img
               className="rounded-full w-8 h-8"
@@ -104,8 +120,6 @@ const Navbar = () => {
           </div>
         </TooltipComponent>
 
-        {isClicked.chat && <Chat />}
-        {isClicked.notification && <Notification />}
         {isClicked.userProfile && <UserProfile />}
       </div>
     </div>

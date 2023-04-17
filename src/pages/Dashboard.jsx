@@ -3,31 +3,36 @@ import axios from "axios";
 import { useState, useEffect } from "react";
 import { useStateContext } from "../contexts/ContextProvider";
 import UsersCounts from '../components/DashboardComponents/UsersCounts';
-import EarningChart from '../components/DashboardComponents/EarningChart';
 import PieChart from '../components/DashboardComponents/PieChart';
 import Data1 from '../components/DashboardComponents/Data1';
 import Overview from '../components/DashboardComponents/Overview';
-import WeeklyStat from "../components/DashboardComponents/WeeklyStat";
-import Branding from "../components/DashboardComponents/Branding";
 import LastComponent from "../components/DashboardComponents/LastComponent";
 import Appointment from "../components/DashboardComponents/Doctor/Appointment";
 import TreatedPatient from "../components/DashboardComponents/Doctor/TreatedPatient";
 import TestSection from "../components/DashboardComponents/Laborotarist/TestSection";
-import Spinner from "../components/ExtraComponents/Spinner";
 import { HashLoader } from "react-spinners";
 import ReportSubmissionOverview from "../components/DashboardComponents/Laborotarist/ReportSubmissionOverview";
 import PharmacistListSection from "../components/DashboardComponents/Pharmacist/PharmacistListSection"
+import MedicineIssueOverview from "../components/DashboardComponents/Pharmacist/MedicineIssueOverview";
+import PatientRegistrationChart from "../components/DashboardComponents/Admin/PatientRegistrationChart";
+
+
 const Dashboard = () => {
   const { currentColor, currentMode } = useStateContext();
  
 
+
   const [roleName, setRoleName] = useState();
   const getRole = JSON.parse(localStorage.getItem('user'));
 
+
+
   useEffect(()=>{
     setRoleName(getRole);
+   
   },[])
 
+  
 
 
   return (
@@ -36,20 +41,21 @@ const Dashboard = () => {
       {roleName?.role ? (
         <div className="mt-13">
           <UsersCounts />
-          <div className="flex gap-10 flex-wrap justify-center">
+
+          <div>
             {roleName?.role == "ADMIN" ? (
-              <div className="bg- white dark:text-gray-400 dark:bg-secondary-dark-bg m-3 p-4 rounded-2xl md:w-780  ">
+              <div className="flex gap-1 m-2 flex-wrap justify-center">
                 {" "}
+                <PatientRegistrationChart />
+                <PieChart />
               </div>
             ) : (
               ""
             )}
 
-            <div>
-              {roleName?.role == "ADMIN" ? <EarningChart /> : ""}
-              {roleName?.role == "ADMIN" ? <PieChart /> : ""}
-            </div>
+            {/* {roleName?.role == "ADMIN" ? <EarningChart /> : ""} */}
           </div>
+
           {roleName?.role == "DOCTOR" ? (
             <div className="flex gap-10 m-4 flex-wrap justify-center">
               {" "}
@@ -89,11 +95,13 @@ const Dashboard = () => {
           {roleName?.role == "PHARMACIST" ? (
             <div className="flex m-3 flex-wrap justify-center">
               <PharmacistListSection />
-              <LastComponent />
+              <MedicineIssueOverview />
             </div>
           ) : (
             ""
           )}
+
+        
         </div>
       ) : (
         <p className="flex gap-10 m-4 flex-wrap justify-center">

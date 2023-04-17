@@ -1,48 +1,53 @@
-import React, {useEffect, useState} from 'react'
+import React, { useEffect, useState } from "react";
 import axios from "axios";
-import {dropdownData } from "../../data/dummy";
-import { useStateContext} from '../../contexts/ContextProvider';
+import { dropdownData } from "../../../data/dummy";
+import { useStateContext } from "../../../contexts/ContextProvider";
 import { DropDownListComponent } from "@syncfusion/ej2-react-dropdowns";
-import { LineChart } from "../../components";
+
 import {
-    BarChart,
-    Bar,
-    XAxis,
-    YAxis,
-    CartesianGrid,
-    Tooltip,
-    Legend
+  BarChart,
+  Bar,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  Legend,
 } from "recharts";
 
 
+export default function PatientRegistrationChart() {
+  const [patientCount, setPatientCount] = useState([]);
 
-export default function Overview() {
+  const loadChartData = async () => {
+    const result = axios
+      .get("http://localhost:8080/api/v1/patients/count-by-registration-date")
+      .then((res) => {
+        setPatientCount(res.data);
+      });
+  };
 
-    const [patientCount, setPatientCount] = useState([]);
+  const { currentColor, currentMode } = useStateContext();
 
-    const loadChartData = async () => {
-        const result =  axios
-            .get("http://localhost:8080/api/v1/patients/count-by-registration-date")
-            .then((res) => {
-                setPatientCount(res.data);
+  useEffect(() => {
+    loadChartData();
+  }, []);
 
-            });
-    };
+  console.log(patientCount);
 
-    const { currentColor, currentMode } = useStateContext();
-
-    useEffect(() => {
-        loadChartData();
-    }, []);
-
-   console.log(patientCount)
-
-    const formattedData = patientCount.map(([date, count]) => ({
-        date: date ? new Date(date).toLocaleDateString("en-US", { month: "numeric", day: "numeric" }).split('/').join('/') : "",
-        count: count
-    }));
-   const lastWeekData = formattedData.slice(formattedData.length-7,formattedData.length)
-   console.log(lastWeekData)
+  const formattedData = patientCount.map(([date, count]) => ({
+    date: date
+      ? new Date(date)
+          .toLocaleDateString("en-US", { month: "numeric", day: "numeric" })
+          .split("/")
+          .join("/")
+      : "",
+    count: count,
+  }));
+  const lastWeekData = formattedData.slice(
+    formattedData.length - 7,
+    formattedData.length
+  );
+  console.log(lastWeekData);
   return (
     <div>
       <div className=" shadow p-5 border bg-white dark:text-gray-200 dark:bg-secondary-dark-bg p-6 rounded-2xl w-96 md:w-800">
@@ -51,13 +56,13 @@ export default function Overview() {
             {" "}
             Patient's Registration Overview
           </p>
-
+        
         </div>
         <div className="md:w-full overflow-auto">
           <BarChart
             width={710}
-            height={400}
-            data={formattedData}
+            height={300}
+            data={lastWeekData}
             margin={{
               top: 5,
               right: 30,
@@ -98,7 +103,7 @@ export default function Overview() {
             />
             <Tooltip />
             <Legend />
-            <Bar dataKey="count" barSize={45} fill="url(#colorUv)" />
+            <Bar dataKey="count" barSize={55} fill="url(#colorUv)" />
           </BarChart>
         </div>
       </div>

@@ -1,14 +1,11 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { useStateContext } from "../../contexts/ContextProvider";
-import  CircularProgress  from "../ExtraComponents/CircularProgress";
+import { useStateContext } from "../../../contexts/ContextProvider";
+import CircularProgress from "../../ExtraComponents/CircularProgress";
 
-
-
-
-export default function LastComponent() {
+export default function MedicineIssueOverview() {
   const { currentColor, currentMode } = useStateContext();
-  const [patientCount, setPatientCount] = useState([]);
+  const [issueCount, setIssueCount] = useState([]);
   const [resID, setresID] = useState();
 
   useEffect(() => {
@@ -18,49 +15,37 @@ export default function LastComponent() {
   }, []);
 
   const recepID = resID?.userId;
-  // console.log(recepID);
+  console.log(recepID);
 
   const loadChartData = async () => {
     const result = axios
-      .get("http://localhost:8080/api/v1/patients/count-by-receptionist")
+      .get(
+        `http://localhost:8080/api/v1/medicineAllocation/get-count-by-id/${recepID}`)
       .then((res) => {
-        setPatientCount(res.data);
+        setIssueCount(res.data);
       });
   };
 
   useEffect(() => {
     loadChartData();
+  }, [recepID]);
+
   
-  }, []);
-
-
-  const formattedData = patientCount.map(([res_id, count]) => ({
-    res_id: res_id,
-    count: count,
-  }));
-
-  const TodayDatabyRec = formattedData.filter(
-    (TodayDatabyRec) => TodayDatabyRec.res_id == recepID
-  );
-
-  const TodayDatabyRecVal = TodayDatabyRec[TodayDatabyRec.length - 1];
- 
-  console.log(TodayDatabyRecVal?.count);
   return (
     <div>
       <div className="border shadow w-400 bg-white dark:text-gray-200 dark:bg-secondary-dark-bg rounded-2xl p-6  ml-6">
         <div className="flex justify-between">
-          <p className="text-xl font-semibold">Today's Registration</p>
+          <p className="text-xl font-semibold">Today's Overview</p>
         </div>
         <div className="mt-10">
           <div style={{ display: "flex", justifyContent: "center" }}>
             <CircularProgress
               color="#14fc65"
               size={200}
-              progress={TodayDatabyRecVal?.count}
-              value1="Patients"
-              value2="Registered"
-              value3="Upto now"
+              progress={issueCount}
+              value1="Issued Medicines"
+              value2="Today "
+              value3="Upto Now"
             />
           </div>
           <div>
@@ -80,8 +65,8 @@ export default function LastComponent() {
             >
               Congratulations !!
             </p>
-            <p style={{ display: "flex", justifyContent: "center" }}>
-              You have Registered {TodayDatabyRecVal?.count} Patients Upto Now.
+            <p style={{ display: "flex", textAlign: "center" }}>
+              You have Issued Medicines for {issueCount} Patients Upto Now.
             </p>
           </div>
         </div>

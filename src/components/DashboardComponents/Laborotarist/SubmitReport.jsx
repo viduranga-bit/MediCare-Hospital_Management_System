@@ -107,7 +107,7 @@ export default function SubmitReport() {
             theme: "light",
           });
 
-          //  navigate(-1);
+            navigate(-1);
         } else {
           toast.error("File Upload is Unsuccessfull", {
             position: "top-right",
@@ -149,7 +149,7 @@ export default function SubmitReport() {
                     "& .MuiTextField-root": { mt: 2 },
                   }}
                 >
-                  <div>
+                  {/* <div>
                     <p className=" mb-2 mt-8 align Right font-extrabold  text-slate-700">
                       Enter Price Of the Test
                     </p>
@@ -167,7 +167,7 @@ export default function SubmitReport() {
                         minRows={1}
                       />
                     </FormControl>
-                  </div>
+                  </div> */}
 
                   <p className=" mt-7 mb-4 align Right font-extrabold  text-slate-700">
                     SUBMIT TEST REPORT

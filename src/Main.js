@@ -7,11 +7,13 @@ import { useStateContext } from "./contexts/ContextProvider";
 import axios from "axios";
 import jwt_decode from "jwt-decode";
 import { RoleManager } from "./RoleManager";
+import { ToastContainer, toast } from "react-toastify";
 
 const Main = () => {
   const [user, setUser] = useState();
   const navigate = useNavigate();
-
+   const location = useLocation();
+  const message = location.state?.message;
   const {
     activeMenu,
     currentColor,
@@ -30,7 +32,7 @@ const Main = () => {
     }
   }, []);
 
-  const location = useLocation();
+ 
 
   useEffect(() => {
     console.log("Check loggin******************");
@@ -46,7 +48,19 @@ const Main = () => {
         )
       )
         navigate("/");
+      toast.success(message, {
+        position: "top-center",
+        autoClose: 2500,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+
     } else navigate("/login");
+
   }, [navigate]);
 
   const validate = async (token) => {
@@ -96,6 +110,7 @@ const Main = () => {
       >
         <div className="fixed md:static bg-main-bg dark:bg-main-dark-bg navbar w-full ">
           <Navbar />
+            <ToastContainer/>
         </div>
         <div>
           {themeSettings && <ThemeSettings />}

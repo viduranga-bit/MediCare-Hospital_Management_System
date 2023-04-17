@@ -10,75 +10,64 @@ import TableRow from "@mui/material/TableRow";
 import axios from "axios";
 import { useState, useEffect } from "react";
 import Button from "@mui/material/Button";
-import { useNavigate } from "react-router-dom";
-import { useStateContext } from "../../../contexts/ContextProvider";
+
 
 const columns = [
   {
-    id: "prescriptionId",
-    label: "Prescription ID",
+    id: "labReport_Id",
+    label: "Report Id",
     align: "center",
     maxWidth: 20,
   },
 
   {
-    id: "patient_id",
-    label: "Patient ID",
+    id: "reportName",
+    label: "Report Name",
     width: 40,
     align: "center",
   },
 
   {
-    id: "patientName",
-    label: "Patient Name",
+    id: "patient_id",
+    label: "Patient ID",
     maxWidth: 20,
     align: "center",
   },
   {
-    id: "doctorName",
-    label: "Treated By",
+    id: "doc_id",
+    label: "Requested By",
+    maxWidth: 20,
+    align: "center",
+  },
+  {
+    id: "submitTime",
+    label: "Request Time",
     maxWidth: 20,
     align: "center",
   },
 ];
 
-export default function NewRequirementsTable() {
-  const { currentColor, currentMode } = useStateContext();
+export default function IssuedMedicineTable() {
+  const [prescriptinData, setPrecriptionData] = useState([]);
+  const [open, setOpen] = React.useState(false);
+  const [pid, setPId] = React.useState(false);
+  const [pname, setPname] = React.useState(false);
 
-  const [prescriptionData, setPrescription] = useState([]);
+  console.log(prescriptinData);
 
+  useEffect(() => {
+    loadLabReport();
+  }, []);
 
-
-  const loadPrescription = async () => {
+  const loadLabReport = async () => {
     const result = await axios
-      .get("http://localhost:8080/api/v1/prescription/get-prescription-details")
+      .get("http://localhost:8080/api/v1/labReport")
       .then((res) => {
-        const LaboTest = res.data;
-        setPrescription(LaboTest);
-     
+        setPrecriptionData(res.data);
       });
   };
 
-    useEffect(() => {
-      loadPrescription();
-    }, []);
-
-
-    const revPrescription = prescriptionData
-      .slice(prescriptionData.length - 5, prescriptionData.length)
-      .reverse()
-      .filter((row) => row.isIssuedMedicine != 1);
-    const lenghtPatient = prescriptionData.length;
-
-    console.log(revPrescription);
-    
-  let navigate = useNavigate();
-  const submitReportFunc = (patientId, lid,event) => {
-    event.preventDefault();
-    navigate(`/issueMedicine?id=${patientId}&labid=${lid}`);
-  };
-
-
+  const revLabReport = prescriptinData.slice().reverse();
 
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
@@ -90,6 +79,12 @@ export default function NewRequirementsTable() {
   const handleChangeRowsPerPage = (event) => {
     setRowsPerPage(+event.target.value);
     setPage(0);
+  };
+
+  const handleClickOpen = (pid, pname) => {
+    setOpen(true);
+    setPId(pid);
+    setPname(pname);
   };
 
   return (
@@ -108,11 +103,11 @@ export default function NewRequirementsTable() {
                 </TableCell>
               ))}
 
-              <TableCell style={{ textAlign: "center" }}>Options</TableCell>
+             
             </TableRow>
           </TableHead>
           <TableBody>
-            {revPrescription.map((row) => {
+            {revLabReport.map((row) => {
               return (
                 <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
                   {columns.map((column) => {
@@ -125,21 +120,7 @@ export default function NewRequirementsTable() {
                       </TableCell>
                     );
                   })}
-                  <TableCell>
-                    <Button
-                      sx={{ bgcolor: "#14fc65" }}
-                      variant="contained"
-                      onClick={(event) =>
-                        submitReportFunc(
-                          row.patient_id,
-                          row.prescriptionId,
-                          event
-                        )
-                      }
-                    >
-                      Issue Medicine
-                    </Button>
-                  </TableCell>
+                  
                 </TableRow>
               );
             })}
@@ -149,12 +130,14 @@ export default function NewRequirementsTable() {
       <TablePagination
         rowsPerPageOptions={[10, 25, 100]}
         component="div"
-        count={prescriptionData.length}
+        count={revLabReport.length}
         rowsPerPage={rowsPerPage}
         page={page}
         onPageChange={handleChangePage}
         onRowsPerPageChange={handleChangeRowsPerPage}
       />
+
+    
     </Paper>
   );
 }

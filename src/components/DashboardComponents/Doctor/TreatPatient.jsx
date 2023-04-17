@@ -48,7 +48,7 @@ export default function TreatPatient() {
 
  const doctorId = doc_ID?.userId;
  console.log(doc_ID);
-
+    
   useEffect(() => {
     loadPatients();
     loadLabReport();

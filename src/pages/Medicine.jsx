@@ -121,17 +121,15 @@ export default function Medicine() {
     <div className="border border-warning shadow-lg p-3 mb-5 bg-white rounded  m-2 md:m-10 mt-24 p-2 md:p-10 bg-white rounded-3xl">
       <Header title="Manage Medicine Stock" />
 
-      <Box sx={{ mb:2, width: "100%", typography: "body1" }}>
+      <Box sx={{ mb: 2, width: "100%", typography: "body1" }}>
         <Grid container spacing={1}>
           <Grid item xs={2}>
-            <Popup 
-        
-               addNew={onSubmit}  />
+            <Popup addNew={onSubmit} />
           </Grid>
           <Grid item xs={6}>
             <form>
               <TextField
-                sx={{ alignItems:"left", width: "42ch" }}
+                sx={{ alignItems: "left", width: "42ch" }}
                 id="search-bar"
                 className="text"
                 onInput={(e) => {
@@ -143,7 +141,7 @@ export default function Medicine() {
                 size="small"
               />
               <IconButton type="submit" aria-label="search">
-                <SearchIcon sx={{ ml:2 ,mt:1   }}  style={{ fill: "blue" }} />
+                <SearchIcon sx={{ ml: 2, mt: 1 }} style={{ fill: "blue" }} />
               </IconButton>
             </form>
           </Grid>
@@ -163,8 +161,8 @@ export default function Medicine() {
                       {column.label}
                     </TableCell>
                   ))}
-                  <TableCell>Status</TableCell>
-                  <TableCell>Options</TableCell>
+                  <TableCell sx={{ textAlign: "center" }}>Status</TableCell>
+                  <TableCell sx={{ textAlign: "center" }}>Options</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -187,7 +185,7 @@ export default function Medicine() {
                         );
                       })}
 
-                      <TableCell>
+                      <TableCell sx={{textAlign:"center"}}>
                         {row.status === "ACTIVE" ? (
                           <ActionButton data={data} />
                         ) : (

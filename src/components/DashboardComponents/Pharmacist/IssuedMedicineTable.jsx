@@ -12,11 +12,12 @@ import { useState, useEffect } from "react";
 import Button from "@mui/material/Button";
 import { useNavigate } from "react-router-dom";
 import { useStateContext } from "../../../contexts/ContextProvider";
+import ViewMedicinePopup from "./ViewMedicinePopup";
 
 const columns = [
   {
     id: "prescriptionId",
-    label: "Prescription ID",
+    label: "Prescription Id",
     align: "center",
     maxWidth: 20,
   },
@@ -40,45 +41,43 @@ const columns = [
     maxWidth: 20,
     align: "center",
   },
+  {
+    id: "Description",
+    label: "Special Notes",
+    maxWidth: 20,
+    align: "center",
+  },
 ];
 
-export default function NewRequirementsTable() {
-  const { currentColor, currentMode } = useStateContext();
-
-  const [prescriptionData, setPrescription] = useState([]);
+export default function IssuedMedicineTable() {
 
 
+  const [prescriptinData, setPrecriptionData] = useState([]);
+  const [open, setOpen] = React.useState(false);
+  const [pid, setPId] = React.useState(false);
+  const [pname, setPname] = React.useState(false);
 
-  const loadPrescription = async () => {
+  console.log(prescriptinData);
+
+
+  useEffect(() => {
+    loadLabReport();
+  }, []);
+
+  const loadLabReport = async () => {
     const result = await axios
       .get("http://localhost:8080/api/v1/prescription/get-prescription-details")
       .then((res) => {
-        const LaboTest = res.data;
-        setPrescription(LaboTest);
-     
-      });
-  };
-
-    useEffect(() => {
-      loadPrescription();
-    }, []);
-
-
-    const revPrescription = prescriptionData
-      .slice(prescriptionData.length - 5, prescriptionData.length)
-      .reverse()
-      .filter((row) => row.isIssuedMedicine != 1);
-    const lenghtPatient = prescriptionData.length;
-
-    console.log(revPrescription);
+           setPrecriptionData(res.data);
+      }
+        );
     
-  let navigate = useNavigate();
-  const submitReportFunc = (patientId, lid,event) => {
-    event.preventDefault();
-    navigate(`/issueMedicine?id=${patientId}&labid=${lid}`);
+     
   };
 
+ 
 
+  const revLabReport = prescriptinData.slice().reverse();
 
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
@@ -90,6 +89,12 @@ export default function NewRequirementsTable() {
   const handleChangeRowsPerPage = (event) => {
     setRowsPerPage(+event.target.value);
     setPage(0);
+  };
+
+  const handleClickOpen = (pid,pname) => {
+    setOpen(true);
+    setPId(pid);
+    setPname(pname);
   };
 
   return (
@@ -112,7 +117,7 @@ export default function NewRequirementsTable() {
             </TableRow>
           </TableHead>
           <TableBody>
-            {revPrescription.map((row) => {
+            {revLabReport.map((row) => {
               return (
                 <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
                   {columns.map((column) => {
@@ -125,19 +130,15 @@ export default function NewRequirementsTable() {
                       </TableCell>
                     );
                   })}
-                  <TableCell>
+                  <TableCell style={{ textAlign: "center" }}>
                     <Button
-                      sx={{ bgcolor: "#14fc65" }}
+                      sx={{ bgcolor: "#14fc65", textAlign: "center" }}
                       variant="contained"
-                      onClick={(event) =>
-                        submitReportFunc(
-                          row.patient_id,
-                          row.prescriptionId,
-                          event
-                        )
+                      onClick={(e) =>
+                        handleClickOpen(row?.patient_id, row?.patientName)
                       }
                     >
-                      Issue Medicine
+                      View Medicines
                     </Button>
                   </TableCell>
                 </TableRow>
@@ -149,12 +150,14 @@ export default function NewRequirementsTable() {
       <TablePagination
         rowsPerPageOptions={[10, 25, 100]}
         component="div"
-        count={prescriptionData.length}
+        count={revLabReport.length}
         rowsPerPage={rowsPerPage}
         page={page}
         onPageChange={handleChangePage}
         onRowsPerPageChange={handleChangeRowsPerPage}
       />
+
+      <ViewMedicinePopup setOpen={setOpen} open={open} pid={pid} pname={pname} />
     </Paper>
   );
 }

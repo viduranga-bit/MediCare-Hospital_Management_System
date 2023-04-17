@@ -70,18 +70,7 @@ const Login = ({ setAuth }) => {
 
           <LoginForm setAuth={setAuth} />
 
-          <Typography
-            component={motion.p}
-            {...fadeInUp}
-            variant="body2"
-            align="center"
-            sx={{ mt: 3 }}
-          >
-            Don’t have an account?{" "}
-            <Link variant="subtitle2" component={RouterLink} to="/signup">
-              Sign up
-            </Link>
-          </Typography>
+          
         </ContentStyle>
       </Container>
     </RootStyle>

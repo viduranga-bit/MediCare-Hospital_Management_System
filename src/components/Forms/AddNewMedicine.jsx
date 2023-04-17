@@ -47,10 +47,20 @@ const AddNewMedicine = (props) => {
       sellingPrice: "",
       currentQuantity: "",
       description: "",
-      status:"ACTIVE"
-    
+      status: "ACTIVE",
+      itemCode:""
     });
-    const { medicineName, date_added, manufacturingCompany, price, sellingPrice,currentQuantity,description,status } = medicine;
+    const {
+      medicineName,
+      date_added,
+      manufacturingCompany,
+      price,
+      sellingPrice,
+      currentQuantity,
+      description,
+      status,
+      itemCode,
+    } = medicine;
     const onInputChange = (e) => {
       setMedicine({ ...medicine, [e.target.name]: e.target.value });
     };
@@ -61,166 +71,172 @@ const AddNewMedicine = (props) => {
     
     };
 
-    return (  
-
-<Box
+    return (
+      <Box
         sx={{
-          alignItems: 'center',
-          "& .MuiTextField-root": { mt:3},
-        }} 
+          alignItems: "center",
+          "& .MuiTextField-root": { mt: 3 },
+        }}
       >
         <form onSubmit={(e) => onSubmit(e)}>
-      
-        <div>
+          <div>
+            <TextField
+              required
+              sx={{ m: 1, width: "31ch" }}
+              id="outlined-disabled"
+              label="Drug Name"
+              name="medicineName"
+              value={medicineName}
+              onChange={(e) => onInputChange(e)}
+              defaultValue=""
+            />
+            <TextField
+              required
+              label="Date Of Add Medicine"
+              sx={{ m: 1, width: "25ch" }}
+              type="date"
+              id="filled-multiline-flexible"
+              name="date_added"
+              variant="outlined"
+              value={date_added}
+              onChange={(e) => onInputChange(e)}
+              focused
+            />
 
-      
-        <TextField
-          required
-          sx={{ m: 1, width: "31ch" }}
-          id="outlined-disabled"
-          label="Drug Name"
-          name="medicineName"  
-          value={medicineName}
-          onChange={(e) => onInputChange(e)}
-          defaultValue=""
-        />
-         <TextField
-            required
-            label="Date Of Add Medicine"
-            sx={{ m: 1, width: "25ch" }}
-            type="date"
-            id="filled-multiline-flexible"
-            name="date_added"
-            variant="outlined"
-            value={date_added}
-            onChange={(e) => onInputChange(e)}
-            focused
-          />  
+            <TextField
+              sx={{ m: 1, width: "17.5 ch" }}
+              id="filled-multiline-flexible"
+              label="Price"
+              multiline
+              maxRows={6}
+              variant="outlined"
+              name="price"
+              value={price}
+              onChange={(e) => onInputChange(e)}
+              defaultValue=""
+            />
 
+            <TextField
+              sx={{ m: 1, width: "17ch" }}
+              id="filled-multiline-flexible"
+              label="Selling Price"
+              multiline
+              maxRows={6}
+              variant="outlined"
+              name="sellingPrice"
+              value={sellingPrice}
+              onChange={(e) => onInputChange(e)}
+              defaultValue=""
+            />
 
-        <TextField
-          sx={{ m: 1, width: "17.5 ch" }}
-          id="filled-multiline-flexible"
-          label="Price"
-          multiline
-          maxRows={6}
-          variant="outlined"
-          name="price"  
-          value={price}
-          onChange={(e) => onInputChange(e)}
-          defaultValue=""
-        />
+            <TextField
+              sx={{ m: 1, width: "15ch" }}
+              id="filled-multiline-flexible"
+              label="Quantity"
+              multiline
+              maxRows={6}
+              variant="outlined"
+              name="currentQuantity"
+              value={currentQuantity}
+              onChange={(e) => onInputChange(e)}
+              defaultValue=""
+            />
 
-<TextField
-          sx={{ m: 1, width: "17ch" }}
-          id="filled-multiline-flexible"
-          label="Selling Price"
-          multiline
-          maxRows={6}
-          variant="outlined"
-          name="sellingPrice"  
-          value={sellingPrice}
-          onChange={(e) => onInputChange(e)}
-          defaultValue=""
-        />
+            <TextField
+              sx={{ ml: 1, width: "31ch" }}
+              id="filled-multiline-flexible"
+              label="Supplier"
+              multiline
+              maxRows={6}
+              variant="outlined"
+              name="manufacturingCompany"
+              value={manufacturingCompany}
+              onChange={(e) => onInputChange(e)}
+              defaultValue=""
+            />
 
-<TextField
-          sx={{ m: 1, width: "15ch" }}
-          id="filled-multiline-flexible"
-          label="Quantity"
-          multiline
-          maxRows={6}
-          variant="outlined"
-          name="currentQuantity"  
-          value={currentQuantity}
-          onChange={(e) => onInputChange(e)}
-          defaultValue=""
-        />
+            <TextField
+              sx={{ ml: 1, width: "25ch" }}
+              id="filled-multiline-flexible"
+              label="Medicine Code"
+              multiline
+              maxRows={6}
+              variant="outlined"
+              name="itemCode"
+              value={itemCode}
+              onChange={(e) => onInputChange(e)}
+              defaultValue=""
+            />
 
-<TextField
-          sx={{ ml: 1, width: "57.5ch" }}
-          id="filled-multiline-flexible"
-          label="Supplier"
-          multiline
-          maxRows={6}
-          variant="outlined"
-          name="manufacturingCompany"  
-          value={manufacturingCompany}
-          onChange={(e) => onInputChange(e)}
-          defaultValue=""
-        />
+            <TextField
+              sx={{ ml: 1, width: "57.5ch" }}
+              id="filled-multiline-flexible"
+              label="Description"
+              multiline
+              rows={4}
+              variant="outlined"
+              name="description"
+              value={description}
+              onChange={(e) => onInputChange(e)}
+              defaultValue=""
+            />
 
-<TextField
-            sx={{ ml:1, width: "57.5ch" }}
-          id="filled-multiline-flexible"
-          label="Description"
-          multiline
-          rows={4}
-          variant="outlined"
-          name="description"  
-          value={description}
-          onChange={(e) => onInputChange(e)}
-          defaultValue=""
-        />  
+            <div></div>
+          </div>
 
-        <div >
- 
+          <Button
+            type="submit"
+            style={btnStyle}
+            variant="contained"
+            color="primary"
+          >
+            Submit
+          </Button>
+        </form>
+      </Box>
 
-      </div>
-   </div>
-  
-  
-                      <Button type='submit' style={btnStyle} variant='contained'
-                             color='primary'>Submit</Button>
-    </form>
-    
+      // <Grid>
+      //     <Paper elevation={0} style={paperStyle}>
+      //         <Grid align='center'>
+      //             <Typography variant='caption'>Add New Medicine </Typography>
+      //         </Grid>
+      //         <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={onSubmit}>
+      //             {(props) => (
+      //                 <Form noValidate>
+      //                     {/* <TextField label='Name' name="name" fullWidth value={props.values.name}
+      //             onChange={props.handleChange} /> */}
 
+      //                     <Field as={TextField} name='name' label='Name' fullWidth
+      //                         error={props.errors.name && props.touched.name}
+      //                         helperText={<ErrorMessage name='name' />} required />
 
-</Box>
+      //                     {/* <TextField label='Email' name='email' type='Email' fullWidth
+      //             {...props.getFieldProps('email')}/> */}
 
-    
-        // <Grid>
-        //     <Paper elevation={0} style={paperStyle}>
-        //         <Grid align='center'>
-        //             <Typography variant='caption'>Add New Medicine </Typography>
-        //         </Grid>
-        //         <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={onSubmit}>
-        //             {(props) => (
-        //                 <Form noValidate>
-        //                     {/* <TextField label='Name' name="name" fullWidth value={props.values.name}
-        //             onChange={props.handleChange} /> */}
+      //                     <Field sx={{ m: 1, width: "80ch" }} as={TextField} name='email' label='Email' fullWidth
+      //                         error={props.errors.email && props.touched.email}
+      //                         helperText={<ErrorMessage name='email' />} required />
 
-        //                     <Field as={TextField} name='name' label='Name' fullWidth
-        //                         error={props.errors.name && props.touched.name}
-        //                         helperText={<ErrorMessage name='name' />} required />
+      //                     <Field as={TextField} name="phoneNumber" label='Phone Number' fullWidth
+      //                         error={props.errors.phoneNumber && props.touched.phoneNumber}
+      //                         helperText={<ErrorMessage name='phoneNumber' />} required />
 
-        //                     {/* <TextField label='Email' name='email' type='Email' fullWidth 
-        //             {...props.getFieldProps('email')}/> */}
+      //                     <Field as={TextField} name='password' label='Password' type='password' fullWidth
+      //                         error={props.errors.password && props.touched.password}
+      //                         helperText={<ErrorMessage name='password' />} required />
 
-        //                     <Field sx={{ m: 1, width: "80ch" }} as={TextField} name='email' label='Email' fullWidth
-        //                         error={props.errors.email && props.touched.email}
-        //                         helperText={<ErrorMessage name='email' />} required />
+      //                     <Field as={TextField} name='confirmPassword' label='Confirm Password' type='password' fullWidth
+      //                         error={props.errors.confirmPassword && props.touched.confirmPassword}
+      //                         helperText={<ErrorMessage name='confirmPassword' />} required />
 
-        //                     <Field as={TextField} name="phoneNumber" label='Phone Number' fullWidth
-        //                         error={props.errors.phoneNumber && props.touched.phoneNumber}
-        //                         helperText={<ErrorMessage name='phoneNumber' />} required />
-
-        //                     <Field as={TextField} name='password' label='Password' type='password' fullWidth
-        //                         error={props.errors.password && props.touched.password}
-        //                         helperText={<ErrorMessage name='password' />} required />
-
-        //                     <Field as={TextField} name='confirmPassword' label='Confirm Password' type='password' fullWidth
-        //                         error={props.errors.confirmPassword && props.touched.confirmPassword}
-        //                         helperText={<ErrorMessage name='confirmPassword' />} required />
-
-        //                     <Button type='submit' style={btnStyle} variant='contained'
-        //                         color='primary'>Register</Button>
-        //                 </Form>
-        //             )}
-        //         </Formik>
-        //     </Paper>
-        // </Grid>
-    )
+      //                     <Button type='submit' style={btnStyle} variant='contained'
+      //                         color='primary'>Register</Button>
+      //                 </Form>
+      //             )}
+      //         </Formik>
+      //     </Paper>
+      // </Grid>
+    );
 }
 
 export default AddNewMedicine;

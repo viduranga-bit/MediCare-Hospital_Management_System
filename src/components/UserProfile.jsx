@@ -5,7 +5,7 @@ import ButtonMUI from '@mui/material/Button';
 import { userProfileData } from '../data/dummy';
 import { useStateContext } from '../contexts/ContextProvider';
 import { useNavigate,useLocation} from "react-router-dom";
-import avatar from '../data/avatar.jpg';
+import avatar from '../data/avatar.png';
 
 const UserProfile = () => {
   const { currentColor } = useStateContext();

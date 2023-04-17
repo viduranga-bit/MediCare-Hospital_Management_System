@@ -1,7 +1,7 @@
 import React from "react";
 import "./CircularProgress.css";
 
-const CircularProgress = ({ color, size, progress }) => {
+const CircularProgress = ({ color, size, progress,value1,value2,value3}) => {
   const strokeWidth = 8;
   const radius = (size - strokeWidth) / 2;
   const circumference = 2 * Math.PI * radius;
@@ -31,14 +31,14 @@ const CircularProgress = ({ color, size, progress }) => {
       </text>
 
       <text className="textVal" x="50%" y="50%">
-        Patients
+        {value1}
       </text>
 
       <text className="textVal" x="50%" y="60%">
-        registered Upto
+        {value2}
       </text>
       <text className="textVal" x="50%" y="70%">
-        now
+        {value3}
       </text>
     </svg>
   );

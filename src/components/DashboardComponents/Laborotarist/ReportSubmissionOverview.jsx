@@ -18,7 +18,7 @@ export default function ReportSubmissionOverview() {
 
   const loadChartData = async () => {
     const result = axios
-      .get("http://localhost:8080/api/v1/patients/count-by-receptionist")
+      .get("http://localhost:8080/api/v1/patients")
       .then((res) => {
         setPatientCount(res.data);
       });
@@ -28,18 +28,15 @@ export default function ReportSubmissionOverview() {
     loadChartData();
   }, []);
 
-  const formattedData = patientCount.map(([res_id, count]) => ({
-    res_id: res_id,
-    count: count,
-  }));
+  
 
-  const TodayDatabyRec = formattedData.filter(
-    (TodayDatabyRec) => TodayDatabyRec.res_id == recepID
-  );
+  const TodayDatabyRec = patientCount.filter(
+    (report) => report.isSubmitReport === true
+  ).length;
 
-  const TodayDatabyRecVal = TodayDatabyRec[TodayDatabyRec.length - 1];
 
-  console.log(TodayDatabyRecVal?.count);
+
+  console.log(TodayDatabyRec);
   return (
     <div>
       <div className="border shadow w-100 bg-white dark:text-gray-200 dark:bg-secondary-dark-bg rounded-2xl p-6  ml-6">
@@ -51,11 +48,14 @@ export default function ReportSubmissionOverview() {
             <CircularProgress
               color="#14fc65"
               size={200}
-              progress={20}
+              progress={TodayDatabyRec}
+              value1="Reports "
+              value2="Submitted"
+              value3="Upto now"
             />
           </div>
           <div>
-            <p style={{ display: "flex", justifyContent: "center" }}>   
+            <p style={{ display: "flex", justifyContent: "center" }}>
               <lottie-player
                 src="https://assets1.lottiefiles.com/packages/lf20_laGIqKVpcD.json"
                 background="transparent"
@@ -72,7 +72,7 @@ export default function ReportSubmissionOverview() {
               Congratulations !!
             </p>
             <p style={{ display: "flex", justifyContent: "center" }}>
-              You have Submitted {TodayDatabyRecVal?.count} Reports Upto Now.
+              You have Submitted {TodayDatabyRec} Reports Upto Now.
             </p>
           </div>
         </div>

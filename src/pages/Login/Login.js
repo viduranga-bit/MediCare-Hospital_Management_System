@@ -1,21 +1,17 @@
-import React, { useEffect,useState } from 'react';
+import React, { useState } from 'react';
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Checkbox from "@mui/material/Checkbox";
 import Link from "@mui/material/Link";
-import Paper from "@mui/material/Paper";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import Autocomplete from "@mui/material/Autocomplete";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import Appointment from "../../components/DashboardComponents/Doctor/Appointment";
+import { ToastContainer} from "react-toastify";
 
 function Copyright(props) {
   return (
@@ -26,7 +22,7 @@ function Copyright(props) {
       {...props}
     >
       {"Copyright © "}
-      <Link color="inherit" href="https://mui.com/">
+      <Link color="inherit" href="https://amithviduranga.me/">
         Amith Viduranga
       </Link>{" "}
       {new Date().getFullYear()}
@@ -40,6 +36,10 @@ const theme = createTheme();
 export default function SignInSide() {
   const navigate = useNavigate();
   const [userId,setUserId]= useState([])
+
+
+
+
   const setUserDetails = async (username) => {
     
     const result = await axios
@@ -70,8 +70,15 @@ export default function SignInSide() {
       .then((res) => {
         localStorage.setItem("token", res.data.token);
         
-        navigate("/");
+        navigate("/", {
+          state: {
+            message:
+              `Hi ${reqest.username} Welcome back,You have successfully logged in!`,
+          },
+        });
         setUserDetails(reqest.username);
+        
+     
       })
       .catch((err) => {
         console.log(err);
@@ -147,10 +154,7 @@ export default function SignInSide() {
                 id="password"
                 autoComplete="current-password"
               />
-              <FormControlLabel
-                control={<Checkbox value="remember" color="primary" />}
-                label="Remember me"
-              />
+             
               <Button
                 type="submit"
                 fullWidth
@@ -160,22 +164,14 @@ export default function SignInSide() {
                 Log In
               </Button>
               <Grid container>
-                <Grid item xs>
-                  <Link href="#" variant="body2">
-                    Forgot password?
-                  </Link>
-                </Grid>
-                <Grid item>
-                  <Link href="#" variant="body2">
-                    {"Don't have an account? Sign Up"}
-                  </Link>
-                </Grid>
+               
               </Grid>
               <Copyright sx={{ mt: 5 }} />
             </Box>
           </Box>
         </Grid>
       </Grid>
+      <ToastContainer/>
     </ThemeProvider>
   );
 }

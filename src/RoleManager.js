@@ -2,10 +2,7 @@ export const RoleManager = {
   ADMIN: [
     "dashboard",
     "doctor",
-    "patient",
-    "nurse",
     "department",
-    "accountant",
     "calander",
     "pharmacist",
     "laboratorist",
@@ -14,8 +11,8 @@ export const RoleManager = {
   ],
   DOCTOR: ["dashboard", "appointments", "treatPatient"],
   NURSE: ["dashboard", "patient", "nurse", "department"],
-  LABORARIST: ["dashboard", "submitReport"],
-  PHARMACIST: ["dashboard", "patient", "nurse", "issueMedicine"],
+  LABORARIST: ["dashboard", "submitReport","issuedReports"],
+  PHARMACIST: ["dashboard", "issuedMedicine", "issueMedicine"],
   ACCOUNTANT: ["dashboard", "patient", "nurse", "department"],
   RECIEPTIONIST: ["dashboard", "registerPatient", "printPatientDetails"],
 };
